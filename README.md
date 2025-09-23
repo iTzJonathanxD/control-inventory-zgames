@@ -162,44 +162,6 @@ npm run start:dev
 
 La Evolution API estará disponible según su configuración.
 
-### Opción B: Script de Ejecución Rápida
-
-Crear un archivo `start-all.bat` (Windows) o `start-all.sh` (Linux/Mac) en la raíz:
-
-**Windows (start-all.bat):**
-
-```batch
-@echo off
-echo Iniciando Backend...
-start cmd /k "cd inventory-zgames\back-inventory-nestjs && npm run start:dev"
-
-timeout /t 5
-
-echo Iniciando Frontend...
-start cmd /k "cd inventory-zgames\front-inventory-angular && npm start"
-
-echo Todos los servicios están iniciando...
-echo Backend: http://localhost:3000
-echo Frontend: http://localhost:4200
-```
-
-**Linux/Mac (start-all.sh):**
-
-```bash
-#!/bin/bash
-echo "Iniciando Backend..."
-cd inventory-zgames/back-inventory-nestjs && npm run start:dev &
-
-sleep 5
-
-echo "Iniciando Frontend..."
-cd ../front-inventory-angular && npm start &
-
-echo "Todos los servicios están iniciando..."
-echo "Backend: http://localhost:3000"
-echo "Frontend: http://localhost:4200"
-```
-
 ## URLs de Acceso
 
 Una vez ejecutado el proyecto:

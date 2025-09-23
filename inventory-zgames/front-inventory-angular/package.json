@@ -2,8 +2,8 @@
   "name": "osen",
   "version": "0.0.0",
   "scripts": {
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "node init && ng serve",
+    "build": "node init && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "format": "prettier --write src/**/*.{ts,html}",
