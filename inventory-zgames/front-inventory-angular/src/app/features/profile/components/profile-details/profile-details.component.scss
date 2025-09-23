@@ -1,0 +1,52 @@
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  i {
+    font-size: 0.875rem;
+  }
+}
+.role-admin {
+  background-color: #ffc107;
+  color: #212529;
+}
+.role-employee {
+  background-color: #0d6efd;
+  color: white;
+}
+.profile-image {
+  object-fit: cover;
+  border: 2px solid #dee2e6;
+  transition: border-color 0.3s ease;
+  background-color: #f8f9fa;
+  min-width: 60px;
+  min-height: 60px;
+  &:hover {
+    border-color: #007bff;
+  }
+  &[src*='default-avatar'] {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+  }
+}
+.camera-button {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+  width: 20px;
+  height: 20px;
+  &:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+  }
+}
+@media (max-width: 768px) {
+  .role-badge {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+}

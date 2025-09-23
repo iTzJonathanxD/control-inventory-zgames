@@ -1,0 +1,121 @@
+<form class="p-3" (ngSubmit)="applyFilters()">
+  <div class="row g-3">
+    
+    <div class="col-md-6 col-lg-4">
+      <label for="productName" class="form-label small fw-semibold">
+        {{ 'PRODUCT.FIELDS.PRODUCT_NAME' | translate }}
+      </label>
+      <input
+        type="text"
+        id="productName"
+        class="form-control form-control-sm"
+        [(ngModel)]="filters.productName"
+        name="productName"
+        [placeholder]="'PRODUCT.PLACEHOLDERS.PRODUCT_NAME' | translate"
+      />
+    </div>
+
+    
+    <div class="col-md-6 col-lg-4">
+      <label for="codeName" class="form-label small fw-semibold">
+        {{ 'PRODUCT.FIELDS.CODE_NAME' | translate }}
+      </label>
+      <input
+        type="text"
+        id="codeName"
+        class="form-control form-control-sm"
+        [(ngModel)]="filters.codeName"
+        name="codeName"
+        [placeholder]="'PRODUCT.PLACEHOLDERS.CODE_NAME' | translate"
+      />
+    </div>
+
+
+    
+    <div class="col-md-6 col-lg-4">
+      <label for="categoryId" class="form-label small fw-semibold">
+        {{ 'PRODUCT.FIELDS.CATEGORY' | translate }}
+      </label>
+      <select
+        id="categoryId"
+        class="form-select form-select-sm"
+        [(ngModel)]="filters.categoryId"
+        name="categoryId"
+      >
+        <option value="">{{ 'COMMON.ALL_CATEGORIES' | translate }}</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.categoryName }}
+        </option>
+      </select>
+    </div>
+
+    
+    <div class="col-md-6 col-lg-4">
+      <label for="isActive" class="form-label small fw-semibold">
+        {{ 'COMMON.STATUS' | translate }}
+      </label>
+      <select
+        id="isActive"
+        class="form-select form-select-sm"
+        [(ngModel)]="filters.isActive"
+        name="isActive"
+      >
+        <option value="">{{ 'COMMON.ALL_STATUSES' | translate }}</option>
+        <option value="true">{{ 'COMMON.ACTIVE' | translate }}</option>
+        <option value="false">{{ 'COMMON.INACTIVE' | translate }}</option>
+      </select>
+    </div>
+
+    
+    <div class="col-md-6 col-lg-4">
+      <label for="stockMin" class="form-label small fw-semibold">
+        {{ 'PRODUCT.FIELDS.STOCK_MIN' | translate }}
+      </label>
+      <input
+        type="number"
+        id="stockMin"
+        class="form-control form-control-sm"
+        [(ngModel)]="filters.stockMin"
+        name="stockMin"
+        min="0"
+        [placeholder]="'PRODUCT.PLACEHOLDERS.STOCK_MIN' | translate"
+      />
+    </div>
+
+    
+    <div class="col-md-6 col-lg-4">
+      <label for="stockCurrent" class="form-label small fw-semibold">
+        {{ 'PRODUCT.FIELDS.STOCK_CURRENT' | translate }}
+      </label>
+      <input
+        type="number"
+        id="stockCurrent"
+        class="form-control form-control-sm"
+        [(ngModel)]="filters.stockCurrent"
+        name="stockCurrent"
+        min="0"
+        [placeholder]="'PRODUCT.PLACEHOLDERS.STOCK_CURRENT' | translate"
+      />
+    </div>
+  </div>
+
+  
+  <div class="row mt-3">
+    <div class="col-12">
+      <div class="d-flex gap-2 justify-content-end">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          (click)="clearFilters()"
+        >
+          <i class="fa fa-times me-1"></i>
+          {{ 'USER.FILTER.RESET' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary btn-sm">
+          <i class="fa fa-search me-1"></i>
+          {{ 'USER.FILTER.FILTER' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

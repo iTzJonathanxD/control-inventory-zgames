@@ -1,0 +1,376 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <toogle-panel [contentComponent]="filterComponent"></toogle-panel>
+    </div>
+
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0"></h5>
+            <div class="btn-group">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                placement="top"
+                [ngbTooltip]="'WORDS.RELOAD_TABLE' | translate"
+                (click)="reloadTable()"
+              >
+                <i class="fa fa-repeat"></i>
+              </button>
+
+              @if (hasPermission(PAYMENT_BUTTONS_PERMISSIONS.CREATE)) {
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  placement="top"
+                  [ngbTooltip]="'PAYMENT.BUTTONS.ADD_PAYMENT' | translate"
+                  (click)="openCreatePaymentModal()"
+                >
+                  <i class="fa fa-plus"></i>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          
+          <div class="table-responsive signal-table">
+            <table
+              class="table table-hover table-striped"
+              style="min-width: 1400px"
+            >
+              <thead class="table-gray sticky-top">
+                <tr>
+                  @for (column of visibleColumns; track column.key) {
+                    <th
+                      class="text-nowrap px-3 py-2"
+                      [style.width]="column.width"
+                      [style.min-width]="column.width"
+                    >
+                      <div class="d-flex align-items-center">
+                        <span class="fw-semibold">{{
+                          column.label | translate
+                        }}</span>
+                        @if (column.sortable) {
+                          <i
+                            class="fa fa-sort ms-1 text-muted"
+                            style="font-size: 0.8rem"
+                          ></i>
+                        }
+                      </div>
+                    </th>
+                  }
+                </tr>
+              </thead>
+
+              @if (isLoading) {
+                <tbody>
+                  <tr>
+                    <td
+                      [attr.colspan]="visibleColumns.length"
+                      class="text-center"
+                    >
+                      <app-loading-spinner
+                        title="PAYMENT.LOADING.TITLE"
+                        subtitle="PAYMENT.LOADING.SUBTITLE"
+                        size="normal"
+                      ></app-loading-spinner>
+                    </td>
+                  </tr>
+                </tbody>
+              } @else {
+                <tbody>
+                  @if (payments.length > 0) {
+                    @for (payment of payments; track payment.id) {
+                      <tr class="align-middle">
+                        @for (column of visibleColumns; track column.key) {
+                          <td class="px-3 py-2" [style.width]="column.width">
+                            @switch (column.type) {
+                              @case ('number') {
+                                <span class="fw-medium text-primary"
+                                  >#{{ payment[column.key] }}</span
+                                >
+                              }
+                              @case ('text') {
+                                <div
+                                  class="text-truncate"
+                                  [title]="payment[column.key] || ''"
+                                >
+                                  <span>{{ payment[column.key] || '-' }}</span>
+                                </div>
+                              }
+                              @case ('order') {
+                                @if (payment.order?.orderNumber) {
+                                  <a
+                                    (click)="navigateToOrder(payment.orderId)"
+                                    class="text-decoration-none cursor-pointer text-primary"
+                                  >
+                                    {{ payment.order.orderNumber }}
+                                  </a>
+                                } @else {
+                                  <span class="text-muted">{{
+                                    payment.orderId || 'N/A'
+                                  }}</span>
+                                }
+                              }
+                              @case ('customer') {
+                                @if (payment.order?.user) {
+                                  <div>
+                                    <div class="fw-semibold">
+                                      {{ payment.order.user.firstName }}
+                                      {{ payment.order.user.lastName }}
+                                    </div>
+                                    <small class="text-muted">{{
+                                      payment.order.user.email
+                                    }}</small>
+                                  </div>
+                                } @else {
+                                  <span class="text-muted">N/A</span>
+                                }
+                              }
+                              @case ('amount') {
+                                <span class="fw-medium text-success">
+                                  {{ formatCurrency(payment.amount) }}
+                                </span>
+                              }
+                              @case ('method') {
+                                <span
+                                  class="badge bg-info text-white rounded-pill fs-6 text-uppercase fw-semibold px-2 py-1"
+                                >
+                                  <i
+                                    class="fa fa-credit-card me-1"
+                                    style="font-size: 0.8em"
+                                  ></i>
+                                  {{ getPaymentMethodText(payment.method) }}
+                                </span>
+                              }
+                              @case ('status') {
+                                <span
+                                  class="badge rounded-pill fs-6 text-uppercase fw-semibold px-2 py-1"
+                                  [ngClass]="
+                                    getPaymentStatusClass(payment.status)
+                                  "
+                                >
+                                  <i
+                                    [class]="
+                                      getPaymentStatusIcon(payment.status)
+                                    "
+                                    style="font-size: 0.8em"
+                                  ></i>
+                                  {{ getPaymentStatusText(payment.status) }}
+                                </span>
+                              }
+                              @case ('date') {
+                                <div
+                                  class="text-truncate small text-muted"
+                                  [title]="
+                                    payment[column.key]
+                                      | date: 'dd/MM/yyyy HH:mm:ss'
+                                  "
+                                >
+                                  <i
+                                    class="fa fa-calendar me-2 text-muted"
+                                    style="font-size: 0.8em"
+                                  ></i>
+                                  {{ payment[column.key] | date: 'dd/MM/yyyy' }}
+                                  <br />
+                                  <small class="text-muted">{{
+                                    payment[column.key] | date: 'HH:mm'
+                                  }}</small>
+                                </div>
+                              }
+                              @case ('processedDate') {
+                                @if (payment.processedAt) {
+                                  <div
+                                    class="text-truncate small text-muted"
+                                    [title]="
+                                      payment.processedAt
+                                        | date: 'dd/MM/yyyy HH:mm:ss'
+                                    "
+                                  >
+                                    <i
+                                      class="fa fa-calendar me-2 text-muted"
+                                      style="font-size: 0.8em"
+                                    ></i>
+                                    {{
+                                      payment.processedAt | date: 'dd/MM/yyyy'
+                                    }}
+                                    <br />
+                                    <small class="text-muted">{{
+                                      payment.processedAt | date: 'HH:mm'
+                                    }}</small>
+                                  </div>
+                                } @else {
+                                  <span class="text-muted">-</span>
+                                }
+                              }
+                              @case ('actions') {
+                                <div
+                                  class="btn-group btn-group-sm"
+                                  role="group"
+                                >
+                                  <button
+                                    class="btn btn-outline-secondary btn-action"
+                                    [ngbTooltip]="'COMMON.VIEW' | translate"
+                                    (click)="openViewPaymentModal(payment)"
+                                  >
+                                    <i class="fa fa-eye"></i>
+                                  </button>
+
+                                  @if (
+                                    hasPermission(
+                                      PAYMENT_BUTTONS_PERMISSIONS.EDIT
+                                    )
+                                  ) {
+                                    <button
+                                      class="btn btn-outline-secondary btn-action"
+                                      [ngbTooltip]="'COMMON.EDIT' | translate"
+                                      (click)="openEditPaymentModal(payment)"
+                                    >
+                                      <i class="fa fa-edit"></i>
+                                    </button>
+                                  }
+
+                                  @if (
+                                    hasPermission(
+                                      PAYMENT_BUTTONS_PERMISSIONS.PROCESS
+                                    ) && canProcessPayment(payment)
+                                  ) {
+                                    <button
+                                      class="btn btn-outline-success btn-action"
+                                      [ngbTooltip]="
+                                        'PAYMENT.ACTIONS.PROCESS' | translate
+                                      "
+                                      (click)="processPayment(payment)"
+                                    >
+                                      <i class="fa fa-check"></i>
+                                    </button>
+                                  }
+
+                                  @if (
+                                    hasPermission(
+                                      PAYMENT_BUTTONS_PERMISSIONS.REJECT
+                                    ) && canRejectPayment(payment)
+                                  ) {
+                                    <button
+                                      class="btn btn-outline-warning btn-action"
+                                      [ngbTooltip]="
+                                        'PAYMENT.ACTIONS.REJECT' | translate
+                                      "
+                                      (click)="rejectPayment(payment)"
+                                    >
+                                      <i class="fa fa-times"></i>
+                                    </button>
+                                  }
+
+                                  @if (
+                                    hasPermission(
+                                      PAYMENT_BUTTONS_PERMISSIONS.REFUND
+                                    ) && canRefundPayment(payment)
+                                  ) {
+                                    <button
+                                      class="btn btn-outline-danger btn-action"
+                                      [ngbTooltip]="
+                                        'PAYMENT.ACTIONS.REFUND' | translate
+                                      "
+                                      (click)="refundPayment(payment)"
+                                    >
+                                      <i class="fa fa-undo"></i>
+                                    </button>
+                                  }
+                                </div>
+                              }
+                            }
+                          </td>
+                        }
+                      </tr>
+                    }
+                  } @else {
+                    <tr>
+                      <td
+                        [attr.colspan]="visibleColumns.length"
+                        class="text-center py-5"
+                      >
+                        <div
+                          class="d-flex flex-column align-items-center text-muted"
+                        >
+                          <i class="fa fa-credit-card fa-3x mb-3"></i>
+                          <h5>
+                            {{ 'PAYMENT.NO_PAYMENTS_AVAILABLE' | translate }}
+                          </h5>
+                          <p class="mb-0">
+                            {{ 'PAYMENT.NO_PAYMENTS_MESSAGE' | translate }}
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              }
+            </table>
+          </div>
+        </div>
+
+        <div class="card-footer bg-light">
+          <div class="row align-items-center">
+            <div class="col-md-4">
+              <div class="d-flex align-items-center">
+                <label for="pageSize" class="form-label me-2 mb-0 text-nowrap">
+                  {{ 'COMMON.ITEMS_PER_PAGE' | translate }}:
+                </label>
+                <select
+                  id="pageSize"
+                  class="form-select form-select-sm"
+                  style="width: 80px"
+                  [ngModel]="limit"
+                  (ngModelChange)="onLimitChange($event)"
+                >
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="25">25</option>
+                  <option [ngValue]="50">50</option>
+                  <option [ngValue]="100">100</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4 d-flex justify-content-center">
+              <ngb-pagination
+                *ngIf="collectionSize > 0"
+                [(page)]="page"
+                [pageSize]="limit"
+                [collectionSize]="collectionSize"
+                [maxSize]="5"
+                [rotate]="true"
+                [boundaryLinks]="true"
+                [disabled]="isLoading"
+                (pageChange)="onPageChange($event)"
+                size="sm"
+              >
+              </ngb-pagination>
+            </div>
+
+            <div class="col-md-4">
+              <div class="text-muted text-end">
+                <small *ngIf="collectionSize > 0">
+                  {{ 'COMMON.SHOWING' | translate }}
+                  <strong>{{ (page - 1) * limit + 1 }}</strong> -
+                  <strong>{{ Math.min(page * limit, collectionSize) }}</strong>
+                  {{ 'COMMON.OF' | translate }}
+                  <strong>{{ collectionSize }}</strong>
+                  {{ 'COMMON.PAYMENTS' | translate }}
+                </small>
+                <small *ngIf="collectionSize === 0">
+                  {{ 'PAYMENT.NO_PAYMENTS_FOUND' | translate }}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

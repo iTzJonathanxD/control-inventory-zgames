@@ -1,0 +1,17 @@
+.user-table {
+  .whatsapp-icon {
+    color: #465dff !important;
+  }
+  .btn-outline-success {
+    color: #465dff;
+    border-color: #465dff;
+    &:hover {
+      background-color: #465dff;
+      border-color: #465dff;
+      color: white;
+    }
+  }
+  .text-success {
+    color: #465dff !important;
+  }
+}

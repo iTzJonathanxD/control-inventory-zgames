@@ -1,0 +1,99 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">
+    @if (isEditMode) {
+      {{ 'ROLES_AND_PERMISSIONS.PERMISSION.EDIT_PERMISSION' | translate }}
+    } @else {
+      {{ 'ROLES_AND_PERMISSIONS.PERMISSION.NEW_PERMISSION' | translate }}
+    }
+  </h5>
+  <button type="button" class="btn-close" (click)="closeModal()"></button>
+</div>
+@if (isLoading && isEditMode) {
+  <div class="d-flex justify-content-center mt-3 mb-3">
+    <div class="spinner-border" role="status"></div>
+  </div>
+} @else {
+  <form [formGroup]="permissionForm" (ngSubmit)="onSubmit()">
+    <div class="modal-body">
+      <div class="row g-2">
+        <div class="mb-3">
+          <label class="form-label" for="permissionName">
+            {{
+              'ROLES_AND_PERMISSIONS.PERMISSION.FORM.PERMISSION_NAME'
+                | translate
+            }}
+          </label>
+          <select
+            formControlName="permissionName"
+            class="form-select"
+            id="permissionName"
+            required
+          >
+            <option value="" disabled selected>
+              {{
+                'ROLES_AND_PERMISSIONS.PERMISSION.FORM.SELECT_PERMISSION'
+                  | translate
+              }}
+            </option>
+            <option *ngFor="let perm of permissionsList" [value]="perm.value">
+              {{ perm.value }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="description">
+            {{
+              'ROLES_AND_PERMISSIONS.PERMISSION.FORM.DESCRIPTION' | translate
+            }}
+          </label>
+          <input
+            formControlName="description"
+            type="text"
+            class="form-control"
+            id="description"
+            required
+          />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      @if (isLoadingButton) {
+        @if (isEditMode) {
+          <button class="btn btn-primary" type="button" disabled>
+            <span
+              class="spinner-border spinner-border-sm me-1"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            {{ 'WORDS.UPDATING' | translate }}
+          </button>
+        } @else {
+          <button class="btn btn-primary" type="button" disabled>
+            <span
+              class="spinner-border spinner-border-sm me-1"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            {{ 'WORDS.CREATING' | translate }}
+          </button>
+        }
+      } @else {
+        @if (isEditMode) {
+          <button class="btn btn-primary" type="submit">
+            {{
+              'ROLES_AND_PERMISSIONS.PERMISSION.BUTTONS.EDIT_PERMISSION'
+                | translate
+            }}
+          </button>
+        } @else {
+          <button class="btn btn-primary" type="submit">
+            {{
+              'ROLES_AND_PERMISSIONS.PERMISSION.BUTTONS.CREATE_PERMISSION'
+                | translate
+            }}
+          </button>
+        }
+      }
+    </div>
+  </form>
+}

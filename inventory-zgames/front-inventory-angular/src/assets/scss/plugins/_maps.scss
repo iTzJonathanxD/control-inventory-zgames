@@ -1,0 +1,16 @@
+.gmaps,
+.gmaps-panaroma {
+    height: 300px;
+    background: var(--#{$prefix}tertiary-bg);
+    border-radius: 3px;
+}
+.jvm-container {
+    text {
+        font-family: $font-family-base !important;
+        fill: var(--#{$prefix}body-color);
+    }
+}
+.jvm-tooltip {
+    background-color: $primary !important;
+    font-family: $font-family-base !important;
+}

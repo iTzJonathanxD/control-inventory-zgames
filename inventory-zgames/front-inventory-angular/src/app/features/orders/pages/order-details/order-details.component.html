@@ -1,0 +1,195 @@
+<div class="order-details-container">
+  <div class="container-fluid">
+    
+    <app-loading-spinner
+      *ngIf="isLoading"
+      title="ORDERS.LOADING_ORDER_DETAILS"
+      subtitle="COMMON.PLEASE_WAIT"
+    >
+    </app-loading-spinner>
+
+    
+    <div *ngIf="!isLoading && order" class="order-details">
+      
+      <div class="details-header">
+        <button class="back-btn" (click)="goBack()">
+          {{ 'ORDERS.BACK_TO_ORDERS' | translate }}
+        </button>
+        <div class="order-title-section">
+          <h1 class="page-title">
+            {{ 'ORDERS.ORDER_NUMBER' | translate }} #{{ order.id }}
+          </h1>
+          <span class="badge" [ngClass]="getOrderStatusClass(order.status)">
+            {{ getOrderStatusText(order.status) }}
+          </span>
+        </div>
+      </div>
+
+      
+      <div class="detail-section">
+        <h4 class="section-title">{{ 'ORDERS.GENERAL_INFO' | translate }}</h4>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">{{
+              'ORDERS.DATE_LABEL' | translate
+            }}</span>
+            <span class="detail-value">{{
+              order.createdAt | date: 'dd/MM/yyyy HH:mm'
+            }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">{{
+              'ORDERS.STATUS_LABEL' | translate
+            }}</span>
+            <span class="badge" [ngClass]="getOrderStatusClass(order.status)">
+              {{ getOrderStatusText(order.status) }}
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">{{
+              'ORDERS.TOTAL_LABEL' | translate
+            }}</span>
+            <span class="detail-value total-amount"
+              >${{ order.totalAmount | number: '1.2-2' }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="detail-section">
+        <h4 class="section-title">
+          {{ 'ORDERS.PRODUCTS_SECTION' | translate }} ({{ order.items.length }})
+        </h4>
+        <div class="products-list">
+          <div *ngFor="let item of order.items" class="product-item">
+            <img
+              [src]="getProductImageUrl(item.productSnapshot?.image)"
+              [alt]="item.productSnapshot?.name || item.productName"
+              [title]="item.productSnapshot?.name || item.productName"
+              class="product-image"
+            />
+            <div class="product-info">
+              <h6 class="product-name">
+                {{ item.productSnapshot?.name || item.productName }}
+              </h6>
+              <p class="product-details">
+                {{ 'ORDERS.QUANTITY_LABEL' | translate }}: {{ item.quantity }} ×
+                ${{ item.unitPrice | number: '1.2-2' }}
+              </p>
+            </div>
+            <div class="product-total">
+              ${{ item.totalPrice | number: '1.2-2' }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="detail-section">
+        <h4 class="section-title">
+          {{ 'ORDERS.SHIPPING_ADDRESS' | translate }}
+        </h4>
+        <div class="address-info">
+          <p>{{ order.shippingAddress?.street || 'N/A' }}</p>
+          <p>
+            {{ order.shippingAddress?.city || 'N/A' }},
+            {{ order.shippingAddress?.state || 'N/A' }}
+          </p>
+          <p>
+            {{ order.shippingAddress?.zipCode || 'N/A' }},
+            {{ order.shippingAddress?.country || 'N/A' }}
+          </p>
+        </div>
+      </div>
+
+      
+      <div class="detail-section" *ngIf="getOrderPayments().length > 0">
+        <h4 class="section-title">
+          {{ 'ORDERS.PAYMENT_HISTORY' | translate }}
+        </h4>
+        <div class="payments-list">
+          <div
+            *ngFor="let payment of getOrderPayments()"
+            class="payment-detail"
+          >
+            <div class="payment-info">
+              <span class="payment-method">{{
+                getPaymentMethodText(payment.method)
+              }}</span>
+              <small class="payment-date">{{
+                payment.createdAt | date: 'dd/MM/yyyy HH:mm'
+              }}</small>
+
+              
+              <div
+                *ngIf="
+                  payment.evidenceImages && payment.evidenceImages.length > 0
+                "
+                class="evidence-images"
+              >
+                <small class="evidence-label">{{
+                  'ORDERS.EVIDENCE_LABEL' | translate
+                }}</small>
+                <div class="evidence-gallery">
+                  <img
+                    *ngFor="let image of payment.evidenceImages"
+                    [src]="getEvidenceImageUrl(image)"
+                    [alt]="'{{ \'ORDERS.PAYMENT_EVIDENCE\' | translate }}'"
+                    [title]="'{{ \'ORDERS.PAYMENT_EVIDENCE\' | translate }}'"
+                    class="evidence-image"
+                    (click)="openImageModal(getEvidenceImageUrl(image))"
+                  />
+                </div>
+              </div>
+
+              
+              <div *ngIf="payment.evidenceNotes" class="evidence-notes">
+                <small class="evidence-label">{{
+                  'ORDERS.NOTES_LABEL' | translate
+                }}</small>
+                <p class="evidence-text">{{ payment.evidenceNotes }}</p>
+              </div>
+            </div>
+            <span
+              class="badge"
+              [ngClass]="getPaymentStatusClass(payment.status)"
+            >
+              {{ getPaymentStatusText(payment.status) }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="detail-section" *ngIf="order.notes">
+        <h4 class="section-title">{{ 'ORDERS.NOTES_LABEL' | translate }}</h4>
+        <p class="notes-text">{{ order.notes }}</p>
+      </div>
+
+      
+      <div class="order-actions">
+        <button class="btn btn-secondary" (click)="goBack()">
+          {{ 'ORDERS.BACK_BUTTON' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  class="image-modal-overlay"
+  *ngIf="selectedImage"
+  (click)="closeImageModal()"
+>
+  <div class="image-modal-content" (click)="$event.stopPropagation()">
+    <button class="image-modal-close" (click)="closeImageModal()">×</button>
+    <img
+      [src]="selectedImage"
+      [alt]="'{{ \'ORDERS.PAYMENT_EVIDENCE\' | translate }}'"
+      [title]="'{{ \'ORDERS.PAYMENT_EVIDENCE\' | translate }}'"
+      class="modal-image"
+    />
+  </div>
+</div>

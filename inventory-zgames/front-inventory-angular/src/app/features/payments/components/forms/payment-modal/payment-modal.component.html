@@ -1,0 +1,167 @@
+
+<div class="modal-header">
+  <h4 class="modal-title">{{ title }}</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+
+
+<div class="modal-body" *ngIf="payment">
+  <div class="container-fluid p-0">
+    
+    <div class="row g-3">
+      <div class="col-12">
+        <h5 class="mb-3 text-primary">Información del Pago</h5>
+      </div>
+
+      
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">ID de Pago:</label>
+        <div class="form-control-plaintext">#{{ payment.id }}</div>
+      </div>
+
+      
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Orden:</label>
+        <div class="form-control-plaintext">
+          <span *ngIf="payment.order?.orderNumber; else onlyOrderId">
+            {{ payment.order.orderNumber }}
+          </span>
+          <ng-template #onlyOrderId> #{{ payment.orderId }} </ng-template>
+        </div>
+      </div>
+
+      
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Monto:</label>
+        <div class="form-control-plaintext text-success fw-bold">
+          {{ formatCurrency(payment.amount) }}
+        </div>
+      </div>
+
+      
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Estado:</label>
+        <div class="form-control-plaintext">
+          <span class="badge" [ngClass]="getPaymentStatusClass(payment.status)">
+            {{ getPaymentStatusText(payment.status) }}
+          </span>
+        </div>
+      </div>
+
+      
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Método de Pago:</label>
+        <div class="form-control-plaintext">{{ payment.method }}</div>
+      </div>
+
+      
+      <div class="col-md-6" *ngIf="payment.transactionId">
+        <label class="form-label fw-semibold">ID de Transacción:</label>
+        <div class="form-control-plaintext">{{ payment.transactionId }}</div>
+      </div>
+
+      
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Fecha de Creación:</label>
+        <div class="form-control-plaintext">
+          {{ payment.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+        </div>
+      </div>
+
+      <div class="col-md-6" *ngIf="payment.processedAt">
+        <label class="form-label fw-semibold">Fecha de Procesamiento:</label>
+        <div class="form-control-plaintext">
+          {{ payment.processedAt | date: 'dd/MM/yyyy HH:mm' }}
+        </div>
+      </div>
+
+      
+      <div class="col-12" *ngIf="payment.order?.user">
+        <hr />
+        <h5 class="mb-3 text-primary">Información del Cliente</h5>
+      </div>
+
+      <div class="col-md-6" *ngIf="payment.order?.user?.firstName">
+        <label class="form-label fw-semibold">Nombre:</label>
+        <div class="form-control-plaintext">
+          {{ payment.order.user.firstName }} {{ payment.order.user.lastName }}
+        </div>
+      </div>
+
+      <div class="col-md-6" *ngIf="payment.order?.user?.email">
+        <label class="form-label fw-semibold">Email:</label>
+        <div class="form-control-plaintext">{{ payment.order.user.email }}</div>
+      </div>
+
+      <div class="col-md-6" *ngIf="payment.order?.user?.phone">
+        <label class="form-label fw-semibold">Teléfono:</label>
+        <div class="form-control-plaintext">{{ payment.order.user.phone }}</div>
+      </div>
+
+      
+      <div
+        class="col-12"
+        *ngIf="payment.evidenceImages && payment.evidenceImages.length > 0"
+      >
+        <hr />
+        <h5 class="mb-3 text-primary">Evidencias</h5>
+        <div class="row">
+          <div
+            class="col-md-4 mb-3"
+            *ngFor="let image of payment.evidenceImages"
+          >
+            <div class="card">
+              <img
+                [src]="'/api/files/evidence/' + image"
+                class="card-img-top"
+                style="height: 200px; object-fit: cover"
+                alt="Evidencia de pago"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="col-12" *ngIf="payment.evidenceNotes">
+        <label class="form-label fw-semibold">Notas de Evidencia:</label>
+        <div class="form-control-plaintext">{{ payment.evidenceNotes }}</div>
+      </div>
+
+      
+      <div class="col-12" *ngIf="payment.metadata">
+        <hr />
+        <h5 class="mb-3 text-primary">Información Adicional</h5>
+        <pre class="bg-light p-3 rounded">{{ payment.metadata | json }}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-footer">
+  <button class="btn btn-secondary" type="button" (click)="closeModal()">
+    <i class="fa fa-times me-1"></i>
+    Cerrar
+  </button>
+
+  <button
+    *ngIf="mode !== 'view'"
+    class="btn btn-primary"
+    type="button"
+    (click)="confirmAction()"
+  >
+    <i class="fa fa-check me-1"></i>
+    <span [ngSwitch]="mode">
+      <span *ngSwitchCase="'process'">Procesar</span>
+      <span *ngSwitchCase="'reject'">Rechazar</span>
+      <span *ngSwitchCase="'edit'">Guardar</span>
+      <span *ngSwitchDefault>Confirmar</span>
+    </span>
+  </button>
+</div>

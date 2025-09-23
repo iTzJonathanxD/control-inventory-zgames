@@ -1,0 +1,368 @@
+<div class="checkout-container">
+  
+  <div class="simple-header">
+    <div class="header-content">
+      <h2 class="page-title">{{ 'CHECKOUT.TITLE' | translate }}</h2>
+      <div class="checkout-steps">
+        <div class="step active">
+          <div class="step-number">1</div>
+          <span class="step-label">Información</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <span class="step-label">Pago</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <span class="step-label">Confirmación</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="checkout-content">
+    <div class="row">
+      
+      <div class="col-lg-8">
+        <div class="checkout-form-section">
+          <div class="section-header">
+            <h3 class="section-title">
+              {{ 'CHECKOUT.SHIPPING_INFO' | translate }}
+            </h3>
+          </div>
+
+          <form
+            [formGroup]="checkoutForm"
+            (ngSubmit)="onSubmit()"
+            class="checkout-form"
+          >
+            
+            <div formGroupName="shippingAddress" class="address-section">
+              <h4 class="subsection-title">
+                {{ 'CHECKOUT.SHIPPING_ADDRESS' | translate }}
+                <span class="optional-section">(Opcional)</span>
+              </h4>
+              <div class="info-message">
+                <i class="fas fa-info-circle"></i>
+                <span
+                  >Los campos de dirección son opcionales. Si no se completan,
+                  se mostrará "N/A" en el pedido.</span
+                >
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group full-width">
+                  <label class="form-label">
+                    {{ 'CHECKOUT.STREET' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="street"
+                    class="form-input"
+                    [placeholder]="'CHECKOUT.STREET_PLACEHOLDER' | translate"
+                  />
+                  <div
+                    class="form-error"
+                    *ngIf="getFieldError('shippingAddress.street')"
+                  >
+                    {{ getFieldError('shippingAddress.street') }}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ 'CHECKOUT.CITY' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="city"
+                    class="form-input"
+                    [placeholder]="'CHECKOUT.CITY_PLACEHOLDER' | translate"
+                  />
+                  <div
+                    class="form-error"
+                    *ngIf="getFieldError('shippingAddress.city')"
+                  >
+                    {{ getFieldError('shippingAddress.city') }}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ 'CHECKOUT.STATE' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="state"
+                    class="form-input"
+                    [placeholder]="'CHECKOUT.STATE_PLACEHOLDER' | translate"
+                  />
+                  <div
+                    class="form-error"
+                    *ngIf="getFieldError('shippingAddress.state')"
+                  >
+                    {{ getFieldError('shippingAddress.state') }}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ 'CHECKOUT.ZIP_CODE' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="zipCode"
+                    class="form-input"
+                    [placeholder]="'CHECKOUT.ZIP_PLACEHOLDER' | translate"
+                  />
+                  <div
+                    class="form-error"
+                    *ngIf="getFieldError('shippingAddress.zipCode')"
+                  >
+                    {{ getFieldError('shippingAddress.zipCode') }}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ 'CHECKOUT.COUNTRY' | translate }}
+                  </label>
+                  <select formControlName="country" class="form-select">
+                    <option value="">
+                      {{ 'CHECKOUT.SELECT_COUNTRY' | translate }}
+                    </option>
+                    <option value="MX">México</option>
+                    <option value="US">Estados Unidos</option>
+                    <option value="CA">Canadá</option>
+                  </select>
+                  <div
+                    class="form-error"
+                    *ngIf="getFieldError('shippingAddress.country')"
+                  >
+                    {{ getFieldError('shippingAddress.country') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="billing-toggle">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="sameAsShipping"
+                  [ngModelOptions]="{ standalone: true }"
+                  (change)="onSameAsShippingChange()"
+                />
+                <span class="checkmark"></span>
+                {{ 'CHECKOUT.SAME_AS_SHIPPING' | translate }}
+              </label>
+            </div>
+
+            
+            <div
+              formGroupName="billingAddress"
+              class="address-section"
+              *ngIf="!sameAsShipping"
+            >
+              <h4 class="subsection-title">
+                {{ 'CHECKOUT.BILLING_ADDRESS' | translate }}
+              </h4>
+
+              <div class="form-grid">
+                <div class="form-group full-width">
+                  <label class="form-label">
+                    {{ 'CHECKOUT.STREET' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="street"
+                    class="form-input"
+                    [placeholder]="'CHECKOUT.STREET_PLACEHOLDER' | translate"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ 'CHECKOUT.CITY' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="city"
+                    class="form-input"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ 'CHECKOUT.STATE' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="state"
+                    class="form-input"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ 'CHECKOUT.ZIP_CODE' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="zipCode"
+                    class="form-input"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ 'CHECKOUT.COUNTRY' | translate }}
+                  </label>
+                  <select formControlName="country" class="form-select">
+                    <option value="">
+                      {{ 'CHECKOUT.SELECT_COUNTRY' | translate }}
+                    </option>
+                    <option value="MX">México</option>
+                    <option value="US">Estados Unidos</option>
+                    <option value="CA">Canadá</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="notes-section">
+              <h4 class="subsection-title">
+                {{ 'CHECKOUT.ORDER_NOTES' | translate }}
+              </h4>
+              <div class="form-group">
+                <label class="form-label">{{
+                  'CHECKOUT.NOTES' | translate
+                }}</label>
+                <textarea
+                  formControlName="notes"
+                  rows="4"
+                  class="form-textarea"
+                  [placeholder]="'CHECKOUT.NOTES_PLACEHOLDER' | translate"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                routerLink="/cart"
+              >
+                {{ 'CHECKOUT.BACK_TO_CART' | translate }}
+              </button>
+
+              <button
+                type="submit"
+                [disabled]="isProcessing"
+                class="btn btn-primary submit-btn"
+              >
+                <span *ngIf="!isProcessing">
+                  {{ 'CHECKOUT.CREATE_ORDER' | translate }}
+                </span>
+                <span *ngIf="isProcessing">
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  {{ 'CHECKOUT.PROCESSING' | translate }}
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      
+      <div class="col-lg-4">
+        <div class="order-summary-section">
+          <div class="section-header">
+            <h3 class="section-title">
+              {{ 'CHECKOUT.ORDER_SUMMARY' | translate }}
+            </h3>
+          </div>
+
+          <div *ngIf="cart" class="order-summary">
+            <div class="summary-items">
+              <div
+                *ngFor="let item of cart.items; trackBy: trackByItemId"
+                class="summary-item"
+              >
+                <div class="item-image-container">
+                  <img
+                    [src]="getProductImageUrl(item.product?.image)"
+                    [alt]="item.product?.productName"
+                    class="item-image"
+                  />
+                  <span class="item-quantity-badge">{{ item.quantity }}</span>
+                </div>
+
+                <div class="item-details">
+                  <p class="item-name">{{ item.product?.productName }}</p>
+                  <p class="item-category">
+                    {{ item.product?.category?.categoryName }}
+                  </p>
+                  <p class="item-unit-price">
+                    ${{ item.unitPrice | number: '1.2-2' }} c/u
+                  </p>
+                </div>
+
+                <div class="item-total">
+                  <p class="item-price">
+                    ${{ item.totalPrice | number: '1.2-2' }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-calculations">
+              <div class="calc-row">
+                <span class="calc-label"
+                  >{{ 'CHECKOUT.SUBTOTAL' | translate }}:</span
+                >
+                <span class="calc-value"
+                  >${{ cart.totalAmount | number: '1.2-2' }}</span
+                >
+              </div>
+
+              <div class="calc-row">
+                <span class="calc-label"
+                  >{{ 'CHECKOUT.SHIPPING' | translate }}:</span
+                >
+                <span class="calc-value text-success">{{
+                  'CHECKOUT.FREE' | translate
+                }}</span>
+              </div>
+
+              <hr class="calc-divider" />
+
+              <div class="calc-row total-row">
+                <span class="calc-label"
+                  >{{ 'CHECKOUT.TOTAL' | translate }}:</span
+                >
+                <span class="calc-value total-amount"
+                  >${{ cart.totalAmount | number: '1.2-2' }}</span
+                >
+              </div>
+            </div>
+
+            <div class="security-info">
+              <div class="security-badge">
+                <i class="fas fa-lock"></i>
+                {{ 'CHECKOUT.SECURE_CHECKOUT' | translate }}
+              </div>
+              <p class="security-text">
+                {{ 'CHECKOUT.SECURITY_MESSAGE' | translate }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

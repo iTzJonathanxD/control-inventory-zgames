@@ -1,0 +1,493 @@
+
+<div class="modal-header">
+  <h4 class="modal-title">{{ formTitle }}</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+
+
+<div class="modal-body">
+  <div class="container-fluid p-0">
+    @if (isLoading) {
+      <div class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">{{
+            'Common.Loading' | translate
+          }}</span>
+        </div>
+      </div>
+    } @else {
+      <form
+        class="needs-validation"
+        novalidate
+        [ngClass]="{ 'was-validated': validate }"
+        [formGroup]="movementForm"
+        (ngSubmit)="submit()"
+      >
+        
+        <div class="row g-3">
+          <div class="col-12">
+            <h5 class="mb-3" [ngClass]="getMovementTypeClass()">
+              <i class="fa" [ngClass]="getMovementTypeIcon() + ' me-2'"></i>
+              {{ 'INVENTORY.INFO.MOVEMENT_TYPE' | translate }}
+            </h5>
+          </div>
+
+          @if (!isCreateMode) {
+            <div class="col-md-6">
+              <label class="form-label" for="movementId">
+                {{ 'INVENTORY.TABLE.ID' | translate }}
+              </label>
+              <input
+                class="form-control"
+                id="movementId"
+                type="text"
+                formControlName="id"
+                readonly
+              />
+            </div>
+          }
+
+          
+          <div class="col-md-6">
+            <label class="form-label" for="movementType">
+              {{ 'INVENTORY.TABLE.TYPE' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa" [ngClass]="getMovementTypeIcon()"></i>
+              </span>
+              <input
+                class="form-control"
+                id="movementType"
+                type="text"
+                [value]="getMovementTypeTitle()"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="row g-3 mt-4">
+          <div class="col-12">
+            <h5 class="mb-3 text-primary">
+              <i class="fa fa-box me-2"></i>
+              {{ 'INVENTORY.INFO.INVENTORY_INFORMATION' | translate }}
+            </h5>
+          </div>
+
+          
+          <div class="col-md-6">
+            <label class="form-label" for="productId">
+              {{ 'INVENTORY.TABLE.INVENTORY_ITEM' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa fa-box"></i>
+              </span>
+              <select
+                class="form-select"
+                [class.is-invalid]="isFieldInvalid('productId')"
+                id="productId"
+                formControlName="productId"
+                (change)="onProductChange($event)"
+              >
+                <option value="">
+                  -- {{ 'INVENTORY.FORM.SELECT_ITEM' | translate }} --
+                </option>
+                <option
+                  *ngFor="let product of products"
+                  [value]="product.id"
+                >
+                  {{ product.productName }} (Stock: {{ product.stockCurrent }})
+                </option>
+              </select>
+            </div>
+            @if (isFieldInvalid('productId')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('productId') }}
+              </div>
+            }
+          </div>
+
+          
+          <div class="col-md-6">
+            <label class="form-label" for="quantity">
+              {{ 'INVENTORY.TABLE.QUANTITY' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa fa-hashtag"></i>
+              </span>
+              <input
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid('quantity')"
+                id="quantity"
+                type="number"
+                min="1"
+                placeholder="0"
+                formControlName="quantity"
+                (input)="onQuantityChange()"
+              />
+            </div>
+            @if (isFieldInvalid('quantity')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('quantity') }}
+              </div>
+            }
+          </div>
+        </div>
+
+        
+        <div class="row g-3 mt-4">
+          <div class="col-12">
+            <h5 class="mb-3 text-info">
+              <i class="fa fa-warehouse me-2"></i>
+              {{ 'INVENTORY.INFO.STOCK_INFORMATION' | translate }}
+            </h5>
+          </div>
+
+          
+          <div class="col-md-6">
+            <label class="form-label" for="previousStock">
+              {{ 'INVENTORY.TABLE.PREVIOUS_STOCK' | translate }}
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa fa-boxes"></i>
+              </span>
+              <input
+                class="form-control"
+                id="previousStock"
+                type="number"
+                formControlName="previousStock"
+                readonly
+              />
+            </div>
+          </div>
+
+          
+          <div class="col-md-6">
+            <label class="form-label" for="newStock">
+              {{ 'INVENTORY.TABLE.NEW_STOCK' | translate }}
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa fa-boxes"></i>
+              </span>
+              <input
+                class="form-control"
+                id="newStock"
+                type="number"
+                formControlName="newStock"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="row g-3 mt-4">
+          <div class="col-12">
+            <h5 class="mb-3 text-secondary">
+              <i class="fa fa-info-circle me-2"></i>
+              {{ 'INVENTORY.INFO.ADDITIONAL_INFORMATION' | translate }}
+            </h5>
+          </div>
+
+          
+          <div class="col-md-6">
+            <label class="form-label" for="userId">
+              {{ 'INVENTORY.TABLE.RESPONSIBLE' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa fa-user"></i>
+              </span>
+              <select
+                class="form-select"
+                [class.is-invalid]="isFieldInvalid('userId')"
+                id="userId"
+                formControlName="userId"
+              >
+                <option value="">
+                  -- {{ 'INVENTORY.FORM.SELECT_USER' | translate }} --
+                </option>
+                <option
+                  *ngFor="let user of users"
+                  [value]="user.id"
+                >
+                  {{ user.firstName }} {{ user.lastName }}
+                </option>
+              </select>
+            </div>
+            @if (isFieldInvalid('userId')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('userId') }}
+              </div>
+            }
+          </div>
+
+          
+          @if (isEntryMode) {
+            <div class="col-md-6">
+              <label class="form-label" for="provider">
+                {{ 'INVENTORY.TABLE.PROVIDER' | translate }}
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-truck"></i>
+                </span>
+                <input
+                  class="form-control"
+                  id="provider"
+                  type="text"
+                  placeholder="{{ 'INVENTORY.FORM.PROVIDER_PLACEHOLDER' | translate }}"
+                  formControlName="provider"
+                />
+              </div>
+            </div>
+          }
+
+          
+          @if (isExitMode) {
+            <div class="col-md-6">
+              <label class="form-label" for="provider">
+                {{ 'INVENTORY.TABLE.PROVIDER' | translate }}
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-user-tag"></i>
+                </span>
+                <input
+                  class="form-control"
+                  id="provider"
+                  type="text"
+                  placeholder="{{ 'INVENTORY.FORM.PROVIDER_PLACEHOLDER' | translate }}"
+                  formControlName="provider"
+                />
+              </div>
+            </div>
+          }
+
+          
+          <div class="col-md-12">
+            <label class="form-label" for="reason">
+              {{ 'INVENTORY.TABLE.REASON' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa fa-comment"></i>
+              </span>
+              <input
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid('reason')"
+                id="reason"
+                type="text"
+                placeholder="{{ 'INVENTORY.FORM.REASON_PLACEHOLDER' | translate }}"
+                formControlName="reason"
+              />
+            </div>
+            @if (isFieldInvalid('reason')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('reason') }}
+              </div>
+            }
+          </div>
+
+     
+        </div>
+
+        
+        @if (isEntryMode) {
+          <div class="row g-3 mt-4">
+            <div class="col-12">
+              <h5 class="mb-3 text-success">
+                <i class="fa fa-dollar-sign me-2"></i>
+                {{ 'INVENTORY.INFO.COST_INFORMATION' | translate }}
+              </h5>
+            </div>
+
+            
+            <div class="col-md-6">
+              <label class="form-label" for="unitCost">
+                {{ 'INVENTORY.TABLE.UNIT_COST' | translate }}
+                <span class="text-danger">*</span>
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-dollar-sign"></i>
+                </span>
+                <input
+                  class="form-control"
+                  [class.is-invalid]="isFieldInvalid('unitCost')"
+                  id="unitCost"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="0.00"
+                  formControlName="unitCost"
+                  (input)="onUnitCostChange()"
+                />
+              </div>
+              @if (isFieldInvalid('unitCost')) {
+                <div class="invalid-feedback">
+                  {{ getFieldError('unitCost') }}
+                </div>
+              }
+            </div>
+
+            
+            <div class="col-md-6">
+              <label class="form-label" for="totalCost">
+                {{ 'INVENTORY.TABLE.TOTAL_COST' | translate }}
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-dollar-sign"></i>
+                </span>
+                <input
+                  class="form-control"
+                  id="totalCost"
+                  type="number"
+                  step="0.01"
+                  formControlName="totalCost"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+        }
+
+        @if (!isCreateMode) {
+          <div class="row g-3 mt-4">
+            <div class="col-12">
+              <h5 class="mb-3 text-success">
+                <i class="fa fa-cog me-2"></i>
+                {{ 'INVENTORY.INFO.SYSTEM' | translate }}
+              </h5>
+            </div>
+
+            
+            <div class="col-md-6">
+              <label class="form-label" for="createdAt">
+                {{ 'INVENTORY.TABLE.CREATED_AT' | translate }}
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-calendar-plus"></i>
+                </span>
+                <input
+                  class="form-control"
+                  id="createdAt"
+                  type="text"
+                  formControlName="createdAt"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label" for="updatedAt">
+                {{ 'INVENTORY.TABLE.UPDATED_AT' | translate }}
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-calendar-check"></i>
+                </span>
+                <input
+                  class="form-control"
+                  id="updatedAt"
+                  type="text"
+                  formControlName="updatedAt"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+        }
+      </form>
+    }
+  </div>
+</div>
+
+
+<div class="modal-footer">
+  <div class="d-flex justify-content-between w-100">
+    
+    <div>
+      @if (isViewMode && selectedMovement) {
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          (click)="toggleEditMode()"
+        >
+          <i class="fa fa-edit me-1"></i>
+          {{ 'INVENTORY.BUTTON.EDIT' | translate }}
+        </button>
+      }
+
+      @if (canEdit && !isCreateMode) {
+        <button
+          class="btn btn-outline-secondary ms-2"
+          type="button"
+          (click)="toggleEditMode()"
+        >
+          <i class="fa fa-eye me-1"></i>
+          {{ 'INVENTORY.BUTTON.VIEW' | translate }}
+        </button>
+      }
+    </div>
+
+    
+    <div>
+      <button
+        class="btn btn-secondary me-2"
+        type="button"
+        (click)="closeModal()"
+      >
+        <i class="fa fa-times me-1"></i>
+        {{ 'INVENTORY.BUTTON.CANCEL' | translate }}
+      </button>
+
+      @if (canEdit || isCreateMode) {
+        <button
+          class="btn"
+          [ngClass]="{
+            'btn-success': isEntryMode,
+            'btn-danger': isExitMode,
+            'btn-warning': isAdjustmentMode
+          }"
+          type="button"
+          (click)="submit()"
+          [disabled]="!movementForm.valid || isLoading"
+        >
+          @if (isLoading) {
+            <span
+              class="spinner-border spinner-border-sm me-1"
+              role="status"
+            ></span>
+          }
+
+          @if (modalMode === 'edit') {
+            <i class="fa fa-save me-1"></i>
+            {{ 'INVENTORY.BUTTON.SAVE' | translate }}
+          } @else {
+            <i class="fa" [ngClass]="getMovementTypeIcon() + ' me-1'"></i>
+            {{ 'INVENTORY.BUTTON.REGISTER' | translate }}
+          }
+        </button>
+      }
+    </div>
+  </div>
+</div>

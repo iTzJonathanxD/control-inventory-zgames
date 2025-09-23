@@ -1,0 +1,1131 @@
+{
+  "GLOBAL": {
+    "NOTIFICATIONS": {
+      "ERROR": "An error occurred, please try again.",
+      "ERROR_PERMISSION": "You do not have permission to access this resource.",
+      "ERROR_TITLE": "Error"
+    }
+  },
+  "COMMON": {
+    "VIEW": "View",
+    "ITEMS_PER_PAGE": "Items per page",
+    "SHOWING": "Showing",
+    "REMOVE": "remove",
+    "OF": "of",
+    "USERS": "users",
+    "PRODUCTS": "Products",
+    "LOADING": "Loading..",
+    "PLEASE_WAIT": "Please wait...",
+    "INVENTORY": "Inventory",
+    "ACTIONS": "Actions",
+    "CANCEL": "Cancel",
+    "CONFIRM": "Confirm",
+    "ALL_CATEGORIES": "All categories",
+    "ALL_STATUSES": "All statuses",
+    "EXPORTING": "Exporting...",
+    "PROCESSING": "Processing...",
+    "UPLOADING": "Uploading...",
+    "STEP": "Step",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "ACTIVATE": "Activate",
+    "DEACTIVATE": "Deactivate",
+    "CLOSE": "Cerrar",
+    "EDIT": "Edit",
+    "DELETE": "Delete"
+  },
+  "LOGIN": {
+    "TITLE": "Inventory System",
+    "SUBTITLE": "Sign in",
+    "DESCRIPTION": "Enter your email or phone and password to access your account.",
+    "JOIN_NOW": "Join Now!",
+    "NO_ACCOUNT": "Don't have an account?",
+    "SIGNUP": "Sign up!",
+    "INPUT": {
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "REMEMBER_ME": "Remember me",
+      "RECOVER_PASSWORD": "Recover Password?"
+    },
+    "BUTTON": {
+      "SIGN_IN": "Sign in"
+    },
+    "PLACEHOLDER": {
+      "EMAIL": "Enter your email or phone",
+      "PASSWORD": "Enter your password"
+    },
+    "MESSAGES": {
+      "FORM_INCOMPLETE": "Please complete all required fields.",
+      "UNKNOWN_ERROR": "Unknown error signing in."
+    },
+    "LOCK_SCREEN": {
+      "HI": "Hi",
+      "PLEASE_ENTER_PASSWORD": "Please enter your password",
+      "PLEASE_WAIT": "Please wait...",
+      "ENTER_PASSWORD": "Access"
+    }
+  },
+  "BLOCK_SCREEN": {
+    "TITLE": "Account Deactivated",
+    "HI": "Hi!",
+    "SUBTITLE": "Temporarily Deactivate your account.",
+    "ACCOUNT_DEACTIVATED": "Your account has been deactivated. Please contact your administrator for unlock your account.",
+    "TOOLTIPS": {
+      "BACK_LOGIN": "Back to login"
+    }
+  },
+  "SIDEBAR": {
+    "ORDERS_MANAGEMENT": "Orders Management",
+    "RESUME": "Resume",
+    "DASHBOARD": "Dashboard",
+    "USERS_MANAGEMENT": "User Management",
+    "USERS": "Users",
+    "PRODUCTS_MANAGEMENT": "Product Management",
+    "PRODUCTS": "Products",
+    "PRODUCT_LIST": "Product List",
+    "PRODUCT_CREATE": "Create Product",
+    "PRODUCT_CATEGORIES": "Product Categories",
+    "PRODUCT_INVENTORY": "Product Inventory",
+    "PRODUCT_ENTRY": "Product Entry",
+    "PRODUCT_EXIT": "Product Exit",
+    "INVENTORY_MANAGEMENT": "Inventory Management",
+    "INVENTORY": "Inventory",
+    "ORDERS": "Orders",
+    "MOVEMENTS": "Movement",
+    "SYSTEM_MANAGEMENT": "System Management",
+    "ROLES_AND_PERMISSIONS": "Roles and Permissions",
+    "SYSTEM_SETTINGS": "System Settings",
+    "USER_CATALOG": "User Catalog",
+    "PRODUCT_CATALOG": "Product Catalog",
+    "WHATSAPP_MANAGEMENT": "WhatsApp Management",
+    "WHATSAPP_INSTANCES": "WhatsApp Instances",
+    "WHATSAPP_CONFIG": "WhatsApp Configuration",
+    "ORDERS_LIST": "Orders List",
+    "ADMIN_PAYMENTS": "Admin Payments"
+    
+  },
+  "TOPBAR": {
+    "SEARCH": "Search something...",
+    "NOTIFICATIONS": "Notifications",
+    "SETTINGS": "Settings",
+    "SUPPORT": "Support",
+    "MY_ACCOUNT": "My Account",
+    "SIGN_OUT": "Sign Out"
+  },
+  "PROFILE": {
+    "TITLE": "Profile",
+    "MY_PROFILE": {
+      "TITLE": "My Profile",
+      "PERSONAL_INFORMATION": "Personal Information",
+      "NAME": "First Name",
+      "LAST_NAME": "Last Name",
+      "USERNAME": "Username",
+      "EMAIL": "Email",
+      "ADDRESS": "Address",
+      "PHONE": "Phone",
+      "CHANGE_PHOTO": "Change Photo Profile",
+      "ONLY_ALWAY_IMAGE": "Only image files are allowed.",
+      "CANCEL_CHANGE": "Change canceled"
+    },
+    "FIELDS": {
+      "CODE_FIELD": "Code",
+      "ACTUAL_PASSWORD": "Current Password",
+      "NEW_PASSWORD": "New Password",
+      "CONFIRM_PASSWORD": "Confirm Password"
+    },
+    "BUTTONS": {
+      "CHANGE": "Change",
+      "UPDATE": "Update",
+      "CANCEL": "Cancel",
+      "ACTIVAR_TWO_FACTOR": "Activate two-factor authentication",
+      "GENERATE_QR": "Generate QR",
+      "SEND_CODE": "Send code",
+      "DEACTIVATE_TWO_FACTOR": "Deactivate two-factor authentication",
+      "CHANGE_PASSWORD": "Change Password",
+      "UPDATE_PASSWORD": "Update Password"
+    },
+    "TOOLTIPS": {
+      "SUPPORT": "To change this field, contact support."
+    },
+    "SWEET_ALERT": {
+      "CHANGE_PHOTO": "Do you want to change your profile picture?"
+    },
+    "SECURITY": {
+      "TITLE": "Security"
+    }
+  },
+  "INVENTORY": {
+    "TITLE": "Inventory",
+    "MOVEMENTS": "Movement",
+    "NO_MOVEMENTS_AVAILABLE": "No movements available",
+    "NO_MOVEMENTS_MESSAGE": "There are no movements recorded in the inventory.",
+    "BUTTONS": {
+      "ADD_ENTRY": "Entry",
+      "ADD_EXIT": "Exit",
+      "ADD_ADJUSTMENT": "Adjustment",
+      "EXPORT": "Export",
+      "EXPORT_PDF": "Export to PDF",
+      "EXPORT_EXCEL": "Export to Excel",
+      "BULK_UPLOAD": "Bulk Upload"
+    },
+    "FILTER": {
+      "FROM_DATE": "From date",
+      "TO_DATE": "To date",
+      "PRODUCT": "Product",
+      "CATEGORY": "Category"
+    },
+    "MODAL": {
+      "CREATE_TITLE": "Create Movement",
+      "VIEW_TITLE": "View Movement",
+      "EDIT_TITLE": "Edit Movement"
+    },
+    "MOVEMENT_TYPE": {
+      "ENTRY": "Entry",
+      "EXIT": "Exit"
+    },
+    "INFO": {
+      "MOVEMENT_TYPE": "Movement Type",
+      "INVENTORY_INFORMATION": "Inventory Information",
+      "STOCK_INFORMATION": "Stock Information",
+      "ADDITIONAL_INFORMATION": "Additional Information",
+      "COST_INFORMATION": "Cost Information",
+      "SYSTEM": "System"
+    },
+    "FORM": {
+      "SELECT_ITEM": "Select item",
+      "SELECT_USER": "Select user",
+      "PROVIDER_PLACEHOLDER": "Enter provider",
+      "RESPONSIBLE_PLACEHOLDER": "Enter responsible person",
+      "REASON_PLACEHOLDER": "Enter additional notes (optional)"
+    },
+    "TABLE": {
+      "ID": "ID",
+      "PRODUCT": "Product",
+      "TYPE": "Movement Type",
+      "INVENTORY_ITEM": "Artículo de Inventario",
+      "QUANTITY": "Quantity",
+      "STOCK": "Current Stock",
+      "REASON": "Reason",
+      "COST": "Cost",
+      "DATE": "Date",
+      "ACTIONS": "Actions",
+      "NOTES": "Notas",
+      "RESPONSIBLE_PERSON": "Responsible Person",
+      "PROVIDER": "Provider",
+      "RESPONSIBLE": "Responsible",
+      "UNIT_COST": "Unit Cost",
+      "PREVIOUS_STOCK": "Previous Stock",
+      "NEW_STOCK": "New Stock",
+      "TOTAL_COST": "Total Cost",
+      "CREATED_AT": "Created At",
+      "UPDATED_AT": "Updated At"
+    },
+    "BUTTON": {
+      "EDIT": "Edit",
+      "VIEW": "View",
+      "CANCEL": "Cancel",
+      "SAVE": "Save",
+      "REGISTER": "Register"
+    },
+    "BULK_UPLOAD": {
+      "TITLE": "Bulk Movement Upload",
+      "INSTRUCTIONS_TITLE": "Instructions for bulk upload",
+      "INSTRUCTION_1": "Download the Excel template with the required format",
+      "INSTRUCTION_2": "Complete the data according to each column specifications",
+      "INSTRUCTION_3": "Save the file in Excel (.xlsx) or CSV format",
+      "INSTRUCTION_4": "Select the file to process and validate the data",
+      "DOWNLOAD_TEMPLATE": "Download Template",
+      "SELECT_FILE": "Select File",
+      "SUPPORTED_FORMATS": "Supported formats: .xlsx, .xls, .csv",
+      "FILE_SELECTED": "File Selected",
+      "FILE_NAME": "File name",
+      "FILE_SIZE": "File size",
+      "FILE_TYPE": "File type",
+      "PROCESSING_FILE": "Processing file...",
+      "VALIDATION_ERRORS": "Validation Errors",
+      "VALIDATION_SUCCESS": "Validation Successful",
+      "RECORDS_TO_IMPORT": "{{count}} records ready to import",
+      "PREVIEW": "Preview",
+      "MOVEMENT_TYPE": "Movement Type",
+      "PRODUCT_CODE": "Product Code",
+      "QUANTITY": "Quantity",
+      "OBSERVATIONS": "Observations",
+      "UPLOAD_SUCCESS": "Upload Successful",
+      "UPLOAD_ERRORS": "Upload Errors",
+      "UPLOADING_DATA": "Uploading data...",
+      "RECORDS_PROCESSED": "{{success}} of {{total}} records processed successfully",
+      "IMPORT": "Import",
+      "REQUIRED_COLUMNS": "Required Columns",
+      "COLUMN": "Column",
+      "DESCRIPTION": "Description",
+      "EXAMPLE": "Example",
+      "IMPORT_ERROR": "Error in Import",
+      "IMPORT_ERROR_MESSAGE": "Some products could not be imported. Please check the errors below.",
+      "ERRORS_FOUND": "Errors found:"
+    },
+    "NO_MOVEMENTS_FOUND": "No movements found"
+  },
+  "CATEGORY": {
+    "LOADING_CATEGORIES": "Loading categories",
+    "NO_CATEGORIES": "NO_CATEGORIES",
+    "NO_CATEGORIES_MESSAGE": "No categories available at the moment.",
+
+    "MANAGEMENT": {
+      "TITLE": "Categories",
+      "SUBTITLE": "Category List"
+    },
+    "INFO": {
+      "NOTE": "Note",
+      "CREATE_CATEGORY": "Create Category",
+      "BASIC_INFORMATION": "Basic Info",
+      "SYSTEM": "System Information",
+      "VIEW_DETAILS": "Category Details",
+      "EDIT_CATEGORY": "Edit Category"
+    },
+    "FILTER": {
+      "NAME": "Name",
+      "STATUS": "Status",
+      "ALL": "All",
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "BUTTON": {
+      "RELOAD": "Reload",
+      "CANCEL": "Cancel",
+      "CREATE": "Create",
+      "ADD_CATEGORY": "Add Category",
+      "VIEW": "View",
+      "EDIT": "Edit",
+      "DEACTIVATE": "deactivate category",
+      "ACTIVATE": "Activate",
+      "DELETE": "delete",
+      "SAVE": "Save"
+    },
+    "FORM": {
+      "NAME": "Category",
+      "DESCRIPTION": "Description",
+      "ACTIVE_CATEGORY": "Active Category",
+      "ACTIVE_HELP": "Select this option if the category is currently active and should be available for use.",
+      "DESCRIPTION_HELP": "Please provide a brief description of the category.",
+      "NAME_PLACEHOLDER": "example: produc1",
+      "DESCRIPTION_PLACEHOLDER": "description of example",
+      "STATUS": "Status",
+      "CREATED_AT": "Created At",
+      "UPDATED_AT": "Updated At"
+    },
+    "TABLE": {
+      "ID": "ID",
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "STATUS": "Status",
+      "ACTIONS": "Actions",
+      "CREATED_AT": "Created At",
+      "UPDATED_AT": "Updated At"
+    }
+  },
+  "PRODUCT": {
+    "NO_PRODUCTS_AVAILABLE": "NO_PRODUCTS_AVAILABLE",
+    "NO_PRODUCTS_MESSAGE": "No products available at the moment.",
+    "NO_PRODUCTS_FOUND": "No products found",
+    "TITLE": "Products",
+    "BUTTONS": {
+      "ADD_PRODUCT": "Add Product",
+      "EXPORT_REPORTS": "Export Reports",
+      "BULK_UPLOAD": "Bulk Upload",
+      "EXPORT_PDF": "Export to PDF",
+      "EXPORT_EXCEL": "Export to Excel"
+    },
+    "FILTER": {
+      "RESET": "Reset",
+      "FILTER": "Filter"
+    },
+    "STATUS": {
+      "TITLE": "Updated status of the product",
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "STOCK": {
+      "LOW_STOCK": "Low stock",
+      "OUT_OF_STOCK": "Out of stock",
+      "NORMAL": "Normal"
+    },
+    "INFO": {
+      "VIEW_DETAILS": "View Details",
+      "BASIC_INFORMATION": "Basic Info",
+      "STOCK_INFOMATION": "Stock Info",
+      "SYSTEM": "System Information",
+      "EDIT_PRODUCT": "Edit Product",
+      "STOCK_INFORMATION": "Stock Information",
+      "CREATE_CATEGORY": "Create Category",
+      "CREATE_PRODUCT": "Create Product"
+    },
+    "TABLE": {
+      "ID": "ID",
+      "CODE": "Name / Code",
+      "NAME": "Product Name",
+      "DESCRIPTION": "Description",
+      "UNIT_PRICE": "Unit Price",
+      "CURRENT_STOCK": "Current Stock",
+      "MIN_STOCK": "Minimum Stock",
+      "STATUS": "State",
+      "PRICE": "Price",
+      "STOCK": "Stock",
+      "CATEGORY": "Category",
+      "CREATED_AT": "Created At",
+      "UPDATED_AT": "Updated At",
+      "ACTIONS": "Actions"
+    },
+    "FIELDS": {
+      "PRODUCT_NAME": "Product name",
+      "CODE_NAME": "Product code",
+      "CATEGORY": "Category",
+      "STOCK_STATUS": "Stock status",
+      "STOCK_MIN": "Minimum stock",
+      "STOCK_CURRENT": "Current stock",
+      "UNIT_PRICE_MIN": "Minimum price",
+      "UNIT_PRICE_MAX": "Maximum price",
+      "SKU": "SKU",
+      "PRICE": "Price",
+      "STOCK": "Stock"
+    },
+    "PLACEHOLDERS": {
+      "PRODUCT_NAME": "Search by name...",
+      "CODE_NAME": "Search by code...",
+      "STOCK_MIN": "0",
+      "STOCK_CURRENT": "0",
+      "UNIT_PRICE_MIN": "0.00",
+      "UNIT_PRICE_MAX": "0.00"
+    },
+    "FORM": {
+      "NAME_PLACEHOLDER": "Enter product name",
+      "CODE_PLACEHOLDER": "Enter product code",
+      "SELECT_CATEGORY": "Select a category",
+      "DESCRIPTION_PLACEHOLDER": "Enter product description",
+      "ACTIVE_PRODUCT": "Active product"
+    },
+    "ALERT": {
+      "MIN_STOCK_HELP": "Set the minimum stock level to trigger low stock alerts.",
+      "LOW_STOCK": "Low Stock",
+      "LOW_STOCK_MESSAGE": "This product is below the minimum stock level. Please restock soon."
+    },
+    "BUTTON": {
+      "CREATE": "Create",
+      "SAVE": "Save changes",
+      "CANCEL": "Cancel",
+      "EDIT": "Edit",
+      "CLOSE": "Close",
+      "VIEWMODE": "View Mode",
+      "LOCKED_TRUE": "Locked",
+      "LOCKED_FALSE": "Active",
+      "COPY_INFO": "Copy Information",
+      "DEACTIVATE": "Deactivate",
+      "ACTIVATE": "Activate",
+      "PRODUCT_ENTRY": "Entry",
+      "PRODUCT_EXIT": "Exit"
+    },
+    "BULK_UPLOAD": {
+      "TITLE": "Bulk Product Upload",
+      "STEPS": {
+        "INSTRUCTIONS": "Instructions",
+        "SELECT_FILE": "Select File",
+        "VALIDATE": "Validate",
+        "IMPORT": "Import"
+      },
+      "INSTRUCTIONS": {
+        "TITLE": "Instructions for bulk upload",
+        "STEP1": "Download the Excel template with the required format",
+        "STEP2": "Fill in the data according to each column's specifications",
+        "STEP3": "Save the file in Excel (.xlsx) or CSV format",
+        "STEP4": "Select the file to process and validate the data"
+      },
+      "DOWNLOAD_TEMPLATE": "Download Template",
+      "SELECT_FILE_TITLE": "Select Product File",
+      "SELECT_FILE_DESC": "Drag the file here or click to select. Supported formats: .xlsx, .xls, .csv",
+      "SELECTED_FILE": "File Selected",
+      "FILE_SIZE": "Size",
+      "PROCESSING": "Processing file...",
+      "TOTAL_PROCESSED": "Total Processed",
+      "VALID": "Valid",
+      "INVALID": "Invalid",
+      "SUCCESS_RATE": "Success Rate",
+      "VALID_PRODUCTS": "Valid Products",
+      "INVALID_PRODUCTS": "Invalid Products",
+      "SHOWING_FIRST": "Showing first",
+      "OF": "of",
+      "ROW": "Row",
+      "ERROR": "Error",
+      "DATA": "Data",
+      "IMPORT_COMPLETE": "Import Complete",
+      "IMPORT_SUCCESS_MESSAGE": "Products have been successfully imported into the system.",
+      "PRODUCTS_IMPORTED": "products imported successfully",
+      "VALIDATE_FILE": "Validate File",
+      "IMPORT_PRODUCTS": "Import Products",
+      "IMPORT_MORE": "Import More",
+      "IMPORTANT": "Important",
+      "WARNING1": "Duplicate products (by SKU) will be skipped",
+      "WARNING2": "Verify that all data is complete and valid",
+      "WARNING3": "Import may take several minutes depending on file size"
+    }
+  },
+
+  "PRODUCTS": {
+    "TITLE": "Products",
+    "LOADING_PRODUCTS": "Loading products",
+    "LOADING_PRODUCT": "Loading product",
+    "BASIC_INFORMATION": "Basic Information",
+    "PRICING_INVENTORY": "Pricing & Inventory",
+    "PRODUCT_IMAGE": "Product Image",
+    "STATUS_SETTINGS": "Status Settings",
+    "PRODUCT_INFO": "Product Information",
+
+    "CREATE": {
+      "TITLE": "Create Product",
+      "SUBTITLE": "Add a new product to inventory",
+      "BUTTON": "Create Product"
+    },
+    "EDIT": {
+      "TITLE": "Edit Product",
+      "SUBTITLE": "Modify product information",
+      "SAVE": "Save Changes"
+    },
+    "VIEW": {
+      "TITLE": "Product Details"
+    },
+    "FORM": {
+      "PRODUCT_NAME": "Product Name",
+      "PRODUCT_NAME_PLACEHOLDER": "Enter product name",
+      "CODE_NAME": "Product Code",
+      "CODE_NAME_PLACEHOLDER": "Enter product code",
+
+      "DESCRIPTION": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Enter product description",
+      "CATEGORY": "Category",
+      "SELECT_CATEGORY": "Select a category",
+      "UNIT_PRICE": "Unit Price",
+      "UNIT_PRICE_PLACEHOLDER": "0.00",
+      "STOCK_MIN": "Minimum Stock",
+      "STOCK_MIN_PLACEHOLDER": "0",
+      "STOCK_CURRENT": "Current Stock",
+      "STOCK_CURRENT_PLACEHOLDER": "0",
+      "WEIGHT": "Weight (kg)",
+      "WEIGHT_PLACEHOLDER": "0.00",
+      "RATING": "Rating",
+      "RATING_PLACEHOLDER": "0.0",
+      "IMAGE": "Product Image",
+      "IMAGE_HELP": "Upload an image for the product (JPG, PNG, GIF - Max 5MB)",
+      "IS_ACTIVE": "Active Product",
+      "IS_ACTIVE_HELP": "Check this option if the product should be available for sale"
+    },
+    "VALIDATION": {
+      "PRODUCT_NAME_REQUIRED": "Product name is required (minimum 3 characters)",
+      "CODE_NAME_REQUIRED": "Product code is required",
+      "DESCRIPTION_REQUIRED": "Description is required",
+      "STOCK_MIN_REQUIRED": "Minimum stock is required",
+      "STOCK_CURRENT_REQUIRED": "Current stock is required",
+      "CATEGORY_REQUIRED": "Category is required"
+    },
+    "DETAILS": {
+      "PRICING": "Pricing Information",
+      "INVENTORY": "Inventory Information",
+      "CATEGORY": "Category Information",
+      "PHYSICAL": "Physical Properties",
+      "SPECIFICATIONS": "Specifications",
+      "TIMESTAMPS": "Creation & Update Info"
+    },
+    "ALERTS": {
+      "LOW_STOCK": "⚠️ Low Stock Alert"
+    },
+    "STOCK": "Stock",
+    "AVAILABLE": "Available",
+    "UNAVAILABLE": "Unavailable",
+    "NO_PRODUCTS": "No products found"
+  },
+
+  "USER": {
+    "TITLE": "Users",
+    "BUTTONS": {
+      "ADD_USER": "Add User"
+    },
+    "UPDATE": {
+      "TITLE": "Updated user"
+    },
+    "FILTER": {
+      "RESET": "Reset",
+      "FILTER": "Filter"
+    },
+    "STATUS": {
+      "ACTIVE": "Habilitado",
+      "INACTIVE": "Inactivo"
+    },
+    "GET": {
+      "TITLE": "Administration of users",
+      "ERROR": "Error al obtener el usuario"
+    },
+    "NO_USERS_AVAILABLE": "NO_USERS_AVAILABLE",
+    "NO_USERS_MESSAGE": "No users available at the moment.",
+    "NO_USERS_FOUND": "No users found",
+    "PLACEHOLDER": {
+      "EMAIL": "Email",
+      "FIRSTNAME": "First Name",
+      "LASTNAME": "Last Name",
+      "PHONE": "Phone",
+      "ADDRESS": "Address",
+      "DEBT": "Debt amount"
+    },
+    "TABLE": {
+      "ID": "ID",
+      "PHOTO": "Foto",
+      "COMPANY": "Company",
+      "FULL_NAME": "Full Name",
+      "FIRST_NAME": "First Name",
+      "LAST_NAME": "Last Name",
+      "IS_ACTIVE": "Active",
+      "USERNAME": "Username",
+      "EMAIL": "Email",
+      "ADDRESS": "Address",
+      "PHONE": "Phone",
+      "DEBT": "Debt",
+      "ROLES": "Roles",
+      "IS_LOCKED": "Locked",
+      "CREATED_AT": "Created At",
+      "INITIAL_DATE": "Initial Date",
+      "STATUS": "Status",
+      "END_DATE": "End Date",
+      "ACTIONS": "Actions",
+      "ROLE": "Role"
+    },
+    "LOADING": {
+      "TITLE": "Loading users",
+      "SUBTITLE": "Please wait while we fetch the users..."
+    },
+    "INFO": {
+      "VIEW_DETAILS": "View Details",
+      "CREATE_USER": "Create User",
+      "EDIT_USER": "Edit User",
+      "PERSONAL_INFORMATION": "Personal Information",
+      "SYSTEM": "System Information",
+      "PHOTO_PROFILE": "Profile Photo"
+    },
+    "VIEW": {
+      "LASTNAME": "Last Name",
+      "FIRSTNAME": "First Name",
+      "USERNAME": "Username",
+      "EMAIL": "Email",
+      "ADDRESS": "Address",
+      "PASSWORD": "Password",
+      "PHONE": "Phone",
+      "ROLES": "Roles",
+      "COMPANY": "Company",
+      "IS_LOCKED": "Locked",
+      "CREATED_AT": "Created At",
+      "UPDATED_AT": "Updated At",
+      "STATUS": "Status",
+      "ACCOUNT_STATUS": "Account Status",
+      "FAIL_LOGINS": "Failed Logins",
+      "END_DATE": "End Date",
+      "ACTIONS": "Actions",
+      "CLOSE": "Close"
+    },
+    "EDIT": {
+      "EDIT_USER": "Edit User",
+      "USERNAME": "Username",
+      "LASTNAME": "Last Name",
+      "FIRSTNAME": "First Name",
+      "EMAIL": "Email",
+      "ADDRESS": "Address",
+      "PHONE": "Phone",
+      "ROLES": "Roles",
+      "COMPANY": "Company",
+      "IS_LOCKED": "Locked",
+      "CREATED_AT": "Created At",
+      "INITIAL_DATE": "Initial Date",
+      "END_DATE": "End Date",
+      "ACTIONS": "Actions",
+      "CLOSE": "Close"
+    },
+    "BUTTON": {
+      "CREATE": "Create",
+      "SAVE": "Save changes",
+      "CANCEL": "Cancel",
+      "EDIT": "Edit",
+      "CLOSE": "Close",
+      "VIEWMODE": "View Mode",
+      "LOCKED_TRUE": "Locked",
+      "LOCKED_FALSE": "Active",
+      "COPY_INFO": "Copy Information"
+    },
+    "VALIDATION_USER": {
+      "USERNAME_REQUIRED": "Username is required (minimum 3 characters).",
+      "EMAIL_INVALID": "You must enter a valid email."
+    },
+    "DEBT": {
+      "TITLE": "User Debt",
+      "CURRENT_DEBT": "Current Debt",
+      "ADD_DEBT": "Add Debt",
+      "REDUCE_DEBT": "Reduce Debt",
+      "CLEAR_DEBT": "Clear Debt",
+      "AMOUNT": "Amount",
+      "REASON": "Reason",
+      "DEBT_ADDED": "Debt added successfully",
+      "DEBT_REDUCED": "Debt reduced successfully",
+      "DEBT_CLEARED": "Debt cleared successfully",
+      "USERS_WITH_DEBT": "Users with Debt",
+      "NO_DEBT": "No debt",
+      "TOTAL_DEBT": "Total Debt"
+    },
+    "ERRORS": {
+      "ERROR_REQUIRED_FIELDS": "Please complete all required fields."
+    }
+  },
+  "DASHBOARD": {
+    "PRODUCTS": {
+      "TITLE": "Product Dashboard",
+      "SUBTITLE": "Inventory management and analysis"
+    },
+    "BEST_SELLING": {
+      "TITLE": "Best Selling Products",
+      "RANKING": "Ranking",
+      "PRODUCT": "Product",
+      "CATEGORY": "Category",
+      "PRICE": "Price",
+      "STOCK": "Stock",
+      "SOLD": "Sold",
+      "TOTAL_SALES": "Total Sales",
+      "NO_CATEGORY": "No category",
+      "AVAILABLE": "Available",
+      "UNITS": "Units",
+      "TOTAL": "Total",
+      "LOADING": "Loading...",
+      "LOADING_PRODUCTS": "Loading best selling products...",
+      "NO_SALES": "No sales data",
+      "NO_SALES_INFO": "No sales information available yet.",
+      "VIEW_FULL_REPORT": "View Full Report"
+    },
+    "LOW_STOCK": {
+      "TITLE": "Low Stock Products",
+      "VIEW_ALL": "View All",
+      "PRODUCT": "Product",
+      "CODE": "Code",
+      "CURRENT_STOCK": "Current Stock",
+      "MIN_STOCK": "Min Stock",
+      "PRICE": "Price",
+      "STATUS": "Status",
+      "NO_CATEGORY": "No category",
+      "NO_STOCK": "Out of Stock",
+      "LOW_STOCK": "Low Stock",
+      "LOADING": "Loading...",
+      "LOADING_PRODUCTS": "Loading products...",
+      "EXCELLENT": "Excellent!",
+      "NO_LOW_STOCK": "There are no low stock products at this time."
+    },
+    "STATS": {
+      "TOTAL_PRODUCTS": "Total Products",
+      "ACTIVE_PRODUCTS": "Active Products",
+      "LOW_STOCK": "Low Stock",
+      "INVENTORY_VALUE": "Inventory Value",
+      "SINCE_LAST_MONTH": "Since last month"
+    },
+    "SALES": {
+      "TITLE": "Sales Overview",
+      "REPORT": "Sales Report",
+      "EXPORT": "Export Data",
+      "CONFIG": "Configure",
+      "MONTHLY": "Monthly Sales",
+      "SOLD_PRODUCTS": "Sold Products",
+      "DAILY_AVG": "Daily Average",
+      "GROWTH": "Growth",
+      "LOADING_CHART": "Loading chart..."
+    },
+    "ALERT": {
+      "TITLE": "Attention:",
+      "MESSAGE": "There are {{count}} products with low stock that need attention.",
+      "LINK": "View products"
+    }
+  },
+
+  "ROLES_AND_PERMISSIONS": {
+    "ROLE": {
+      "TITLE": "Roles",
+      "LIST_ROLES": "List of roles",
+      "NEW_ROLE": "New role",
+      "EDIT_ROLE": "Edit role",
+      "SEARCH_ROLES": "Search roles",
+      "ACTIVATE_DEACTIVATE": {
+        "ACTIVATE_ROLE": "Activate Role",
+        "DEACTIVATE_ROLE": "Deactivate Role",
+        "ROLE_DEACTIVATE": "This role is deactivated"
+      },
+      "NO_ROLES_FOUND": "No roles found",
+      "FORM": {
+        "ROL_NAME": "Role Name",
+        "DESCRIPTION": "Description",
+        "ROL_NAME_PLACEHOLDER": "Role Name",
+        "DESCRIPTION_PLACEHOLDER": "Role Description"
+      },
+      "BUTTONS": {
+        "CREATE_ROLE": "Create role",
+        "EDIT_ROLE": "Edit role"
+      }
+    },
+    "MODULE": {
+      "TITLE": "Modules",
+      "SELECT_ROLE_DESC": "Select modules",
+      "LIST_MODULES": "List of modules",
+      "NEW_MODULE": "New module",
+      "EDIT_MODULE": "Edit module",
+      "SEARCH_MODULES": "Search modules...",
+      "ACTIVATE_DEACTIVATE": {
+        "DEACTIVATE_ALL_PERMISSIONS": "Deactivate all permissions"
+      },
+      "NO_MODULES_FOUND": "No modules found",
+      "SELECT_ROLE": "Select a role to view modules",
+      "FORM": {
+        "MODULE_NAME": "Module Name",
+        "DESCRIPTION": "Description",
+        "ASSIGNED_ROLE": "Assigned Role",
+        "ENTER_ROL_NAME": "Enter a name for the role"
+      },
+      "BUTTONS": {
+        "CREATE_MODULE": "Create module",
+        "EDIT_MODULE": "Edit module"
+      }
+    },
+    "PERMISSION": {
+      "TITLE": "Permissions",
+      "LIST_PERMISSIONS": "List of permissions",
+      "NEW_PERMISSION": "New permission for the module ",
+      "EDIT_PERMISSION": "Edit permission for the module ",
+      "SEARCH_PERMISSIONS": "Search permissions...",
+      "SELECT_MODULE_DESC": "Select a module",
+      "ACTIVATE_DEACTIVATE": {
+        "ACTIVATE_PERMISSION": "Activate Permission",
+        "DEACTIVATE_PERMISSION": "Deactivate Permission",
+        "PERMISSION_DEACTIVATE": "This permission is deactivated"
+      },
+      "NO_PERMISSIONS_FOUND": "No permissions found",
+      "SELECT_MODULE": "Select a module to view permissions",
+      "FORM": {
+        "PERMISSION_NAME": "Permission Name",
+        "DESCRIPTION": "Description",
+        "SELECT_PERMISSION": "Select permission"
+      },
+      "BUTTONS": {
+        "CREATE_PERMISSION": "Create permission",
+        "EDIT_PERMISSION": "Edit permission"
+      }
+    }
+  },
+  "SESSION_TIMEOUT": {
+    "WARNING_MESSAGE": "Your session will be locked shortly. ."
+  },
+
+  "WORDS": {
+    "CLOSE": "Close",
+    "NEXT": "Next",
+    "PREVIOUS": "Previous",
+    "CANCEL": "Cancel",
+    "CONFIRM": "Confirm",
+    "SEE_CATEGORY_LIST": "See Category",
+    "FILTER": "Filter",
+    "HOME": "Home",
+    "RELOAD_TABLE": "Reload Table",
+    "RESULTS": "Results",
+    "NGX_DATATABLE_EMPTY_MESSAGE": "No data found. If you applied filters, try adjusting them or broaden your search criteria.",
+    "YES": "Yes",
+    "NO": "No",
+    "NO_ITEMS_FOUND": "No items found",
+    "UPDATING": "Updating...",
+    "CREATING": "Creating...",
+    "WELCOME": "Welcome",
+    "UNKNOWN": "Unknown error"
+  },
+
+  "SWEET_ALERT": {
+    "ARE_YOU_SURE": "¿Estas seguro?",
+    "YES_I_AM_SURE": "Si, estoy seguro",
+    "CANCEL": "No, Cancelar"
+  },
+  "COMPRESSION_IMG_ERRORS": {
+    "ERROR_COMPRESSION_IMG": "Error compressing image"
+  },
+  "PAYMENT": {
+    "TITLE": "Make Payment",
+    "PAYMENT_INFO": "Payment Information",
+    "PAYMENT_METHOD": "Payment Method",
+    "BANK_TRANSFER": "Bank Transfer",
+    "CREDIT_CARD": "Credit Card",
+    "DEBIT_CARD": "Debit Card",
+    "PAYPAL": "PayPal",
+    "CASH": "Cash",
+    "EVIDENCE": "Payment Evidence",
+    "EVIDENCE_REQUIRED": "Payment Evidence (Required)",
+    "EVIDENCE_DESCRIPTION": "Upload screenshots or receipts of your payment (maximum 5 files, 5MB each)",
+    "EVIDENCE_NOTES": "Payment Notes",
+    "EVIDENCE_NOTES_PLACEHOLDER": "Describe your payment method, reference number, etc...",
+    "FILES_SELECTED": "Files Selected",
+    "REMOVE_FILE": "Remove",
+    "SEND_PAYMENT": "Send Payment",
+    "PROCESSING_PAYMENT": "Processing Payment...",
+    "PAYMENT_INSTRUCTIONS": "Payment Instructions",
+    "INSTRUCTION_1": "Make the payment for the exact amount",
+    "INSTRUCTION_2": "Upload evidence of your payment",
+    "INSTRUCTION_3": "Your order will be processed once we confirm payment",
+    "INSTRUCTION_4": "You will receive an SMS notification when approved",
+    "PAYMENT_SUCCESS": "Payment sent successfully! Your payment is being reviewed. You will receive an SMS notification when approved.",
+    "PAYMENT_ERROR": "Error processing payment. Please try again.",
+    "FILE_TOO_LARGE": "File {{name}} is too large. Maximum 5MB per file.",
+    "INVALID_FORMAT": "File {{name}} is not a valid format. Only JPG and PNG are allowed.",
+    "MAX_FILES": "Maximum 5 files allowed"
+  },
+  "ORDERS": {
+    "TITLE": "My Orders",
+    "SUBTITLE": "Manage your orders",
+    "LOADING_ORDERS": "Loading orders",
+    "NO_ORDERS": "You have no orders",
+    "NO_ORDERS_MESSAGE": "When you make a purchase, it will appear here",
+    "ORDER_NUMBER": "Order",
+    "NO_PAYMENT": "No payments registered for this order",
+    "MAKE_PAYMENT": "Make Payment",
+    "CANCEL_ORDER": "Cancel Order",
+    "VIEW_DETAILS": "View Details",
+    "CONFIRM_CANCEL": "Are you sure you want to cancel this order?",
+    "ORDER_CANCELLED": "Order cancelled successfully",
+    "CANCEL_ERROR": "Error cancelling order",
+    "ORDER": "Orden",
+    "CUSTOMER": "Cliente",
+    "CREATED": "Creada",
+    "PROCESSED": "Procesada",
+    "DATE_FROM": "Fecha Desde",
+    "DATE_TO": "Fecha Hasta",
+    "STATUS": {
+      "PENDING": "Pending",
+      "CONFIRMED": "Confirmed",
+      "PROCESSING": "Processing",
+      "SHIPPED": "Shipped",
+      "DELIVERED": "Delivered",
+      "CANCELLED": "Cancelled",
+      "REFUNDED": "Refunded"
+    },
+    "PAYMENT_STATUS": {
+      "PENDING": "Pending",
+      "PROCESSING": "Processing",
+      "COMPLETED": "Completed",
+      "FAILED": "Failed",
+      "CANCELLED": "Cancelled",
+      "REFUNDED": "Refunded"
+    }
+  },
+  "CART": {
+    "TITLE": "Shopping Cart",
+    "SUBTITLE": "Review your selected items",
+    "LOADING_CART": "Loading cart",
+    "ITEMS": "Items",
+    "TOTAL": "Total",
+    "VIEW_CART": "View Cart",
+    "ADD_MORE": "Add More Products",
+    "EMPTY": "Your cart is empty",
+    "START_SHOPPING": "Start Shopping",
+    "CONTINUE_SHOPPING": "Continue Shopping",
+    "YOUR_ITEMS": "Your Items",
+    "QUANTITY": "Quantity",
+    "SUBTOTAL": "Subtotal",
+    "ORDER_SUMMARY": "Order Summary",
+    "ITEMS_COUNT": "Items",
+    "SHIPPING": "Shipping",
+    "TAX": "Tax",
+    "FREE": "Free",
+    "PROCEED_TO_CHECKOUT": "Proceed to Checkout",
+    "CLEAR_CART": "Clear Cart",
+    "REMOVE": "Remove",
+    "CONFIRM_REMOVE": "Are you sure you want to remove this item?",
+    "CONFIRM_CLEAR": "Are you sure you want to clear your cart?",
+    "EMPTY_CART": "Your cart is empty",
+    "EMPTY_MESSAGE": "Looks like you haven't added any items to your cart yet. Start shopping to fill it up!"
+  },
+  "CHECKOUT": {
+    "TITLE": "Checkout",
+    "ORDER_NUMBER": "Order Number",
+    "SUBTITLE": "Complete your order",
+    "STEP_INFO": "Information",
+    "STEP_PAYMENT": "Payment",
+    "STEP_CONFIRMATION": "Confirmation",
+    "SHIPPING_INFO": "Shipping Information",
+    "SHIPPING_ADDRESS": "Shipping Address",
+    "BILLING_ADDRESS": "Billing Address",
+    "SAME_AS_SHIPPING": "Same as shipping address",
+    "ORDER_NOTES": "Order Notes",
+    "STREET": "Street Address",
+    "STREET_PLACEHOLDER": "Enter your street address",
+    "CITY": "City",
+    "CITY_PLACEHOLDER": "Enter your city",
+    "STATE": "State/Province",
+    "STATE_PLACEHOLDER": "Enter your state",
+    "ZIP_CODE": "ZIP/Postal Code",
+    "ZIP_PLACEHOLDER": "Enter your ZIP code",
+    "COUNTRY": "Country",
+    "SELECT_COUNTRY": "Select your country",
+    "NOTES": "Special Instructions",
+    "NOTES_PLACEHOLDER": "Any special delivery instructions...",
+    "ORDER_SUMMARY": "Order Summary",
+    "SUBTOTAL": "Subtotal",
+    "SHIPPING": "Shipping",
+    "TAX": "Tax",
+    "TOTAL": "Total",
+    "FREE": "Free",
+    "CREATE_ORDER": "Create Order",
+    "PROCESSING": "Processing...",
+    "BACK_TO_CART": "Back to Cart",
+    "SECURE_CHECKOUT": "Secure Checkout",
+    "SECURITY_MESSAGE": "Your payment information is encrypted and secure."
+  },
+
+  "USER_PRODUCTS": {
+    "TITLE": "Product Catalog",
+    "SUBTITLE": "Browse and add products to your cart",
+    "CATALOG_VIEW": "Catalog View",
+    "TABLE_VIEW": "Table View",
+    "CART": "Cart",
+    "TOTAL": "Total",
+    "SEARCH": "Search",
+    "SEARCH_PLACEHOLDER": "Search products...",
+    "CATEGORY": "Category",
+    "ALL_CATEGORIES": "All Categories",
+    "SORT_NAME": "Sort by Name",
+    "SORT_PRICE_ASC": "Price: Low to High",
+    "SORT_PRICE_DESC": "Price: High to Low",
+    "SORT_STOCK": "Sort by Stock",
+    "PRICE_RANGE": "Price Range",
+    "CLEAR_FILTERS": "Clear Filters",
+    "SHOWING_RESULTS": "Showing {{count}} of {{total}} products",
+    "LOADING_PRODUCTS": "Loading products...",
+    "NO_RESULTS": "No products found",
+    "NO_RESULTS_MESSAGE": "Try adjusting your search criteria or clear filters to see more products.",
+    "IMAGE": "Image",
+    "PRODUCT_NAME": "Product Name",
+    "PRICE": "Price",
+    "STOCK": "Stock",
+    "AVAILABLE": "Available",
+    "QUANTITY": "Quantity",
+    "ADD_TO_CART": "Add to Cart",
+    "ADDING": "Adding...",
+    "VIEW_CART": "View Cart",
+    "CONTINUE_SHOPPING": "Continue Shopping",
+    "PRODUCT_ADDED": "Product added to cart",
+    "OUT_OF_STOCK": "Out of Stock",
+    "LOW_STOCK": "Low Stock",
+    "IN_STOCK": "In Stock",
+    "ITEMS_PER_PAGE": "Items per page",
+    "SHOWING_PAGE": "Showing {{from}}-{{to}} of {{totalItems}} results (Page {{current}} of {{total}})"
+  },
+
+  "PAYMENTS": {
+    "ADMIN_TITLE": "Payment Management",
+    "ADMIN_SUBTITLE": "Manage and review all system payments",
+    "FILTER_STATUS": "Filter by Status",
+    "FILTER_METHOD": "Filter by Method",
+    "FILTER_USER": "Filter by User",
+    "FILTER_AMOUNT": "Filter by Amount",
+    "ALL_METHODS": "All Methods",
+    "SEARCH_USER_PLACEHOLDER": "Search by name or email...",
+    "LOADING_PAYMENTS": "Loading payments...",
+    "PENDING_PAYMENTS": "Pending Payments",
+    "COMPLETED_PAYMENTS": "Completed Payments",
+    "TOTAL_AMOUNT": "Total Amount",
+    "USERS_WITH_PAYMENTS": "Users with Payments",
+    "PAYMENT_ID": "Payment ID",
+    "USER": "User",
+    "ORDER": "Order",
+    "AMOUNT": "Amount",
+    "METHOD": "Method",
+    "DATE": "Date",
+    "EVIDENCE": "Evidence",
+    "DEBT": "Debt",
+    "ITEMS": "items",
+    "FILES": "files",
+    "NO_EVIDENCE": "No evidence",
+    "VIEW_DETAILS": "View Details",
+    "APPROVE_PAYMENT": "Approve Payment",
+    "REJECT_PAYMENT": "Reject Payment",
+    "MANAGE_DEBT": "Manage Debt",
+    "NO_PAYMENTS": "No payments",
+    "NO_PAYMENTS_MESSAGE": "No payments found in the system",
+    "PAYMENT_DETAILS": "Payment Details",
+    "USER_INFORMATION": "User Information",
+    "USER_NAME": "Name",
+    "USER_EMAIL": "Email",
+    "USER_DEBT": "User Debt",
+    "PAYMENT_INFORMATION": "Payment Information",
+    "NOTES": "Notes",
+    "EVIDENCE_FILES": "Evidence Files",
+    "ORDER_DETAILS": "Order Details",
+    "ORDER_TOTAL": "Order Total",
+    "PAYMENT_EVIDENCE": "Payment Evidence",
+    "CURRENT_DEBT": "Current Debt",
+    "DEBT_ACTION": "Debt Action",
+    "REDUCE_DEBT": "Reduce Debt",
+    "CLEAR_DEBT": "Clear Debt",
+    "ADD_DEBT": "Add Debt",
+    "REASON": "Reason",
+    "DEBT_REASON_PLACEHOLDER": "Describe the reason for the debt change...",
+    "CONFIRM_APPROVE": "Are you sure you want to approve this payment?",
+    "REJECTION_REASON": "Rejection reason (optional):",
+    "STATUS": {
+      "PENDING": "Pending",
+      "PROCESSING": "Processing",
+      "COMPLETED": "Completed",
+      "FAILED": "Failed",
+      "CANCELLED": "Cancelled",
+      "REFUNDED": "Refunded"
+    },
+    "METHODS": {
+      "BANK_TRANSFER": "Bank Transfer",
+      "CREDIT_CARD": "Credit Card",
+      "DEBIT_CARD": "Debit Card",
+      "CASH": "Cash",
+      "PAYPAL": "PayPal"
+    }
+  },
+  "WHATSAPP": {
+    "TITLE": "WhatsApp Configuration",
+    "SUBTITLE": "Configure WhatsApp integration with Evolution API",
+    "INSTANCES_TITLE": "WhatsApp Instances",
+    "INSTANCES_SUBTITLE": "Manage your connected WhatsApp instances",
+    "CONFIG": {
+      "TITLE": "Configuration",
+      "EVOLUTION_API_URL": "Evolution API URL",
+      "EVOLUTION_API_KEY": "API Key",
+      "DEBT_MESSAGE_TEMPLATE": "Debt Message Template",
+      "WELCOME_MESSAGE_TEMPLATE": "Welcome Message Template",
+      "ORDER_CONFIRMATION_TEMPLATE": "Order Confirmation Template",
+      "SEND_DEBT_REMINDERS": "Send automatic debt reminders",
+      "DEBT_REMINDER_DAYS": "Days between reminders",
+      "SAVE": "Save Configuration",
+      "UPDATE": "Update Configuration"
+    },
+    "INSTANCE": {
+      "NAME": "Instance Name",
+      "PHONE": "Phone Number",
+      "STATUS": "Status",
+      "PRIMARY": "Primary",
+      "CREATED": "Created",
+      "ACTIONS": "Actions",
+      "CREATE": "Create Instance",
+      "DELETE": "Delete Instance",
+      "SET_PRIMARY": "Set as Primary",
+      "SHOW_QR": "Show QR Code",
+      "QR_INSTRUCTIONS": "Scan this QR code with WhatsApp to connect"
+    },
+    "STATUS": {
+      "CONNECTED": "Connected",
+      "CONNECTING": "Connecting",
+      "DISCONNECTED": "Disconnected"
+    },
+    "MESSAGES": {
+      "DEBT_SENT": "Debt message sent successfully",
+      "CONFIG_SAVED": "Configuration saved successfully",
+      "INSTANCE_CREATED": "Instance created successfully",
+      "INSTANCE_DELETED": "Instance deleted successfully",
+      "PRIMARY_SET": "Primary instance set successfully"
+    }
+  }
+}

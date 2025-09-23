@@ -1,0 +1,13 @@
+.breadcrumb-item {
+    a {
+        color: var(--#{$prefix}body-color);
+        &:hover {
+            color: var(--#{$prefix}primary);
+        }
+    }
+    +.breadcrumb-item {
+        &::before {
+            font-family: "tabler-icons";
+        }
+    }
+}

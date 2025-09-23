@@ -1,0 +1,85 @@
+<div class="product-card h-100">
+  <div class="card h-100 shadow-sm border-0">
+    
+    <div class="product-image-container">
+      <img
+        [src]="product.image"
+        [alt]="product.name"
+        class="card-img-top product-image"
+        (error)="$event.target.src = 'assets/images/default-icon.png'"
+      />
+
+      
+      <div class="availability-badge">
+        <span class="badge" [ngClass]="'bg-' + getStockStatus().class">
+          {{ getStockStatus().text | translate }}
+        </span>
+      </div>
+
+      
+      <div class="category-badge">
+        <span class="badge bg-primary">{{ product.category }}</span>
+      </div>
+    </div>
+
+    <div class="card-body d-flex flex-column">
+      
+      <div class="product-info flex-grow-1">
+        <h5 class="card-title product-name">{{ product.name }}</h5>
+        <p class="card-text product-description text-muted">
+          {{ product.description }}
+        </p>
+      </div>
+
+      
+      <div class="product-rating mb-3">
+        <div class="stars">
+          <span
+            *ngFor="let star of getStarArray()"
+            class="star"
+            [ngClass]="{
+              filled: isStarFilled(star),
+              half: isStarHalf(star),
+            }"
+          >
+            <i class="fas fa-star" *ngIf="isStarFilled(star)"></i>
+            <i class="fas fa-star-half-alt" *ngIf="isStarHalf(star)"></i>
+            <i
+              class="far fa-star"
+              *ngIf="!isStarFilled(star) && !isStarHalf(star)"
+            ></i>
+          </span>
+          <span class="rating-value ms-2 text-muted"
+            >({{ product.rating }})</span
+          >
+        </div>
+      </div>
+
+      
+      <div class="product-footer">
+        <div class="price-section mb-3">
+          <span class="price text-primary fw-bold fs-4">
+            ${{ product.price | number: '1.2-2' }}
+          </span>
+          <small class="text-muted ms-2" *ngIf="product.stock > 0">
+            {{ 'USER_PRODUCTS.STOCK' | translate }}: {{ product.stock }}
+          </small>
+        </div>
+
+        
+        <div class="action-buttons">
+          <button
+            class="btn btn-primary btn-sm flex-fill me-2"
+            [disabled]="!product.isAvailable || product.stock === 0"
+          >
+            <i class="fas fa-shopping-cart me-1"></i>
+            {{ 'USER_PRODUCTS.ADD_TO_CART' | translate }}
+          </button>
+          <button class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-heart"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

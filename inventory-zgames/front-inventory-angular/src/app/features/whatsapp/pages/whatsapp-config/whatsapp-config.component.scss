@@ -1,0 +1,98 @@
+.whatsapp-config-page {
+  .cursor-pointer {
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+  }
+
+  .badge {
+    font-size: 0.75rem;
+  }
+
+  .form-control {
+    &:focus {
+      border-color: #465dff;
+      box-shadow: 0 0 0 0.2rem rgba(70, 93, 255, 0.25);
+    }
+  }
+
+  .btn-success {
+    background-color: #465dff;
+    border-color: #465dff;
+
+    &:hover {
+      background-color: #3b4fd6;
+      border-color: #3b4fd6;
+    }
+  }
+
+  .text-success {
+    color: #465dff !important;
+  }
+
+  .card-header {
+    &.bg-info {
+      background-color: #465dff !important;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .message-preview {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    white-space: pre-wrap;
+    min-height: 100px;
+    overflow-y: auto;
+    max-height: 200px;
+  }
+
+  .page-title {
+    color: #2c3e50;
+    font-weight: 600;
+  }
+
+  .page-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: #495057;
+  }
+
+  .text-primary {
+    color: #465dff !important;
+  }
+
+  .whatsapp-icon {
+    color: #465dff !important;
+  }
+
+  .invalid-feedback {
+    font-size: 0.875rem;
+  }
+
+  .form-check-label {
+    font-weight: 400;
+  }
+
+  code {
+    background-color: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    color: #e83e8c;
+  }
+}

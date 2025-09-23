@@ -1,0 +1,484 @@
+
+<div class="modal-header">
+  <h4 class="modal-title">{{ formTitle }}</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+
+
+<div class="modal-body">
+  <div class="container-fluid p-0">
+    
+    @if (isLoading) {
+      <div class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">{{
+            'Common.Loading' | translate
+          }}</span>
+        </div>
+      </div>
+    } @else {
+      
+      <form
+        class="needs-validation"
+        novalidate
+        [ngClass]="{ 'was-validated': validate }"
+        [formGroup]="userDetailsForm"
+        (ngSubmit)="submit()"
+      >
+        
+        <div class="row g-3">
+          <div class="col-12">
+            <h5 class="mb-3 text-primary">
+              <i class="fa fa-user me-2"></i>
+              {{ 'USER.INFO.PERSONAL_INFORMATION' | translate }}
+            </h5>
+          </div>
+
+          
+          @if (!isCreateMode) {
+            <div class="col-md-6">
+              <label class="form-label" for="userId">
+                {{ 'USER.TABLE.ID' | translate }}
+              </label>
+              <input
+                class="form-control"
+                id="userId"
+                type="text"
+                formControlName="id"
+                readonly
+              />
+            </div>
+          }
+
+          
+          <div [class]="isCreateMode ? 'col-md-6' : 'col-md-6'">
+            <label class="form-label" for="username">
+              {{ 'USER.VIEW.USERNAME' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa fa-user"></i>
+              </span>
+              <input
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid('username')"
+                id="username"
+                type="text"
+                placeholder="{{ 'USER.VIEW.USERNAME' | translate }}"
+                formControlName="username"
+              />
+            </div>
+            @if (isFieldInvalid('username')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('username') }}
+              </div>
+            }
+          </div>
+
+          
+          @if (showPasswordField) {
+            <div class="col-md-6">
+              <label class="form-label" for="password">
+                {{ 'USER.VIEW.PASSWORD' | translate }}
+                <span class="text-danger">*</span>
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-lock"></i>
+                </span>
+                <input
+                  class="form-control"
+                  [class.is-invalid]="isFieldInvalid('password')"
+                  id="password"
+                  type="password"
+                  placeholder="Ingrese la contraseña"
+                  formControlName="password"
+                />
+              </div>
+              @if (isFieldInvalid('password')) {
+                <div class="invalid-feedback">
+                  {{ getFieldError('password') }}
+                </div>
+              }
+              <small class="form-text text-muted"> Mínimo 8 caracteres </small>
+            </div>
+          }
+
+          
+          <div class="col-md-6">
+            <label class="form-label" for="email">
+              {{ 'USER.VIEW.EMAIL' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa fa-envelope"></i>
+              </span>
+              <input
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid('email')"
+                id="email"
+                type="email"
+                placeholder="{{ 'USER.PLACEHOLDER.EMAIL' | translate }}"
+                formControlName="email"
+              />
+            </div>
+            @if (isFieldInvalid('email')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('email') }}
+              </div>
+            }
+          </div>
+
+          
+          <div class="col-md-6">
+            <label class="form-label" for="firstName">
+              {{ 'USER.VIEW.FIRSTNAME' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <input
+              class="form-control"
+              [class.is-invalid]="isFieldInvalid('firstName')"
+              id="firstName"
+              type="text"
+              placeholder="{{ 'USER.PLACEHOLDER.FIRSTNAME' | translate }}"
+              formControlName="firstName"
+            />
+            @if (isFieldInvalid('firstName')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('firstName') }}
+              </div>
+            }
+          </div>
+
+          
+          <div class="col-md-6">
+            <label class="form-label" for="lastName">
+              {{ 'USER.VIEW.LASTNAME' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <input
+              class="form-control"
+              [class.is-invalid]="isFieldInvalid('lastName')"
+              id="lastName"
+              type="text"
+              placeholder="{{ 'USER.PLACEHOLDER.LASTNAME' | translate }}"
+              formControlName="lastName"
+            />
+            @if (isFieldInvalid('lastName')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('lastName') }}
+              </div>
+            }
+          </div>
+
+          
+          <div class="col-md-6">
+            <label class="form-label" for="phone">
+              {{ 'USER.VIEW.PHONE' | translate }}
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa fa-phone"></i>
+              </span>
+              <input
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid('phone')"
+                id="phone"
+                type="tel"
+                placeholder="{{ 'USER.PLACEHOLDER.PHONE' | translate }}"
+                formControlName="phone"
+              />
+            </div>
+            @if (isFieldInvalid('phone')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('phone') }}
+              </div>
+            }
+          </div>
+
+          
+          <div class="col-md-6">
+            <label for="roleId" class="form-label">
+              {{ 'USER.VIEW.ROLES' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <select
+              class="form-select"
+              [class.is-invalid]="isFieldInvalid('roleId')"
+              id="roleId"
+              formControlName="roleId"
+            >
+              <option value="">-- Seleccionar rol --</option>
+              <option *ngFor="let role of roles" [value]="role.id">
+                {{ role.roleName }}
+              </option>
+            </select>
+            @if (isFieldInvalid('roleId')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('roleId') }}
+              </div>
+            }
+          </div>
+
+          
+          <div class="col-md-6">
+            <label for="companyId" class="form-label">
+              {{ 'USER.VIEW.COMPANY' | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <select
+              class="form-select"
+              [class.is-invalid]="isFieldInvalid('companyId')"
+              id="companyId"
+              formControlName="companyId"
+            >
+              <option value="">-- Seleccionar empresa --</option>
+              <option *ngFor="let company of companies" [value]="company.id">
+                {{ company.companyName }}
+              </option>
+            </select>
+            @if (isFieldInvalid('companyId')) {
+              <div class="invalid-feedback">
+                {{ getFieldError('companyId') }}
+              </div>
+            }
+          </div>
+
+          
+          <div class="col-md-12">
+            <label class="form-label" for="address">
+              {{ 'USER.VIEW.ADDRESS' | translate }}
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa fa-location-dot"></i>
+              </span>
+              <input
+                class="form-control"
+                id="address"
+                type="text"
+                placeholder="{{ 'USER.PLACEHOLDER.ADDRESS' | translate }}"
+                formControlName="address"
+              />
+            </div>
+          </div>
+        </div>
+
+        @if (!isCreateMode) {
+          <div class="row g-3 mt-4">
+            <div class="col-12">
+              <h5 class="mb-3 text-info">
+                <i class="fa fa-cog me-2"></i>
+                {{ 'USER.INFO.SYSTEM' | translate }}
+              </h5>
+            </div>
+
+            
+            <div class="col-md-4">
+              <label class="form-label" for="roleDisplay">
+                {{ 'USER.VIEW.ROLES' | translate }}
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-user-tag"></i>
+                </span>
+                <input
+                  class="form-control"
+                  id="roleDisplay"
+                  type="text"
+                  [value]="selectedUser?.role?.roleName || 'Sin rol'"
+                  readonly
+                />
+              </div>
+            </div>
+
+            
+            <div class="col-md-4">
+              <label class="form-label" for="isActive">
+                {{ 'USER.VIEW.STATUS' | translate }}
+              </label>
+              @if (canEdit) {
+                <div class="form-check form-switch mt-2">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="isActive"
+                    formControlName="isActive"
+                  />
+                  <label class="form-check-label" for="isActive">
+                    {{ 'Users.ActiveUser' | translate }}
+                  </label>
+                </div>
+              } @else {
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="fa fa-circle-check"></i>
+                  </span>
+                  <input
+                    class="form-control"
+                    type="text"
+                    [value]="
+                      userDetailsForm.get('isActive')?.value
+                        ? 'Activo'
+                        : 'Inactivo'
+                    "
+                    readonly
+                  />
+                </div>
+              }
+            </div>
+
+            
+            <div class="col-md-4">
+              <label class="form-label" for="isLocked">
+                {{ 'USER.VIEW.ACCOUNT_STATUS' | translate }}
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-lock"></i>
+                </span>
+                <input
+                  class="form-control"
+                  id="isLocked"
+                  type="text"
+                  formControlName="isLocked"
+                  readonly
+                />
+              </div>
+            </div>
+
+            
+            <div class="col-md-4">
+              <label class="form-label" for="createdAt">
+                {{ 'USER.VIEW.CREATED_AT' | translate }}
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-calendar-plus"></i>
+                </span>
+                <input
+                  class="form-control"
+                  id="createdAt"
+                  type="text"
+                  formControlName="createdAt"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="updatedAt">
+                {{ 'USER.VIEW.UPDATED_AT' | translate }}
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-calendar-check"></i>
+                </span>
+                <input
+                  class="form-control"
+                  id="updatedAt"
+                  type="text"
+                  formControlName="updatedAt"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="failedLoginAttempts">
+                {{ 'USER.VIEW.FAIL_LOGIN' | translate }}
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-exclamation-triangle"></i>
+                </span>
+                <input
+                  class="form-control"
+                  id="failedLoginAttempts"
+                  type="number"
+                  formControlName="failedLoginAttempts"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+        }
+      </form>
+    }
+  </div>
+</div>
+
+
+<div class="modal-footer">
+  <div class="d-flex justify-content-between w-100">
+    
+    <div>
+      @if (isViewMode && selectedUser) {
+        @if (hasPermission(PERMISSIONS.USER_EDIT)) {
+          <button
+            class="btn btn-outline-primary"
+            type="button"
+            (click)="toggleEditMode()"
+          >
+            <i class="fa fa-edit me-1"></i>
+            {{ 'USER.BUTTON.EDIT' | translate }}
+          </button>
+        }
+      }
+
+      @if (canEdit && !isCreateMode) {
+        <button
+          class="btn btn-outline-secondary ms-2"
+          type="button"
+          (click)="toggleEditMode()"
+        >
+          <i class="fa fa-eye me-1"></i>
+          {{ 'USER.BUTTON.VIEWMODE' | translate }}
+        </button>
+      }
+    </div>
+
+    
+    <div>
+      <button
+        class="btn btn-secondary me-2"
+        type="button"
+        (click)="closeModal()"
+      >
+        <i class="fa fa-times me-1"></i>
+        {{ 'USER.BUTTON.CANCEL' | translate }}
+      </button>
+
+      @if (canEdit || isCreateMode) {
+        <button
+          class="btn btn-primary"
+          type="button"
+          (click)="submit()"
+          [disabled]="!userDetailsForm.valid || isLoading"
+        >
+          @if (isLoading) {
+            <span
+              class="spinner-border spinner-border-sm me-1"
+              role="status"
+            ></span>
+          }
+
+          @if (modalMode === 'edit') {
+            <i class="fa fa-save me-1"></i>
+            {{ 'USER.BUTTON.SAVE' | translate }}
+          } @else {
+            <i class="fa fa-plus me-1"></i>
+            {{ 'USER.BUTTON.CREATE' | translate }}
+          }
+        </button>
+      }
+    </div>
+  </div>
+</div>

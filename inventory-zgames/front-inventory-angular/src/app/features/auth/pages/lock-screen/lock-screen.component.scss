@@ -1,0 +1,34 @@
+@import '../login/login.component.scss';
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid rgba(59, 130, 246, 0.2);
+  object-fit: cover;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  }
+}
+.user-greeting {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.user-instruction {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  line-height: 1.4;
+}
+.form-container {
+  .text-center {
+    margin-bottom: 2rem;
+  }
+}

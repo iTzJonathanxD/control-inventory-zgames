@@ -1,0 +1,89 @@
+<div class="auth-container">
+  <div class="auth-card">
+    
+    <div class="auth-welcome-panel">
+      <div class="welcome-content">
+        <div class="brand-section">
+          <div class="logo-container">
+            <img
+              src="assets/images/Recurso-3.png"
+              alt="Logo"
+              class="brand-logo"
+            />
+          </div>
+          <h1 class="brand-title">Pantalla Bloqueada</h1>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="auth-form-panel">
+      <div class="form-container">
+        
+        <div class="text-center mb-4">
+          <img
+            [src]="userImage || 'assets/images/default-avatar.png'"
+            alt="User Avatar"
+            class="user-avatar"
+            (error)="onImageError($event)"
+          />
+          <h3 class="user-greeting">
+            {{ 'LOGIN.LOCK_SCREEN.HI' | translate }},
+            {{ userProfile?.username }}!
+          </h3>
+          <p class="user-instruction">
+            {{ 'LOGIN.LOCK_SCREEN.PLEASE_ENTER_PASSWORD' | translate }}.
+          </p>
+        </div>
+
+        <form
+          [formGroup]="unlockForm"
+          (ngSubmit)="unlockSession()"
+          class="auth-form"
+        >
+          
+          <div class="mb-3">
+            <label
+              for="lock-password"
+              class="form-label form-label-modern mb-2"
+            >
+              {{ 'LOGIN.INPUT.PASSWORD' | translate }}
+            </label>
+            <input
+              type="password"
+              id="lock-password"
+              formControlName="password"
+              class="form-control form-control-modern"
+              [placeholder]="'LOGIN.PLACEHOLDER.PASSWORD' | translate"
+              autocomplete="current-password"
+            />
+          </div>
+
+          
+          @if (isLoading) {
+            <button
+              class="btn btn-primary btn-modern w-100"
+              type="button"
+              disabled
+            >
+              <span
+                class="spinner-border spinner-border-sm me-2"
+                role="status"
+              ></span>
+              {{ 'LOGIN.LOCK_SCREEN.PLEASE_WAIT' | translate }}
+            </button>
+          } @else {
+            <button
+              class="btn btn-primary btn-modern w-100"
+              type="submit"
+              [disabled]="unlockForm.invalid"
+            >
+              <i class="fas fa-unlock-alt me-2"></i>
+              {{ 'LOGIN.LOCK_SCREEN.ENTER_PASSWORD' | translate }}
+            </button>
+          }
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

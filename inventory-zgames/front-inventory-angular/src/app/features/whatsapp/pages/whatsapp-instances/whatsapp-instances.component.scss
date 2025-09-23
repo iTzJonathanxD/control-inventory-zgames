@@ -1,0 +1,137 @@
+.whatsapp-instances-page {
+  .default-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    i {
+      font-size: 1.2rem;
+    }
+  }
+  .instance-avatar img {
+    object-fit: cover;
+  }
+  .btn-success {
+    background-color: #465dff;
+    border-color: #465dff;
+    &:hover {
+      background-color: #3b4fd6;
+      border-color: #3b4fd6;
+    }
+  }
+  .btn-xs {
+    padding: 0.125rem 0.375rem;
+    font-size: 0.675rem;
+    line-height: 1.25;
+    border-radius: 0.2rem;
+  }
+  .text-success {
+    color: #465dff !important;
+  }
+  .whatsapp-icon {
+    color: #465dff !important;
+  }
+  .page-title {
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  .page-subtitle {
+    font-size: 0.95rem;
+  }
+  .form-control {
+    &:focus {
+      border-color: #465dff;
+      box-shadow: 0 0 0 0.2rem rgba(70, 93, 255, 0.25);
+    }
+  }
+  .table {
+    th {
+      font-weight: 600;
+      color: #495057;
+      border-bottom: 2px solid #dee2e6;
+    }
+    td {
+      vertical-align: middle;
+    }
+  }
+  .badge {
+    font-size: 0.75rem;
+    &.bg-success {
+      background-color: #465dff !important;
+    }
+  }
+  .btn-group {
+    .btn {
+      border-radius: 0.375rem;
+      margin-right: 0.25rem;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  .modal {
+    .modal-content {
+      border-radius: 0.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    .modal-header {
+      background-color: #465dff;
+      color: white;
+      border-bottom: none;
+      border-radius: 0.5rem 0.5rem 0 0;
+      .btn-close {
+        filter: invert(1);
+      }
+    }
+    img {
+      border: 2px solid #dee2e6;
+      border-radius: 0.5rem;
+    }
+  }
+  .alert-info {
+    background-color: #e7f3ff;
+    border-color: #b3d7ff;
+    color: #0c5460;
+    ol {
+      padding-left: 1.2rem;
+      li {
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+  .invalid-feedback {
+    font-size: 0.875rem;
+  }
+  .form-check-label {
+    font-weight: 400;
+  }
+  .card-title {
+    color: #495057;
+    font-weight: 600;
+  }
+  .btn-outline-secondary {
+    &:hover {
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+  }
+  .btn-outline-primary {
+    &:hover {
+      background-color: #0d6efd;
+      border-color: #0d6efd;
+    }
+  }
+  .btn-outline-warning {
+    &:hover {
+      background-color: #ffc107;
+      border-color: #ffc107;
+      color: #000;
+    }
+  }
+  .btn-outline-danger {
+    &:hover {
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+  }
+}

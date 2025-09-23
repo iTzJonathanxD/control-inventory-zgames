@@ -1,0 +1,73 @@
+<form [formGroup]="categoriesFilterForm" (ngSubmit)="onSubmit()">
+  <div class="card-body">
+    <div class="row">
+      
+      <div class="mb-3 col-md-3">
+        <label class="form-label">{{
+          'INVENTORY.FILTER.FROM_DATE' | translate
+        }}</label>
+        <input
+          mwlFlatpickr
+          [flatpickrOptions]="{ enableTime: true, dateFormat: 'Y-m-d H:i' }"
+          type="text"
+          class="form-control"
+          placeholder="{{ currentDatePlaceholder }}"
+          formControlName="fromDate"
+        />
+      </div>
+      <div class="mb-3 col-md-3">
+        <label class="form-label">{{
+          'INVENTORY.FILTER.TO_DATE' | translate
+        }}</label>
+        <input
+          mwlFlatpickr
+          [flatpickrOptions]="{ enableTime: true, dateFormat: 'Y-m-d H:i' }"
+          type="text"
+          class="form-control"
+          placeholder="{{ endOfMonthPlaceholder }}"
+          formControlName="toDate"
+        />
+      </div>
+      <div class="mb-3 col-md-4">
+        <label class="form-label">{{
+          'CATEGORY.FILTER.NAME' | translate
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="categoryName"
+        />
+      </div>
+      <div class="mb-3 col-md-4">
+        <label class="form-label">{{
+          'CATEGORY.FILTER.STATUS' | translate
+        }}</label>
+        <select class="form-select" formControlName="isActive">
+          <option [ngValue]="null">
+            {{ 'CATEGORY.FILTER.ALL' | translate }}
+          </option>
+          <option [ngValue]="true">
+            {{ 'CATEGORY.FILTER.ACTIVE' | translate }}
+          </option>
+          <option [ngValue]="false">
+            {{ 'CATEGORY.FILTER.INACTIVE' | translate }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="d-flex align-items-center justify-content-end gap-2">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="onReset()"
+      >
+          {{ 'USER.FILTER.RESET' | translate }}
+      </button>
+      <button type="submit" class="btn btn-outline-primary">
+          {{ 'USER.FILTER.FILTER' | translate }}
+      </button>
+    </div>
+  </div>
+</form>

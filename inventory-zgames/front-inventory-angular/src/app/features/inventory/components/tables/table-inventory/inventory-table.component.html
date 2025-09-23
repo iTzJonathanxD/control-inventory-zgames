@@ -1,0 +1,347 @@
+<page-title title="{{ 'INVENTORY.TITLE' | translate }}" />
+<div class="container-fluid">
+  <div class="row">
+  <div class="col-sm 12">
+      <toogle-panel [contentComponent]="filterComponent"></toogle-panel>
+    </div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">
+              {{ 'INVENTORY.MOVEMENTS' | translate }}
+            </h5>
+            <div class="btn-group export-controls">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                placement="top"
+                [ngbTooltip]="'WORDS.RELOAD_TABLE' | translate"
+                (click)="reloadTable()"
+              >
+                <i class="fa fa-repeat"></i>
+              </button>
+
+              <div class="btn-group" ngbDropdown>
+                <button
+                  type="button"
+                  class="btn export-button btn-outline-primary"
+                  ngbDropdownToggle
+                  [disabled]="isExporting"
+                >
+                  <i class="fa fa-file-export me-2"></i>
+                  {{
+                    isExporting
+                      ? ('COMMON.EXPORTING' | translate)
+                      : ('INVENTORY.BUTTONS.EXPORT' | translate)
+                  }}
+                  <span
+                    *ngIf="isExporting"
+                    class="spinner-border spinner-border-sm ms-2"
+                    role="status"
+                  ></span>
+                </button>
+                <div class="dropdown-menu" ngbDropdownMenu>
+                  <button
+                    class="dropdown-item"
+                    (click)="exportToPDF()"
+                    [disabled]="isExporting"
+                  >
+                    <i class="fa fa-file-pdf text-danger me-2"></i>
+                    {{ 'INVENTORY.BUTTONS.EXPORT_PDF' | translate }}
+                  </button>
+                  <button
+                    class="dropdown-item"
+                    (click)="exportToExcel()"
+                    [disabled]="isExporting"
+                  >
+                    <i class="fa fa-file-excel text-success me-2"></i>
+                    {{ 'INVENTORY.BUTTONS.EXPORT_EXCEL' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          
+          <div class="table-responsive signal-table">
+            <table
+              class="table table-hover table-striped"
+              style="min-width: 1400px"
+            >
+              <thead class="table-gray sticky-top">
+                <tr>
+                  @for (column of visibleColumns; track column.key) {
+                    <th
+                      class="text-nowrap px-3 py-2"
+                      [style.width]="column.width"
+                      [style.min-width]="column.width"
+                    >
+                      <div class="d-flex align-items-center">
+                        <span class="fw-semibold">{{
+                          column.label | translate
+                        }}</span>
+                        @if (column.sortable) {
+                          <i
+                            class="fa fa-sort ms-1 text-muted"
+                            style="font-size: 0.8rem"
+                          ></i>
+                        }
+                      </div>
+                    </th>
+                  }
+                </tr>
+              </thead>
+
+              @if (isLoading) {
+                <tbody>
+                  <tr>
+                    <td
+                      [attr.colspan]="visibleColumns.length"
+                      class="text-center py-5"
+                    >
+                      <div class="d-flex flex-column align-items-center">
+                        <div
+                          class="spinner-border text-primary mb-2"
+                          role="status"
+                        >
+                          <span class="visually-hidden">{{
+                            'COMMON.LOADING' | translate
+                          }}</span>
+                        </div>
+                        <span class="text-muted">{{
+                          'COMMON.LOADING' | translate
+                        }}</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              } @else {
+                <tbody>
+                  @if (movements.length > 0) {
+                    @for (movement of movements; track movement.id) {
+                      <tr class="align-middle">
+                        @for (column of visibleColumns; track column.key) {
+                          <td class="px-3 py-2" [style.width]="column.width">
+                            @switch (column.type) {
+                              @case ('number') {
+                                <span class="fw-medium text-primary">{{
+                                  movement[column.key]
+                                }}</span>
+                              }
+
+                              @case ('text') {
+                                <div
+                                  class="text-truncate"
+                                  [title]="movement[column.key] || ''"
+                                >
+                                  <span>{{ movement[column.key] || '-' }}</span>
+                                </div>
+                              }
+                              @case ('movement-type') {
+                                <span
+                                  class="badge rounded-pill fs-6 text-uppercase fw-semibold px-2 py-1"
+                                  [ngClass]="
+                                    getMovementTypeClasses(
+                                      movement.movementType
+                                    )
+                                  "
+                                >
+                                  <i
+                                    [class]="
+                                      movement.movementType ===
+                                      MovementType.ENTRY
+                                        ? 'fa fa-arrow-circle-down me-1'
+                                        : movement.movementType ===
+                                            MovementType.EXIT
+                                          ? 'fa fa-arrow-circle-up me-1'
+                                          : 'fa fa-exchange me-1'
+                                    "
+                                  ></i>
+                                  {{ movement.movementTypeLabel }}
+                                </span>
+                              }
+                              @case ('quantity') {
+                                <div class="text-truncate">
+                                  <span
+                                    [ngClass]="{
+                                      'text-success':
+                                        movement.movementType ===
+                                        MovementType.ENTRY,
+                                      'text-danger':
+                                        movement.movementType ===
+                                        MovementType.EXIT,
+                                      'text-warning':
+                                        movement.movementType ===
+                                        MovementType.ADJUSTMENT,
+                                    }"
+                                  >
+                                    <strong>
+                                      {{
+                                        movement.movementType ===
+                                        MovementType.ENTRY
+                                          ? '+'
+                                          : movement.movementType ===
+                                              MovementType.EXIT
+                                            ? '-'
+                                            : '±'
+                                      }}
+                                      {{ movement.quantity }}
+                                    </strong>
+                                  </span>
+                                </div>
+                              }
+                              @case ('stock') {
+                                <div class="text-truncate">
+                                  <small class="text-muted d-block"
+                                    >Anterior:
+                                    {{ movement.previousStock }}</small
+                                  >
+                                  <span class="fw-bold"
+                                    >Actual: {{ movement.newStock }}</span
+                                  >
+                                </div>
+                              }
+                              @case ('responsible') {
+                                <div
+                                  class="text-truncate"
+                                  [title]="movement.responsibleName"
+                                >
+                                  <i class="fa fa-user me-1 text-muted"></i>
+                                  {{ movement.responsibleName }}
+                                </div>
+                              }
+                              @case ('date') {
+                                <div
+                                  class="text-truncate small text-muted"
+                                  [title]="
+                                    movement.createdAt
+                                      | date: 'dd/MM/yyyy HH:mm:ss'
+                                  "
+                                >
+                                  <i class="fa fa-calendar me-1"></i>
+                                  {{ movement.createdAt | date: 'dd/MM/yyyy' }}
+                                  <br />
+                                  <small class="text-muted">{{
+                                    movement.createdAt | date: 'HH:mm'
+                                  }}</small>
+                                </div>
+                              }
+
+                              @case ('actions') {
+                                <div
+                                  class="btn-group btn-group-sm"
+                                  role="group"
+                                >
+                                  <button
+                                    class="btn btn-outline-secondary btn-action"
+                                    [ngbTooltip]="
+                                      'INVENTORY.BUTTON.VIEW' | translate
+                                    "
+                                    (click)="openViewMovementModal(movement)"
+                                  >
+                                    <i class="fa fa-eye"></i>
+                                  </button>
+                                  <button
+                                    class="btn btn-outline-secondary btn-action"
+                                    [ngbTooltip]="
+                                      'INVENTORY.BUTTON.EDIT' | translate
+                                    "
+                                    (click)="openEditMovementModal(movement)"
+                                  >
+                                    <i class="fa fa-edit"></i>
+                                  </button>
+                                </div>
+                              }
+                            }
+                          </td>
+                        }
+                      </tr>
+                    }
+                  } @else {
+                    <tr>
+                      <td
+                        [attr.colspan]="visibleColumns.length"
+                        class="text-center py-5"
+                      >
+                        <div
+                          class="d-flex flex-column align-items-center text-muted"
+                        >
+                          <i class="fa fa-cubes fa-3x mb-3"></i>
+                          <h5>
+                            {{ 'INVENTORY.NO_MOVEMENTS_AVAILABLE' | translate }}
+                          </h5>
+                          <p class="mb-0">
+                            {{ 'INVENTORY.NO_MOVEMENTS_MESSAGE' | translate }}
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              }
+            </table>
+          </div>
+        </div>
+
+        <div class="card-footer bg-light">
+          <div class="row align-items-center">
+            <div class="col-md-4">
+              <div class="d-flex align-items-center">
+                <label for="pageSize" class="form-label me-2 mb-0 text-nowrap">
+                  {{ 'COMMON.ITEMS_PER_PAGE' | translate }}:
+                </label>
+                <select
+                  id="pageSize"
+                  class="form-select form-select-sm"
+                  style="width: 80px"
+                  [ngModel]="limit"
+                  (ngModelChange)="onLimitChange($event)"
+                >
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="25">25</option>
+                  <option [ngValue]="50">50</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4 d-flex justify-content-center">
+              <ngb-pagination
+                *ngIf="collectionSize > 0"
+                [(page)]="page"
+                [pageSize]="limit"
+                [collectionSize]="collectionSize"
+                [maxSize]="5"
+                [rotate]="true"
+                [boundaryLinks]="true"
+                [disabled]="isLoading"
+                (pageChange)="onPageChange($event)"
+                size="sm"
+              >
+              </ngb-pagination>
+            </div>
+
+            <div class="col-md-4">
+              <div class="text-muted text-end">
+                <small *ngIf="collectionSize > 0">
+                  {{ 'COMMON.SHOWING' | translate }}
+                  <strong>{{ (page - 1) * limit + 1 }}</strong> -
+                  <strong>{{ Math.min(page * limit, collectionSize) }}</strong>
+                  {{ 'COMMON.OF' | translate }}
+                  <strong>{{ collectionSize }}</strong>
+                  {{ 'COMMON.INVENTORY' | translate }}
+                </small>
+                <small *ngIf="collectionSize === 0">
+                  {{ 'INVENTORY.NO_MOVEMENTS_FOUND' | translate }}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

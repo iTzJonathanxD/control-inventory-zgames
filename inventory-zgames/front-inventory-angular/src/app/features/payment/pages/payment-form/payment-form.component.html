@@ -1,0 +1,181 @@
+<div class="payment-container">
+  
+  <div class="simple-header">
+    <div class="header-content">
+      <h2 class="page-title">Finalizar Compra</h2>
+      <div class="payment-steps">
+        <div class="step">
+          <div class="step-number completed">1</div>
+          <span class="step-label">Información</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step active">
+          <div class="step-number">2</div>
+          <span class="step-label">Pago</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <span class="step-label">Confirmación</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="payment-grid" *ngIf="order">
+    
+    <div class="payment-form-section">
+      <h2 class="section-title">{{ 'PAYMENT.PAYMENT_INFO' | translate }}</h2>
+
+      <form
+        [formGroup]="paymentForm"
+        (ngSubmit)="onSubmit()"
+        class="payment-form"
+      >
+        
+        <div class="form-group">
+          <label class="form-label">{{
+            'PAYMENT.PAYMENT_METHOD' | translate
+          }}</label>
+          <div class="payment-methods">
+            <label
+              *ngFor="let method of paymentMethods"
+              class="payment-method-option"
+            >
+              <input
+                type="radio"
+                [value]="method.value"
+                formControlName="method"
+                class="method-radio"
+              />
+              <span class="method-label">{{ method.label }}</span>
+            </label>
+          </div>
+        </div>
+
+        
+        <div class="form-group">
+          <label class="form-label">
+            {{ 'PAYMENT.EVIDENCE_REQUIRED' | translate }}
+            <span class="required-indicator">*</span>
+          </label>
+          <p class="form-description">
+            {{ 'PAYMENT.EVIDENCE_DESCRIPTION' | translate }}
+          </p>
+          <div class="file-upload-area">
+            <input
+              type="file"
+              (change)="onFileSelect($event)"
+              accept="image/jpeg,image/png,image/jpg"
+              multiple
+              class="file-input"
+              id="fileInput"
+            />
+            <label for="fileInput" class="file-upload-label">
+              <i class="fas fa-cloud-upload-alt upload-icon"></i>
+              <span class="upload-text">Seleccionar archivos</span>
+              <span class="upload-hint">JPG, PNG (máx. 5MB cada uno)</span>
+            </label>
+          </div>
+          <div *ngIf="selectedFiles.length > 0" class="selected-files">
+            <p class="files-title">
+              {{ 'PAYMENT.FILES_SELECTED' | translate }}:
+            </p>
+            <div class="file-list">
+              <div
+                *ngFor="let file of selectedFiles; let i = index"
+                class="file-item"
+              >
+                <div class="file-info">
+                  <i class="fas fa-file-image file-icon"></i>
+                  <span class="file-name">{{ file.name }}</span>
+                </div>
+                <button
+                  type="button"
+                  (click)="removeFile(i)"
+                  class="remove-file-btn"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="form-group">
+          <label class="form-label">{{
+            'PAYMENT.EVIDENCE_NOTES' | translate
+          }}</label>
+          <textarea
+            formControlName="evidenceNotes"
+            rows="3"
+            class="form-textarea"
+            [placeholder]="'PAYMENT.EVIDENCE_NOTES_PLACEHOLDER' | translate"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="
+            paymentForm.invalid || selectedFiles.length === 0 || isProcessing
+          "
+          class="submit-btn"
+        >
+          {{
+            isProcessing
+              ? ('PAYMENT.PROCESSING_PAYMENT' | translate)
+              : ('PAYMENT.SEND_PAYMENT' | translate)
+          }}
+        </button>
+      </form>
+    </div>
+
+    
+    <div class="order-summary-section">
+      <h2 class="section-title">{{ 'CHECKOUT.ORDER_SUMMARY' | translate }}</h2>
+
+      <div class="order-summary">
+        <div class="summary-header">
+          <div class="summary-row">
+            <span class="label"
+              >{{ 'CHECKOUT.ORDER_NUMBER' | translate }}:</span
+            >
+            <span class="value">{{ order.orderNumber }}</span>
+          </div>
+        </div>
+
+        <div class="summary-items">
+          <div *ngFor="let item of order.items" class="summary-item">
+            <div class="item-info">
+              <p class="item-name">{{ item.productName }}</p>
+              <p class="item-details">
+                {{ 'CART.QUANTITY' | translate }}: {{ item.quantity }} x ${{
+                  item.unitPrice
+                }}
+              </p>
+            </div>
+            <p class="item-total">${{ item.totalPrice }}</p>
+          </div>
+        </div>
+
+        <div class="summary-totals">
+          <div class="total-row">
+            <span class="label">{{ 'CHECKOUT.SUBTOTAL' | translate }}:</span>
+            <span class="value">${{ order.subtotal }}</span>
+          </div>
+          <div class="total-row">
+            <span class="label">{{ 'CHECKOUT.SHIPPING' | translate }}:</span>
+            <span class="value">${{ order.shippingAmount }}</span>
+          </div>
+          <div class="total-row final-total">
+            <span class="label">{{ 'CHECKOUT.TOTAL' | translate }}:</span>
+            <span class="value">${{ order.totalAmount }}</span>
+          </div>
+        </div>
+
+   
+      </div>
+    </div>
+  </div>
+</div>

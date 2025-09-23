@@ -1,0 +1,253 @@
+<form [formGroup]="userFilterForm" (ngSubmit)="onSubmit()">
+  <div class="card-body">
+    <div class="row">
+      
+      <div class="mb-3 col-md-2">
+        <label for="id" class="form-label">{{
+          'USER.TABLE.ID' | translate
+        }}</label>
+        <input
+          type="number"
+          class="form-control"
+          id="id"
+          formControlName="id"
+          placeholder="ID"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label for="username" class="form-label">{{
+          'USER.TABLE.USERNAME' | translate
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          formControlName="username"
+          placeholder="Nombre de usuario"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label for="firstName" class="form-label">{{
+          'USER.TABLE.FIRST_NAME' | translate
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          formControlName="firstName"
+          placeholder="Nombre"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label for="lastName" class="form-label">{{
+          'USER.TABLE.LAST_NAME' | translate
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          formControlName="lastName"
+          placeholder="Apellido"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label for="fullName" class="form-label">{{
+          'USER.TABLE.FULL_NAME' | translate
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          id="fullName"
+          formControlName="fullName"
+          placeholder="Nombre completo"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label for="email" class="form-label">{{
+          'USER.TABLE.EMAIL' | translate
+        }}</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+          placeholder="Correo electrónico"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label for="phone" class="form-label">{{
+          'USER.TABLE.PHONE' | translate
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          id="phone"
+          formControlName="phone"
+          placeholder="Teléfono"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label for="address" class="form-label">{{
+          'USER.TABLE.ADDRESS' | translate
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          id="address"
+          formControlName="address"
+          placeholder="Dirección"
+        />
+      </div>
+
+      
+      <div class="mb-3 col-md-2">
+        <label for="isActive" class="form-label">{{
+          'USER.TABLE.IS_ACTIVE' | translate
+        }}</label>
+        <ng-select
+          id="isActive"
+          formControlName="isActive"
+          [items]="active$ | async"
+          bindLabel="label"
+          bindValue="value"
+          [clearable]="true"
+          placeholder="Estado"
+        >
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.label | translate }}
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            {{ item.label | translate }}
+          </ng-template>
+        </ng-select>
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label for="isLocked" class="form-label">{{
+          'USER.TABLE.IS_LOCKED' | translate
+        }}</label>
+        <ng-select
+          id="isLocked"
+          formControlName="isLocked"
+          [items]="blocked$ | async"
+          bindLabel="label"
+          bindValue="value"
+          [clearable]="true"
+          placeholder="Bloqueo"
+        >
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.label | translate }}
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            {{ item.label | translate }}
+          </ng-template>
+        </ng-select>
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label for="debt" class="form-label">Estado de Deudas</label>
+        <ng-select
+          id="debt"
+          formControlName="debt"
+          [items]="debt$ | async"
+          bindLabel="label"
+          bindValue="value"
+          [clearable]="true"
+          placeholder="Deudas"
+        >
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.label }}
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            {{ item.label }}
+          </ng-template>
+        </ng-select>
+      </div>
+
+      
+      <div class="mb-3 col-md-2">
+        <label for="companyId" class="form-label">{{
+          'USER.TABLE.COMPANY' | translate
+        }}</label>
+        <ng-select
+          id="companyId"
+          formControlName="companyId"
+          [items]="companies$ | async"
+          bindLabel="companyName"
+          bindValue="id"
+          [clearable]="true"
+          placeholder="Empresa"
+        >
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.companyName }}
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            {{ item.companyName }}
+          </ng-template>
+        </ng-select>
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label for="roleId" class="form-label">{{
+          'USER.TABLE.ROLE' | translate
+        }}</label>
+        <ng-select
+          id="roleId"
+          formControlName="roleId"
+          [items]="roles$ | async"
+          bindLabel="roleName"
+          bindValue="id"
+          [clearable]="true"
+          placeholder="Rol"
+        >
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.roleName }}
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            {{ item.roleName }}
+          </ng-template>
+        </ng-select>
+      </div>
+
+      
+      <div class="mb-3 col-md-2">
+        <label for="createdAt" class="form-label">{{
+          'USER.TABLE.CREATED_AT' | translate
+        }}</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="createdAt"
+          formControlName="createdAt"
+          placeholder="Fecha de creación"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="d-flex align-items-center justify-content-end gap-2">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="onReset()"
+      >
+        {{ 'USER.FILTER.RESET' | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!userFilterForm?.valid"
+      >
+        {{ 'USER.FILTER.FILTER' | translate }}
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,318 @@
+
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">
+    {{ formTitle }}
+  </h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="paymentDetailsForm" (ngSubmit)="submit()">
+    <div class="row">
+      
+      <div class="col-md-6 mb-3">
+        <label for="orderId" class="form-label">
+          {{ 'PAYMENT.FORM.ORDER_ID' | translate }}
+          <span class="text-danger">*</span>
+        </label>
+        <input
+          type="number"
+          id="orderId"
+          class="form-control"
+          formControlName="orderId"
+          [class.is-invalid]="isFieldInvalid('orderId')"
+          [placeholder]="'PAYMENT.FORM.PLACEHOLDER.ORDER_ID' | translate"
+        />
+        <div *ngIf="isFieldInvalid('orderId')" class="invalid-feedback">
+          {{ getFieldError('orderId') }}
+        </div>
+      </div>
+
+      
+      <div class="col-md-6 mb-3">
+        <label for="amount" class="form-label">
+          {{ 'PAYMENT.FORM.AMOUNT' | translate }}
+          @if (!isViewMode) {
+            <span class="text-danger">*</span>
+          }
+        </label>
+        @if (isViewMode) {
+          <div class="form-control-plaintext">
+            {{ formatCurrency(selectedPayment?.amount || 0) }}
+          </div>
+        } @else {
+          <input
+            type="number"
+            id="amount"
+            class="form-control"
+            formControlName="amount"
+            [class.is-invalid]="isFieldInvalid('amount')"
+            [placeholder]="'PAYMENT.FORM.PLACEHOLDER.AMOUNT' | translate"
+            step="0.01"
+            min="0"
+          />
+          <div *ngIf="isFieldInvalid('amount')" class="invalid-feedback">
+            {{ getFieldError('amount') }}
+          </div>
+        }
+      </div>
+
+      
+      <div class="col-md-6 mb-3">
+        <label for="method" class="form-label">
+          {{ 'PAYMENT.FORM.METHOD' | translate }}
+          @if (!isViewMode) {
+            <span class="text-danger">*</span>
+          }
+        </label>
+        @if (isViewMode) {
+          <div class="form-control-plaintext">
+            {{ getPaymentMethodText(selectedPayment?.method) }}
+          </div>
+        } @else {
+          <select
+            id="method"
+            class="form-select"
+            formControlName="method"
+            [class.is-invalid]="isFieldInvalid('method')"
+          >
+            <option value="">
+              {{ 'PAYMENT.FORM.SELECT_METHOD' | translate }}
+            </option>
+            <option
+              *ngFor="let method of paymentMethods"
+              [value]="method.value"
+            >
+              {{ method.label }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('method')" class="invalid-feedback">
+            {{ getFieldError('method') }}
+          </div>
+        }
+      </div>
+
+      
+      <div class="col-md-6 mb-3">
+        <label for="status" class="form-label">
+          {{ 'PAYMENT.FORM.STATUS' | translate }}
+          @if (!isViewMode) {
+            <span class="text-danger">*</span>
+          }
+        </label>
+        @if (isViewMode) {
+          <div class="form-control-plaintext">
+            {{ getPaymentStatusText(selectedPayment?.status) }}
+          </div>
+        } @else {
+          <select
+            id="status"
+            class="form-select"
+            formControlName="status"
+            [class.is-invalid]="isFieldInvalid('status')"
+          >
+            <option
+              *ngFor="let status of paymentStatuses"
+              [value]="status.value"
+            >
+              {{ status.label }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('status')" class="invalid-feedback">
+            {{ getFieldError('status') }}
+          </div>
+        }
+      </div>
+
+      
+      <div class="col-md-6 mb-3">
+        <label for="transactionId" class="form-label">
+          {{ 'PAYMENT.FORM.TRANSACTION_ID' | translate }}
+        </label>
+        @if (isViewMode) {
+          <div class="form-control-plaintext">
+            {{ selectedPayment?.transactionId || '-' }}
+          </div>
+        } @else {
+          <input
+            type="text"
+            id="transactionId"
+            class="form-control"
+            formControlName="transactionId"
+            [placeholder]="
+              'PAYMENT.FORM.PLACEHOLDER.TRANSACTION_ID' | translate
+            "
+          />
+        }
+      </div>
+
+      
+      <div class="col-md-6 mb-3">
+        <label for="notes" class="form-label">
+          {{ 'PAYMENT.FORM.NOTES' | translate }}
+        </label>
+        @if (isViewMode) {
+          <div class="form-control-plaintext">
+            {{ selectedPayment?.notes || 'Sin notas adicionales' }}
+          </div>
+        } @else {
+          <textarea
+            id="notes"
+            class="form-control"
+            formControlName="notes"
+            rows="3"
+            [placeholder]="'PAYMENT.FORM.PLACEHOLDER.NOTES' | translate"
+          ></textarea>
+        }
+      </div>
+
+      
+      <div
+        class="col-12 mb-3"
+        *ngIf="isViewMode && selectedPayment?.evidenceImages?.length"
+      >
+        <label class="form-label">
+          {{ 'PAYMENT.FORM.EVIDENCE' | translate }}
+        </label>
+        <div class="d-flex gap-2 flex-wrap">
+          <div
+            *ngFor="let image of selectedPayment.evidenceImages"
+            class="position-relative"
+          >
+            <img
+              [src]="getImageUrl(image)"
+              alt="Evidence"
+              class="img-thumbnail evidence-image"
+              (click)="viewImageFullSize(image)"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div
+      *ngIf="validate && paymentDetailsForm.invalid"
+      class="alert alert-danger"
+    >
+      <h6 class="alert-heading">
+        {{ 'COMMON.VALIDATION_ERRORS' | translate }}
+      </h6>
+      <ul class="mb-0">
+        <li *ngIf="isFieldInvalid('orderId')">
+          {{ 'PAYMENT.FORM.ORDER_ID' | translate }}:
+          {{ getFieldError('orderId') }}
+        </li>
+        <li *ngIf="isFieldInvalid('amount')">
+          {{ 'PAYMENT.FORM.AMOUNT' | translate }}: {{ getFieldError('amount') }}
+        </li>
+        <li *ngIf="isFieldInvalid('method')">
+          {{ 'PAYMENT.FORM.METHOD' | translate }}: {{ getFieldError('method') }}
+        </li>
+        <li *ngIf="isFieldInvalid('status')">
+          {{ 'PAYMENT.FORM.STATUS' | translate }}: {{ getFieldError('status') }}
+        </li>
+      </ul>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <div class="d-flex justify-content-between w-100">
+    
+    <div class="d-flex gap-2">
+      
+      <button
+        *ngIf="
+          isViewMode &&
+          canProcessPayment() &&
+          hasPermission(PERMISSIONS.PAYMENT_PROCESS)
+        "
+        type="button"
+        class="btn btn-success"
+        (click)="processPayment()"
+        [disabled]="isLoading"
+      >
+        <span
+          *ngIf="isLoading"
+          class="spinner-border spinner-border-sm me-1"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        <i *ngIf="!isLoading" class="fa fa-check me-1"></i>
+        {{ 'PAYMENT.ACTIONS.ACCEPT' | translate }}
+      </button>
+
+      
+      <button
+        *ngIf="
+          isViewMode &&
+          canRejectPayment() &&
+          hasPermission(PERMISSIONS.PAYMENT_REJECT)
+        "
+        type="button"
+        class="btn btn-danger"
+        (click)="rejectPayment()"
+        [disabled]="isLoading"
+      >
+        <span
+          *ngIf="isLoading"
+          class="spinner-border spinner-border-sm me-1"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        <i *ngIf="!isLoading" class="fa fa-times me-1"></i>
+        {{ 'PAYMENT.ACTIONS.REJECT' | translate }}
+      </button>
+
+      
+      <button
+        *ngIf="isViewMode && hasPermission(PERMISSIONS.PAYMENT_EDIT)"
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="toggleEditMode()"
+      >
+        <i class="fa fa-edit me-1"></i>
+        {{ 'COMMON.EDIT' | translate }}
+      </button>
+    </div>
+
+    
+    <div class="d-flex gap-2">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="closeModal()"
+      >
+        <i class="fa fa-times me-1"></i>
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+
+      <button
+        *ngIf="!isViewMode"
+        type="button"
+        class="btn btn-primary"
+        (click)="submit()"
+        [disabled]="isLoading"
+      >
+        <span
+          *ngIf="isLoading"
+          class="spinner-border spinner-border-sm me-1"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        <i *ngIf="!isLoading" class="fa fa-save me-1"></i>
+        {{
+          isCreateMode
+            ? ('COMMON.CREATE' | translate)
+            : ('COMMON.UPDATE' | translate)
+        }}
+      </button>
+    </div>
+  </div>
+</div>

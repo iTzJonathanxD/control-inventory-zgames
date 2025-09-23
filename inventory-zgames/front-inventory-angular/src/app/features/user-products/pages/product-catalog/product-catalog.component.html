@@ -1,0 +1,189 @@
+<div class="product-catalog">
+  
+  <div class="products-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="header-text">
+        <h2 class="mb-1">{{ 'USER_PRODUCTS.TITLE' | translate }}</h2>
+        <p class="text-muted mb-0">
+          {{ 'USER_PRODUCTS.SUBTITLE' | translate }}
+        </p>
+      </div>
+
+      
+      <div class="cart-summary">
+        <button
+          type="button"
+          class="btn btn-primary position-relative cart-btn"
+          (click)="goToCart()"
+        >
+          <i class="fas fa-shopping-cart me-2"></i>
+          {{ 'USER_PRODUCTS.CART' | translate }}
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            *ngIf="getCartItemCount() > 0"
+          >
+            {{ getCartItemCount() }}
+          </span>
+        </button>
+        <div class="cart-total mt-2" *ngIf="getCartTotal() > 0">
+          <small class="text-muted">
+            {{ 'USER_PRODUCTS.TOTAL' | translate }}:
+            <strong>${{ getCartTotal() | number: '1.2-2' }}</strong>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  
+  <app-loading-spinner
+    *ngIf="isLoading"
+    title="USER_PRODUCTS.LOADING_PRODUCTS"
+    subtitle="COMMON.PLEASE_WAIT"
+  >
+  </app-loading-spinner>
+
+  
+  <div *ngIf="!isLoading" class="products-grid">
+    <div class="row g-3">
+      <div
+        *ngFor="let product of filteredProducts; trackBy: trackByProductId"
+        class="col-xl-3 col-lg-4 col-md-6"
+      >
+        <div class="product-card">
+          
+          <div class="product-image">
+            <img
+              [src]="getProductImageUrl(product.image)"
+              [alt]="product.productName"
+              class="img-fluid"
+              loading="lazy"
+            />
+
+            
+            <span
+              class="stock-badge badge position-absolute"
+              [class]="getStockBadgeClass(product.stockCurrent)"
+            >
+              {{ getStockText(product.stockCurrent) | translate }}
+            </span>
+
+            
+            <span
+              class="discount-badge badge bg-success position-absolute"
+              *ngIf="product.discount && product.discount > 0"
+              style="top: 0.5rem; left: 0.5rem"
+            >
+              -{{ product.discount }}%
+            </span>
+          </div>
+
+          
+          <div class="product-content">
+            <div class="product-category">
+              <small class="text-muted">{{
+                product.category?.categoryName
+              }}</small>
+            </div>
+
+            <h5 class="product-title">{{ product.productName }}</h5>
+
+            <p class="product-description" *ngIf="product.description">
+              {{ product.description }}
+            </p>
+
+            <div class="product-details">
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <span class="product-price"
+                  >${{ product.unitPrice | number: '1.2-2' }}</span
+                >
+                <span
+                  class="product-stock"
+                  [class]="getStockTextClass(product.stockCurrent)"
+                >
+                  <i class="fas fa-box me-1"></i>
+                  {{ product.stockCurrent }}
+                  {{ 'USER_PRODUCTS.AVAILABLE' | translate }}
+                </span>
+              </div>
+            </div>
+
+            
+            <div class="product-actions">
+              <div class="quantity-selector mb-2">
+                <label class="form-label small"
+                  >{{ 'USER_PRODUCTS.QUANTITY' | translate }}:</label
+                >
+                <div class="input-group input-group-sm">
+                  <button
+                    class="btn btn-outline-primary quantity-btn"
+                    type="button"
+                    (click)="decreaseQuantity(product.id)"
+                    [disabled]="getQuantity(product.id) <= 1"
+                  >
+                    −
+                  </button>
+                  <input
+                    type="number"
+                    class="form-control text-center"
+                    [value]="getQuantity(product.id)"
+                    (input)="setQuantity(product.id, $event)"
+                    min="1"
+                    [max]="product.stockCurrent"
+                  />
+                  <button
+                    class="btn btn-outline-primary quantity-btn"
+                    type="button"
+                    (click)="increaseQuantity(product.id)"
+                    [disabled]="getQuantity(product.id) >= product.stockCurrent"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-primary w-100"
+                (click)="addToCart(product, getQuantity(product.id))"
+                [disabled]="
+                  product.stockCurrent === 0 || isAddingToCart[product.id]
+                "
+              >
+                <span *ngIf="!isAddingToCart[product.id]">
+                  {{ 'USER_PRODUCTS.ADD_TO_CART' | translate }}
+                </span>
+                <span *ngIf="isAddingToCart[product.id]">
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  {{ 'USER_PRODUCTS.ADDING' | translate }}
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div
+      *ngIf="filteredProducts.length === 0"
+      class="no-results text-center py-5"
+    >
+      <h4>{{ 'USER_PRODUCTS.NO_RESULTS' | translate }}</h4>
+      <p class="text-muted">
+        {{ 'USER_PRODUCTS.NO_RESULTS_MESSAGE' | translate }}
+      </p>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="clearFilters()"
+      >
+        {{ 'USER_PRODUCTS.CLEAR_FILTERS' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

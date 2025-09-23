@@ -1,0 +1,189 @@
+<div class="cart-container">
+  
+  <app-loading-spinner
+    *ngIf="isLoading"
+    title="CART.LOADING_CART"
+    subtitle="COMMON.PLEASE_WAIT"
+  >
+  </app-loading-spinner>
+
+  
+  <div class="simple-header" *ngIf="!isLoading">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="page-title">{{ 'CART.TITLE' | translate }}</h2>
+      <button class="btn btn-outline-primary" routerLink="/user-products">
+        {{ 'CART.CONTINUE_SHOPPING' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!isLoading && (cart$ | async) as cart; else emptyCart"
+    class="cart-content"
+  >
+    <div class="row g-3">
+      
+      <div class="col-lg-8">
+        <div class="cart-items-section">
+          <div class="section-header">
+            <h3>
+              {{ 'CART.YOUR_ITEMS' | translate }} ({{ cart.items.length }})
+            </h3>
+          </div>
+
+          <div class="cart-items">
+            <div
+              *ngFor="let item of cart.items; trackBy: trackByItemId"
+              class="cart-item compact"
+            >
+              <div class="item-image-container">
+                <img
+                  [src]="getProductImageUrl(item.product?.image)"
+                  [alt]="item.product?.productName"
+                  class="item-image"
+                />
+              </div>
+
+              <div class="item-details">
+                <h4 class="item-name">{{ item.product?.productName }}</h4>
+                <p class="item-category">
+                  {{ item.product?.category?.categoryName || 'Sin categoria' }}
+                </p>
+                <p class="item-price">
+                  <span class="price-label">Precio unitario:</span>
+                  <span class="price-value"
+                    >${{ item.unitPrice | number: '1.2-2' }}</span
+                  >
+                </p>
+              </div>
+
+              <div class="item-controls">
+                <div class="quantity-section">
+                  <label class="quantity-label">{{
+                    'CART.QUANTITY' | translate
+                  }}</label>
+                  <div class="quantity-controls">
+                    <button
+                      (click)="updateQuantity(item, item.quantity - 1)"
+                      [disabled]="item.quantity <= 1 || isUpdating[item.id]"
+                      class="quantity-btn decrease"
+                    >
+                      −
+                    </button>
+                    <input
+                      type="number"
+                      class="quantity-input"
+                      [value]="item.quantity"
+                      (change)="updateQuantity(item, $event.target.value)"
+                      min="1"
+                      [max]="item.product?.stockCurrent"
+                      [disabled]="isUpdating[item.id]"
+                    />
+                    <button
+                      (click)="updateQuantity(item, item.quantity + 1)"
+                      [disabled]="
+                        item.quantity >= (item.product?.stockCurrent || 0) ||
+                        isUpdating[item.id]
+                      "
+                      class="quantity-btn increase"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div class="item-total-section">
+                  <div class="item-total">
+                    <span class="total-label"
+                      >{{ 'CART.SUBTOTAL' | translate }}:</span
+                    >
+                    <span class="total-value"
+                      >${{ item.totalPrice | number: '1.2-2' }}</span
+                    >
+                  </div>
+                  <button
+                    (click)="removeItem(item.id)"
+                    class="remove-btn"
+                    [disabled]="isRemoving[item.id]"
+                  >
+                    {{ 'CART.REMOVE' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="col-lg-4">
+        <div class="cart-summary">
+          <div class="summary-header">
+            <h3>{{ 'CART.ORDER_SUMMARY' | translate }}</h3>
+          </div>
+
+          <div class="summary-content">
+            <div class="summary-line">
+              <span>{{ 'CART.ITEMS_COUNT' | translate }}:</span>
+              <span>{{ cart.items.length }}</span>
+            </div>
+
+            <div class="summary-line">
+              <span>{{ 'CART.SUBTOTAL' | translate }}:</span>
+              <span>${{ cart.totalAmount | number: '1.2-2' }}</span>
+            </div>
+
+            <div class="summary-line">
+              <span>{{ 'CART.SHIPPING' | translate }}:</span>
+              <span class="text-success">{{ 'CART.FREE' | translate }}</span>
+            </div>
+
+            <hr class="summary-divider" />
+
+            <div class="summary-total">
+              <span class="total-label">{{ 'CART.TOTAL' | translate }}:</span>
+              <span class="total-amount"
+                >${{ cart.totalAmount | number: '1.2-2' }}</span
+              >
+            </div>
+          </div>
+
+          <div class="summary-actions">
+            <button
+              (click)="proceedToCheckout()"
+              class="btn btn-primary btn-checkout"
+              [disabled]="cart.items.length === 0"
+            >
+              {{ 'CART.PROCEED_TO_CHECKOUT' | translate }}
+            </button>
+
+            <button
+              (click)="clearCart()"
+              class="btn btn-outline-danger btn-clear"
+              [disabled]="cart.items.length === 0 || isClearing"
+            >
+              {{ 'CART.CLEAR_CART' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyCart>
+    <div class="empty-cart">
+      <div class="empty-content">
+        <div class="empty-icon">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <h2 class="empty-title">{{ 'CART.EMPTY_CART' | translate }}</h2>
+        <p class="empty-description">{{ 'CART.EMPTY_MESSAGE' | translate }}</p>
+        <div class="empty-actions">
+          <button class="btn btn-primary" routerLink="/user-products">
+            {{ 'CART.START_SHOPPING' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,444 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    <i class="fa fa-upload me-2"></i>
+    {{ 'PRODUCT.BULK_UPLOAD.TITLE' | translate }}
+  </h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="dismiss()"
+  ></button>
+</div>
+
+<div class="modal-body">
+  
+  <div class="mb-4">
+    <div class="d-flex justify-content-between mb-2">
+      <span
+        class="badge badge-pill"
+        [class]="currentStep >= 1 ? 'bg-success' : 'bg-secondary'"
+      >
+        1. {{ 'PRODUCT.BULK_UPLOAD.STEPS.INSTRUCTIONS' | translate }}
+      </span>
+      <span
+        class="badge badge-pill"
+        [class]="currentStep >= 2 ? 'bg-success' : 'bg-secondary'"
+      >
+        2. {{ 'PRODUCT.BULK_UPLOAD.STEPS.SELECT_FILE' | translate }}
+      </span>
+      <span
+        class="badge badge-pill"
+        [class]="currentStep >= 3 ? 'bg-success' : 'bg-secondary'"
+      >
+        3. {{ 'PRODUCT.BULK_UPLOAD.STEPS.VALIDATE' | translate }}
+      </span>
+      <span
+        class="badge badge-pill"
+        [class]="currentStep >= 4 ? 'bg-success' : 'bg-secondary'"
+      >
+        4. {{ 'PRODUCT.BULK_UPLOAD.STEPS.IMPORT' | translate }}
+      </span>
+    </div>
+    <div class="progress">
+      <div
+        class="progress-bar bg-success"
+        role="progressbar"
+        [style.width.%]="stepProgress"
+        [attr.aria-valuenow]="stepProgress"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
+    </div>
+  </div>
+
+  
+  <div *ngIf="currentStep === 1" class="step-content">
+    <div class="alert alert-info">
+      <h5>
+        <i class="fa fa-info-circle me-2"></i
+        >{{ 'PRODUCT.BULK_UPLOAD.INSTRUCTIONS.TITLE' | translate }}
+      </h5>
+      <ul class="mb-3">
+        <li>{{ 'PRODUCT.BULK_UPLOAD.INSTRUCTIONS.STEP1' | translate }}</li>
+        <li>{{ 'PRODUCT.BULK_UPLOAD.INSTRUCTIONS.STEP2' | translate }}</li>
+        <li>{{ 'PRODUCT.BULK_UPLOAD.INSTRUCTIONS.STEP3' | translate }}</li>
+        <li>{{ 'PRODUCT.BULK_UPLOAD.INSTRUCTIONS.STEP4' | translate }}</li>
+      </ul>
+
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="downloadTemplate()"
+      >
+        <i class="fa fa-download me-2"></i>
+        {{ 'PRODUCT.BULK_UPLOAD.DOWNLOAD_TEMPLATE' | translate }}
+      </button>
+    </div>
+
+    <div class="alert alert-warning">
+      <h6>
+        <i class="fa fa-exclamation-triangle me-2"></i
+        >{{ 'PRODUCT.BULK_UPLOAD.IMPORTANT' | translate }}
+      </h6>
+      <ul class="mb-0">
+        <li>{{ 'PRODUCT.BULK_UPLOAD.WARNING1' | translate }}</li>
+        <li>{{ 'PRODUCT.BULK_UPLOAD.WARNING2' | translate }}</li>
+        <li>{{ 'PRODUCT.BULK_UPLOAD.WARNING3' | translate }}</li>
+      </ul>
+    </div>
+  </div>
+
+  
+  <div *ngIf="currentStep === 2" class="step-content">
+    <div class="upload-area text-center p-4 border border-dashed rounded">
+      <i class="fa fa-cloud-upload fa-3x text-muted mb-3"></i>
+      <h5>{{ 'PRODUCT.BULK_UPLOAD.SELECT_FILE_TITLE' | translate }}</h5>
+      <p class="text-muted mb-3">
+        {{ 'PRODUCT.BULK_UPLOAD.SELECT_FILE_DESC' | translate }}
+      </p>
+
+      <input
+        type="file"
+        class="form-control"
+        accept=".xlsx,.xls,.csv"
+        (change)="onFileSelected($event)"
+        id="fileInput"
+      />
+
+      <div *ngIf="selectedFile" class="mt-3">
+        <div class="alert alert-success">
+          <i class="fa fa-file-excel me-2"></i>
+          <strong
+            >{{ 'PRODUCT.BULK_UPLOAD.SELECTED_FILE' | translate }}:</strong
+          >
+          {{ selectedFile.name }}
+          <br />
+          <small
+            >{{ 'PRODUCT.BULK_UPLOAD.FILE_SIZE' | translate }}:
+            {{ selectedFile.size / 1024 / 1024 | number: '1.2-2' }} MB</small
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div *ngIf="currentStep === 3" class="step-content">
+    <div *ngIf="isProcessing" class="text-center">
+      <div class="spinner-border text-primary mb-3" role="status">
+        <span class="visually-hidden"
+          >{{ 'WORDS.LOADING' | translate }}...</span
+        >
+      </div>
+      <h5>{{ 'PRODUCT.BULK_UPLOAD.PROCESSING' | translate }}</h5>
+      <div class="progress mb-3">
+        <div
+          class="progress-bar progress-bar-striped progress-bar-animated"
+          role="progressbar"
+          [style.width.%]="uploadProgress"
+        >
+          {{ uploadProgress }}%
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isProcessing && uploadResult" class="validation-results">
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+              <h4>{{ uploadResult.totalProcessed }}</h4>
+              <small>{{
+                'PRODUCT.BULK_UPLOAD.TOTAL_PROCESSED' | translate
+              }}</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-success text-white">
+            <div class="card-body text-center">
+              <h4>{{ uploadResult.validProducts.length }}</h4>
+              <small>{{ 'PRODUCT.BULK_UPLOAD.VALID' | translate }}</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-danger text-white">
+            <div class="card-body text-center">
+              <h4>{{ uploadResult.invalidProducts.length }}</h4>
+              <small>{{ 'PRODUCT.BULK_UPLOAD.INVALID' | translate }}</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-info text-white">
+            <div class="card-body text-center">
+              <h4>
+                {{
+                  (uploadResult.validProducts.length /
+                    uploadResult.totalProcessed) *
+                    100 | number: '1.0-0'
+                }}%
+              </h4>
+              <small>{{
+                'PRODUCT.BULK_UPLOAD.SUCCESS_RATE' | translate
+              }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div *ngIf="uploadResult.validProducts.length > 0" class="mb-3">
+        <h6 class="text-success">
+          <i class="fa fa-check-circle me-2"></i>
+          {{ 'PRODUCT.BULK_UPLOAD.VALID_PRODUCTS' | translate }}
+        </h6>
+        <div
+          class="table-responsive"
+          style="max-height: 200px; overflow-y: auto"
+        >
+          <table class="table table-sm table-striped">
+            <thead class="table-dark">
+              <tr>
+                <th>{{ 'PRODUCT.FIELDS.PRODUCT_NAME' | translate }}</th>
+                <th>{{ 'PRODUCT.FIELDS.SKU' | translate }}</th>
+                <th>{{ 'PRODUCT.FIELDS.CATEGORY' | translate }}</th>
+                <th>{{ 'PRODUCT.FIELDS.PRICE' | translate }}</th>
+                <th>{{ 'PRODUCT.FIELDS.STOCK' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let product of uploadResult.validProducts | slice: 0 : 10
+                "
+              >
+                <td>{{ product.productName }}</td>
+                <td>{{ product.codeName }}</td>
+                <td>{{ product.categoryId }}</td>
+                <td>
+                  {{ product.unitPrice | currency: 'USD' : 'symbol' : '1.2-2' }}
+                </td>
+                <td>{{ product.stockCurrent }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <small
+          class="text-muted"
+          *ngIf="uploadResult.validProducts.length > 10"
+        >
+          {{ 'PRODUCT.BULK_UPLOAD.SHOWING_FIRST' | translate }} 10
+          {{ 'PRODUCT.BULK_UPLOAD.OF' | translate }}
+          {{ uploadResult.validProducts.length }}
+        </small>
+      </div>
+
+      
+      <div *ngIf="uploadResult.invalidProducts.length > 0" class="mb-3">
+        <h6 class="text-danger">
+          <i class="fa fa-clone me-2"></i>
+          Errores de duplicado en base de datos (SKU ya existe en el sistema)
+        </h6>
+        <div
+          *ngIf="uploadResult.invalidProducts | skuDbDuplicate as dbDupes"
+          class="mb-2"
+        >
+          <div *ngIf="dbDupes.length > 0">
+            <ul class="mb-2">
+              <li *ngFor="let error of dbDupes">
+                <span class="fw-bold">{{
+                  error.data?.['SKU'] || error.data?.['Código']
+                }}</span
+                >:
+                <span class="badge bg-danger">{{ error.error }}</span>
+                <span class="text-muted">(Fila {{ error.row }})</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <h6 class="text-warning mt-3">
+          <i class="fa fa-exclamation-triangle me-2"></i>
+          Otros errores de validación
+        </h6>
+        <div
+          *ngIf="uploadResult.invalidProducts | notSkuDbDuplicate as notDbDupes"
+        >
+          <div *ngIf="notDbDupes.length > 0">
+            <div
+              class="table-responsive"
+              style="max-height: 200px; overflow-y: auto"
+            >
+              <table class="table table-sm table-striped">
+                <thead class="table-dark">
+                  <tr>
+                    <th>{{ 'PRODUCT.BULK_UPLOAD.ROW' | translate }}</th>
+                    <th>{{ 'PRODUCT.BULK_UPLOAD.ERROR' | translate }}</th>
+                    <th>{{ 'PRODUCT.BULK_UPLOAD.DATA' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let error of notDbDupes | slice: 0 : 10">
+                    <td>{{ error.row }}</td>
+                    <td>
+                      <span class="badge bg-danger">{{ error.error }}</span>
+                    </td>
+                    <td>{{ error.data | json }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div *ngIf="currentStep === 4" class="step-content">
+    <div class="text-center">
+      <div
+        *ngIf="uploadResult?.importResult?.errors === 0"
+        class="alert alert-success"
+      >
+        <i class="fa fa-check-circle fa-3x text-success mb-3"></i>
+        <h4>{{ 'PRODUCT.BULK_UPLOAD.IMPORT_COMPLETE' | translate }}</h4>
+        <p>{{ 'PRODUCT.BULK_UPLOAD.IMPORT_SUCCESS_MESSAGE' | translate }}</p>
+        <div *ngIf="uploadResult" class="mt-3">
+          <p>
+            <strong>{{ uploadResult.validProducts.length }}</strong>
+            {{ 'PRODUCT.BULK_UPLOAD.PRODUCTS_IMPORTED' | translate }}
+          </p>
+        </div>
+      </div>
+      <div
+        *ngIf="uploadResult?.importResult?.errors > 0"
+        class="alert alert-danger"
+      >
+        <i class="fa fa-times-circle fa-3x text-danger mb-3"></i>
+        <h4>{{ 'PRODUCT.BULK_UPLOAD.IMPORT_ERROR' | translate }}</h4>
+        <p>
+          {{ 'PRODUCT.BULK_UPLOAD.IMPORT_ERROR_MESSAGE' | translate }}
+        </p>
+        
+        <div
+          *ngIf="uploadResult?.importResult?.failedProducts?.length > 0"
+          class="mt-3"
+        >
+          <h6 class="text-danger">
+            <i class="fa fa-clone me-1"></i>
+            {{ 'PRODUCT.BULK_UPLOAD.DUPLICATE_ERRORS' | translate }}
+          </h6>
+          <ul class="text-start">
+            <li
+              *ngFor="
+                let error of uploadResult.importResult.failedProducts
+                  | filter: 'duplic' : 'error'
+              "
+            >
+              <span class="fw-bold">{{
+                error.product?.codeName || error.product?.productName
+              }}</span
+              >:
+              {{ error.error }}
+            </li>
+          </ul>
+        </div>
+        
+        <div
+          *ngIf="uploadResult?.importResult?.failedProducts?.length > 0"
+          class="mt-3"
+        >
+          <h6 class="text-warning">
+            <i class="fa fa-exclamation-triangle me-1"></i>
+            {{ 'PRODUCT.BULK_UPLOAD.OTHER_ERRORS' | translate }}
+          </h6>
+          <ul class="text-start">
+            <li
+              *ngFor="
+                let error of uploadResult.importResult.failedProducts
+                  | filter: '!duplic' : 'error'
+              "
+            >
+              <span class="fw-bold">{{
+                error.product?.codeName || error.product?.productName
+              }}</span
+              >:
+              {{ error.error }}
+            </li>
+          </ul>
+        </div>
+        <small
+          *ngIf="uploadResult.importResult.failedProducts.length > 10"
+          class="text-muted"
+        >
+          {{ 'PRODUCT.BULK_UPLOAD.SHOWING_FIRST' | translate }} 10
+          {{ 'PRODUCT.BULK_UPLOAD.OF' | translate }}
+          {{ uploadResult.importResult.failedProducts.length }}
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    *ngIf="currentStep > 1 && currentStep < 4"
+    [disabled]="isProcessing"
+    (click)="previousStep()"
+  >
+    <i class="fa fa-arrow-left sme-2"></i>
+    {{ 'WORDS.PREVIOUS' | translate }}
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-primary"
+    *ngIf="currentStep === 1"
+    (click)="nextStep()"
+  >
+    {{ 'WORDS.NEXT' | translate }}
+    <i class="fa fa-arrow-right ms-2"></i>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-primary"
+    *ngIf="currentStep === 2"
+    [disabled]="!canProceedToValidation || isProcessing"
+    (click)="processFile()"
+  >
+    <i class="fa fa-search me-2"></i>
+    {{ 'PRODUCT.BULK_UPLOAD.VALIDATE_FILE' | translate }}
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-success"
+    *ngIf="currentStep === 3 && !isProcessing"
+    [disabled]="!canProceedToImport"
+    (click)="importProducts()"
+  >
+    <i class="fa fa-upload me-2"></i>
+    {{ 'PRODUCT.BULK_UPLOAD.IMPORT_PRODUCTS' | translate }}
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-secondary"
+    *ngIf="currentStep === 4"
+    (click)="resetModal()"
+  >
+    <i class="fa fa-refresh me-2"></i>
+    {{ 'PRODUCT.BULK_UPLOAD.IMPORT_MORE' | translate }}
+  </button>
+
+  <button type="button" class="btn btn-outline-secondary" (click)="close()">
+    <span *ngIf="currentStep === 4">{{ 'WORDS.CLOSE' | translate }}</span>
+    <span *ngIf="currentStep !== 4">{{ 'WORDS.CANCEL' | translate }}</span>
+  </button>
+</div>

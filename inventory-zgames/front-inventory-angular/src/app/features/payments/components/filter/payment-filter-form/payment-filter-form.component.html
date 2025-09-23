@@ -1,0 +1,213 @@
+<form [formGroup]="paymentFilterForm" (ngSubmit)="onSubmit()">
+  <div class="card-body">
+    <div class="row">
+      
+      <div class="mb-3 col-md-2">
+        <label class="form-label">{{ 'PAYMENT.TABLE.ID' | translate }}</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="id"
+          placeholder="ID del pago"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label class="form-label">{{
+          'PAYMENT.TABLE.ORDER_ID' | translate
+        }}</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="orderId"
+          placeholder="ID de orden"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label class="form-label">{{
+          'PAYMENT.TABLE.TRANSACTION_ID' | translate
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="transactionId"
+          placeholder="ID de transacción"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label class="form-label">{{
+          'PAYMENT.TABLE.USER_ID' | translate
+        }}</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="userId"
+          placeholder="ID de usuario"
+        />
+      </div>
+
+      
+      <div class="mb-3 col-md-2">
+        <label class="form-label">Monto Mínimo</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="amountFrom"
+          placeholder="0.00"
+          step="0.01"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label class="form-label">Monto Máximo</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="amountTo"
+          placeholder="0.00"
+          step="0.01"
+        />
+      </div>
+
+      
+      <div class="mb-3 col-md-2">
+        <label class="form-label">{{
+          'PAYMENT.TABLE.STATUS' | translate
+        }}</label>
+        <ng-select
+          formControlName="status"
+          placeholder="Estado"
+          [clearable]="true"
+        >
+          <ng-option
+            *ngFor="let status of status$ | async"
+            [value]="status.value"
+          >
+            {{ status.label }}
+          </ng-option>
+        </ng-select>
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label class="form-label">{{
+          'PAYMENT.TABLE.METHOD' | translate
+        }}</label>
+        <ng-select
+          formControlName="method"
+          placeholder="Método"
+          [clearable]="true"
+        >
+          <ng-option
+            *ngFor="let method of methods$ | async"
+            [value]="method.value"
+          >
+            {{ method.label }}
+          </ng-option>
+        </ng-select>
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label class="form-label">Verificación</label>
+        <ng-select
+          formControlName="isVerified"
+          placeholder="Verificado"
+          [clearable]="true"
+        >
+          <ng-option
+            *ngFor="let option of verified$ | async"
+            [value]="option.value"
+          >
+            {{ option.label }}
+          </ng-option>
+        </ng-select>
+      </div>
+
+      
+      <div class="mb-3 col-md-2">
+        <label class="form-label">{{
+          'PAYMENT.TABLE.COMPANY' | translate
+        }}</label>
+        <ng-select
+          formControlName="companyId"
+          placeholder="Empresa"
+          [clearable]="true"
+          bindLabel="companyName"
+          bindValue="id"
+        >
+          <ng-option
+            *ngFor="let company of companies$ | async"
+            [value]="company.id"
+          >
+            {{ company.companyName }}
+          </ng-option>
+        </ng-select>
+      </div>
+
+      
+      <div class="mb-3 col-md-2">
+        <label class="form-label">{{
+          'PAYMENT.TABLE.DATE_FROM' | translate
+        }}</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          formControlName="fromDate"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label class="form-label">{{
+          'PAYMENT.TABLE.DATE_TO' | translate
+        }}</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          formControlName="toDate"
+        />
+      </div>
+
+      
+      <div class="mb-3 col-md-2">
+        <label class="form-label">Procesado Desde</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          formControlName="processedFromDate"
+        />
+      </div>
+
+      <div class="mb-3 col-md-2">
+        <label class="form-label">Procesado Hasta</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          formControlName="processedToDate"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="d-flex align-items-center justify-content-end gap-2">
+     
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="onReset()"
+      >
+        <i class="fa fa-refresh me-1"></i>
+        {{ 'COMMON.CLEAR_FILTERS' | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!paymentFilterForm?.valid"
+      >
+        <i class="fa fa-search me-1"></i>
+        Buscar con Filtros
+      </button>
+    </div>
+  </div>
+</form>

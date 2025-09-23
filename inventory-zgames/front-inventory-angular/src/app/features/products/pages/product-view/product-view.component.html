@@ -1,0 +1,148 @@
+<div class="product-view-container">
+  <div class="header">
+    <h1>Detalles del Producto</h1>
+    <div class="header-actions">
+      <button class="btn btn-primary" (click)="editProduct()" *ngIf="product">
+        Editar
+      </button>
+      <button class="btn btn-secondary" (click)="goBack()">Volver</button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <div class="product-details" *ngIf="product && !loading">
+    <div class="row">
+      
+      <div class="col-md-4">
+        <div class="product-image">
+          <img
+            [src]="getProductImageUrl(product.image)"
+            [alt]="product.productName"
+            class="img-fluid"
+          />
+        </div>
+      </div>
+
+      
+      <div class="col-md-8">
+        <div class="product-info">
+          <h2>{{ product.productName }}</h2>
+          <p class="product-code">
+            <strong>Código:</strong>
+            {{ product.codeName }}
+          </p>
+
+          <div class="product-status">
+            <span
+              class="badge"
+              [class]="product.isActive ? 'bg-success' : 'bg-danger'"
+            >
+              {{ product.isActive ? 'Activo' : 'Inactivo' }}
+            </span>
+          </div>
+
+          <div class="product-rating" *ngIf="product.rating">
+            <strong>Calificación:</strong>
+            <span class="rating-stars">
+              <span
+                *ngFor="let star of getStars(product.rating)"
+                [innerHTML]="star"
+              ></span>
+              ({{ product.rating }}/5)
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="details-grid">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="detail-card">
+            <h4>Precios</h4>
+            <div class="detail-item">
+              <span class="label">Precio Unitario:</span>
+              <span class="value"
+                >${{ product.unitPrice | number: '1.2-2' }}</span
+              >
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <h4>Inventario</h4>
+            <div class="detail-item">
+              <span class="label">Stock Actual:</span>
+              <span class="value">{{ product.stockCurrent }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Stock Mínimo:</span>
+              <span class="value">{{ product.stockMin }}</span>
+            </div>
+            <div class="detail-item" *ngIf="isLowStock()">
+              <span class="alert alert-warning">Stock Bajo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="detail-card">
+            <h4>Categoría</h4>
+            <div class="detail-item">
+              <span class="label">Categoría:</span>
+              <span class="value">{{
+                product.category?.categoryName || 'N/A'
+              }}</span>
+            </div>
+          </div>
+
+          <div class="detail-card" *ngIf="product.weight">
+            <h4>Características Físicas</h4>
+            <div class="detail-item">
+              <span class="label">Peso:</span>
+              <span class="value">{{ product.weight }} kg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="detail-card">
+      <h4>Descripción</h4>
+      <p class="description">{{ product.description }}</p>
+    </div>
+
+    
+    <div
+      class="detail-card"
+      *ngIf="product.specifications && hasSpecifications()"
+    >
+      <h4>Especificaciones</h4>
+      <div class="specifications">
+        <div class="detail-item" *ngFor="let spec of getSpecifications()">
+          <span class="label">{{ spec.key }}:</span>
+          <span class="value">{{ spec.value }}</span>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="detail-card">
+      <h4>Fechas</h4>
+      <div class="detail-item">
+        <span class="label">Creado:</span>
+        <span class="value">{{ product.createdAt | date: 'medium' }}</span>
+      </div>
+      <div class="detail-item" *ngIf="product.updatedAt">
+        <span class="label">Actualizado:</span>
+        <span class="value">{{ product.updatedAt | date: 'medium' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

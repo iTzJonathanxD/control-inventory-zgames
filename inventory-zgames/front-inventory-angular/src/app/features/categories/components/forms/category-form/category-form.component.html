@@ -1,0 +1,213 @@
+
+<div class="modal-header">
+    <h4 class="modal-title">{{ formTitle }}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+  </div>
+  
+  
+  <div class="modal-body">
+    <div class="container-fluid p-0">
+      
+      @if (isLoading) {
+        <div class="text-center py-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">{{ 'Common.Loading' | translate }}</span>
+          </div>
+        </div>
+      } @else {
+        
+        <form
+          class="needs-validation"
+          novalidate
+          [ngClass]="{ 'was-validated': validate }"
+          [formGroup]="categoryDetailsForm"
+          (ngSubmit)="submit()">
+  
+          
+          <div class="row g-3">
+            <div class="col-12">
+              <h5 class="mb-3 text-primary">
+                <i class="fa fa-tag me-2"></i>
+                {{ 'CATEGORY.INFO.BASIC_INFORMATION' | translate }}
+              </h5>
+            </div>
+  
+            @if (!isCreateMode) {
+              <div class="col-md-6">
+                <label class="form-label" for="categoryId">
+                  {{ 'CATEGORY.TABLE.ID' | translate }}
+                </label>
+                <input class="form-control" id="categoryId" type="text" formControlName="id" readonly />
+              </div>
+            }
+  
+            
+            <div [class]="isCreateMode ? 'col-md-12' : 'col-md-6'">
+              <label class="form-label" for="categoryName">
+                {{ 'CATEGORY.FORM.NAME' | translate }}
+                <span class="text-danger">*</span>
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-tag"></i>
+                </span>
+                <input
+                  class="form-control"
+                  [class.is-invalid]="isFieldInvalid('categoryName')"
+                  id="categoryName"
+                  type="text"
+                  placeholder="{{ 'CATEGORY.FORM.NAME_PLACEHOLDER' | translate }}"
+                  formControlName="categoryName" />
+              </div>
+              @if (isFieldInvalid('categoryName')) {
+                <div class="invalid-feedback">{{ getFieldError('categoryName') }}</div>
+              }
+            </div>
+  
+            
+            <div class="col-12">
+              <label class="form-label" for="description">
+                {{ 'CATEGORY.FORM.DESCRIPTION' | translate }}
+              </label>
+              <textarea
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid('description')"
+                id="description"
+                rows="3"
+                placeholder="{{ 'CATEGORY.FORM.DESCRIPTION_PLACEHOLDER' | translate }}"
+                formControlName="description"></textarea>
+              @if (isFieldInvalid('description')) {
+                <div class="invalid-feedback">{{ getFieldError('description') }}</div>
+              }
+              <small class="form-text text-muted">{{ 'CATEGORY.FORM.DESCRIPTION_HELP' | translate }}</small>
+            </div>
+  
+            
+            @if (canEdit || isCreateMode) {
+              <div class="col-12">
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="isActive"
+                    formControlName="isActive" />
+                  <label class="form-check-label" for="isActive">
+                    {{ 'CATEGORY.FORM.ACTIVE_CATEGORY' | translate }}
+                  </label>
+                </div>
+                <small class="form-text text-muted">{{ 'CATEGORY.FORM.ACTIVE_HELP' | translate }}</small>
+              </div>
+            }
+          </div>
+  
+          
+          @if (!isCreateMode) {
+            <div class="row g-3 mt-4">
+              <div class="col-12">
+                <h5 class="mb-3 text-info">
+                  <i class="fa fa-info-circle me-2"></i>
+                  {{ 'CATEGORY.INFO.SYSTEM' | translate }}
+                </h5>
+              </div>
+              
+              @if (isViewMode) {
+                <div class="col-md-4">
+                  <label class="form-label" for="statusDisplay">
+                    {{ 'CATEGORY.FORM.STATUS' | translate }}
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fa fa-circle-check"></i>
+                    </span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      [value]="categoryDetailsForm.get('isActive')?.value ? 'Activa' : 'Inactiva'"
+                      readonly />
+                  </div>
+                </div>
+              }
+  
+              
+              <div class="col-md-4">
+                <label class="form-label" for="createdAt">
+                  {{ 'CATEGORY.FORM.CREATED_AT' | translate }}
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar-plus"></i>
+                  </span>
+                  <input class="form-control" id="createdAt" type="text" formControlName="createdAt" readonly />
+                </div>
+              </div>
+  
+              <div class="col-md-6">
+                <label class="form-label" for="updatedAt">
+                  {{ 'CATEGORY.FORM.UPDATED_AT' | translate }}
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar-check"></i>
+                  </span>
+                  <input class="form-control" id="updatedAt" type="text" formControlName="updatedAt" readonly />
+                </div>
+              </div>
+            </div>
+          }
+        </form>
+      }
+    </div>
+  </div>
+  
+  
+  <div class="modal-footer">
+    <div class="d-flex justify-content-between w-100">
+      
+      
+      <div>
+        @if (isViewMode && selectedCategory) {
+          <button class="btn btn-outline-primary" type="button" (click)="toggleEditMode()">
+            <i class="fa fa-edit me-1"></i>
+            {{ 'CATEGORY.BUTTON.EDIT' | translate }}
+          </button>
+        }
+  
+        @if (canEdit && !isCreateMode) {
+          <button class="btn btn-outline-secondary ms-2" type="button" (click)="toggleEditMode()">
+            <i class="fa fa-eye me-1"></i>
+            {{ 'CATEGORY.BUTTON.VIEW' | translate }}
+          </button>
+        }
+      </div>
+  
+      
+      <div>
+        <button class="btn btn-secondary me-2" type="button" (click)="closeModal()">
+          <i class="fa fa-times me-1"></i>
+          {{ 'CATEGORY.BUTTON.CANCEL' | translate }}
+        </button>
+  
+        @if (canEdit || isCreateMode) {
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="submit()"
+            [disabled]="!categoryDetailsForm.valid || isLoading">
+            
+            @if (isLoading) {
+              <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+            }
+            
+            @if (modalMode === 'edit') {
+              <i class="fa fa-save me-1"></i>
+              {{ 'CATEGORY.BUTTON.SAVE' | translate }}
+            } @else {
+              <i class="fa fa-plus me-1"></i>
+              {{ 'CATEGORY.BUTTON.CREATE' | translate }}
+            }
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+  

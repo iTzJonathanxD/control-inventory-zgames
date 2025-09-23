@@ -1,0 +1,390 @@
+<div class="product-edit-container">
+  
+  <div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="page-title">{{ 'PRODUCTS.EDIT.TITLE' | translate }}</h1>
+        <p class="page-subtitle text-muted" *ngIf="product">
+          {{ 'PRODUCTS.EDIT.SUBTITLE' | translate }} - {{ product.productName }}
+        </p>
+      </div>
+      <button class="btn btn-outline-secondary" (click)="goBack()">
+        Volver
+      </button>
+    </div>
+  </div>
+
+  
+  <app-loading-spinner
+    *ngIf="loading"
+    title="PRODUCTS.LOADING_PRODUCT"
+    subtitle="COMMON.PLEASE_WAIT"
+  >
+  </app-loading-spinner>
+
+  
+  <div class="row" *ngIf="!loading">
+    <div class="col-lg-12">
+      <form
+        [formGroup]="productForm"
+        (ngSubmit)="onSubmit()"
+        class="product-form"
+      >
+        
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="card-title mb-0">
+              {{ 'PRODUCTS.BASIC_INFORMATION' | translate }}
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="productName" class="form-label">
+                    Nombre del Producto <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="productName"
+                    class="form-control"
+                    [class.is-invalid]="
+                      productForm.get('productName')?.invalid &&
+                      productForm.get('productName')?.touched
+                    "
+                    formControlName="productName"
+                    placeholder="Ingrese el nombre del producto"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      productForm.get('productName')?.invalid &&
+                      productForm.get('productName')?.touched
+                    "
+                  >
+                    El nombre del producto es requerido
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="codeName" class="form-label">
+                    {{ 'PRODUCTS.FORM.CODE_NAME' | translate }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="codeName"
+                    class="form-control"
+                    [class.is-invalid]="
+                      productForm.get('codeName')?.invalid &&
+                      productForm.get('codeName')?.touched
+                    "
+                    formControlName="codeName"
+                    placeholder="Ingrese el código del producto"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      productForm.get('codeName')?.invalid &&
+                      productForm.get('codeName')?.touched
+                    "
+                  >
+                    El código del producto es requerido
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="categoryId" class="form-label">
+                Categoría <span class="text-danger">*</span>
+              </label>
+              <select
+                id="categoryId"
+                class="form-select"
+                [class.is-invalid]="
+                  productForm.get('categoryId')?.invalid &&
+                  productForm.get('categoryId')?.touched
+                "
+                formControlName="categoryId"
+              >
+                <option value="">Seleccione una categoría</option>
+                <option
+                  *ngFor="let category of categories"
+                  [value]="category.id"
+                >
+                  {{ category.categoryName }}
+                </option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  productForm.get('categoryId')?.invalid &&
+                  productForm.get('categoryId')?.touched
+                "
+              >
+                La categoría es requerida
+              </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="description" class="form-label">
+                Descripción <span class="text-danger">*</span>
+              </label>
+              <textarea
+                id="description"
+                class="form-control"
+                [class.is-invalid]="
+                  productForm.get('description')?.invalid &&
+                  productForm.get('description')?.touched
+                "
+                formControlName="description"
+                rows="4"
+                placeholder="Ingrese la descripción del producto"
+              ></textarea>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  productForm.get('description')?.invalid &&
+                  productForm.get('description')?.touched
+                "
+              >
+                La descripción es requerida
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Precios e Inventario</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <label for="unitPrice" class="form-label"
+                    >Precio Unitario</label
+                  >
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      id="unitPrice"
+                      class="form-control"
+                      formControlName="unitPrice"
+                      step="0.01"
+                      min="0"
+                      placeholder="0.00"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <label for="stockMin" class="form-label">
+                    Stock Mínimo <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="stockMin"
+                    class="form-control"
+                    [class.is-invalid]="
+                      productForm.get('stockMin')?.invalid &&
+                      productForm.get('stockMin')?.touched
+                    "
+                    formControlName="stockMin"
+                    min="0"
+                    placeholder="0"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      productForm.get('stockMin')?.invalid &&
+                      productForm.get('stockMin')?.touched
+                    "
+                  >
+                    El stock mínimo es requerido
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <label for="stockCurrent" class="form-label">
+                    Stock Actual <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="stockCurrent"
+                    class="form-control"
+                    [class.is-invalid]="
+                      productForm.get('stockCurrent')?.invalid &&
+                      productForm.get('stockCurrent')?.touched
+                    "
+                    formControlName="stockCurrent"
+                    min="0"
+                    placeholder="0"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      productForm.get('stockCurrent')?.invalid &&
+                      productForm.get('stockCurrent')?.touched
+                    "
+                  >
+                    El stock actual es requerido
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="weight" class="form-label">Peso</label>
+                  <div class="input-group">
+                    <input
+                      type="number"
+                      id="weight"
+                      class="form-control"
+                      formControlName="weight"
+                      step="0.01"
+                      min="0"
+                      placeholder="0.00"
+                    />
+                    <span class="input-group-text">kg</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="rating" class="form-label">Calificación</label>
+                  <div class="input-group">
+                    <input
+                      type="number"
+                      id="rating"
+                      class="form-control"
+                      formControlName="rating"
+                      step="0.1"
+                      min="0"
+                      max="5"
+                      placeholder="0.0"
+                    />
+                    <span class="input-group-text">
+                      <i class="fas fa-star text-warning"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Imagen del Producto</h5>
+          </div>
+          <div class="card-body">
+            <div class="form-group mb-3">
+              <label for="image" class="form-label">Imagen</label>
+              <input
+                type="file"
+                id="image"
+                class="form-control"
+                accept="image/*"
+                (change)="onImageSelected($event)"
+              />
+              <div class="form-text">
+                Seleccione una imagen para el producto (JPG, PNG, máximo 5MB)
+              </div>
+            </div>
+
+            
+            <div
+              class="current-image mb-3"
+              *ngIf="product?.image && !imagePreview"
+            >
+              <label class="form-label">Imagen Actual</label>
+              <div class="image-container">
+                <img
+                  [src]="getProductImageUrl(product.image)"
+                  [alt]="product.productName"
+                  class="current-product-image"
+                />
+              </div>
+            </div>
+
+            
+            <div class="image-preview mb-3" *ngIf="imagePreview">
+              <label class="form-label">Vista Previa de Nueva Imagen</label>
+              <div class="preview-container">
+                <img [src]="imagePreview" alt="Preview" class="preview-image" />
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger remove-btn"
+                  (click)="removeImage()"
+                >
+                  <i class="fas fa-times"></i>
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Configuración de Estado</h5>
+          </div>
+          <div class="card-body">
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                id="isActive"
+                class="form-check-input"
+                formControlName="isActive"
+              />
+              <label class="form-check-label" for="isActive">
+                Producto Activo
+              </label>
+              <div class="form-text">
+                Los productos activos aparecen en el catálogo y pueden ser
+                vendidos
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-2"
+            (click)="goBack()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="productForm.invalid || saving"
+          >
+            <span
+              *ngIf="saving"
+              class="spinner-border spinner-border-sm me-2"
+            ></span>
+            Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+@import './assets/scss/app.scss';
+@import './assets/scss/icons.scss';
+@import '../node_modules/leaflet/dist/leaflet.css';
+@import 'flatpickr/dist/flatpickr.css';
+@import 'nouislider/dist/nouislider.css';
+@import 'quill/dist/quill.snow.css';
+@import 'quill/dist/quill.bubble.css';
+@import 'ngx-toastr/toastr';
+.toast-container .ngx-toastr:before {
+  display: none !important;
+}
+.toast-container .ngx-toastr {
+  background-image: none !important;
+}
+.toast-container {
+  .ngx-toastr {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    box-shadow: var(--bs-box-shadow);
+    border: 1px solid var(--bs-border-color);
+    padding: 15px;
+    border-radius: 4px;
+    &:hover {
+      box-shadow: var(--bs-box-shadow-lg);
+    }
+  }
+  .toast-success {
+    background-color: var(--bs-success-bg-subtle);
+    border-color: var(--bs-success);
+    color: var(--bs-success);
+  }
+  .toast-error {
+    background-color: var(--bs-danger-bg-subtle);
+    border-color: var(--bs-danger);
+    color: var(--bs-danger);
+  }
+  .toast-info {
+    background-color: var(--bs-info-bg-subtle);
+    border-color: var(--bs-info);
+    color: var(--bs-info);
+  }
+  .toast-warning {
+    background-color: var(--bs-warning-bg-subtle);
+    border-color: var(--bs-warning);
+    color: var(--bs-warning);
+  }
+  .toast-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .toast-message {
+    word-wrap: break-word;
+  }
+  .toast-close-button {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    color: inherit;
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+.whatsapp-icon {
+  color: #465dff !important;
+}
+.btn-success {
+  --bs-btn-bg: #465dff;
+  --bs-btn-border-color: #465dff;
+  --bs-btn-hover-bg: #3b4fd6;
+  --bs-btn-hover-border-color: #3b4fd6;
+  --bs-btn-active-bg: #3b4fd6;
+  --bs-btn-active-border-color: #3b4fd6;
+}
+.btn-outline-success {
+  --bs-btn-color: #465dff;
+  --bs-btn-border-color: #465dff;
+  --bs-btn-hover-bg: #465dff;
+  --bs-btn-hover-border-color: #465dff;
+  --bs-btn-active-bg: #465dff;
+  --bs-btn-active-border-color: #465dff;
+}

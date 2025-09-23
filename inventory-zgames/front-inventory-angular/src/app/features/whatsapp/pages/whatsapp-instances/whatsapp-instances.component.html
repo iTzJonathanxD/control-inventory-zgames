@@ -1,0 +1,377 @@
+<div class="whatsapp-instances-page">
+  
+  <div
+    class="page-header d-flex justify-content-between align-items-center mb-4"
+  >
+    <div>
+      <h1 class="page-title mb-1">
+        <i class="fab fa-whatsapp me-2 whatsapp-icon"></i>
+        Instancias WhatsApp
+      </h1>
+      <p class="page-subtitle text-muted mb-0">
+        Gestiona tus instancias de WhatsApp conectadas
+      </p>
+    </div>
+
+    <div class="page-actions">
+      <button
+        type="button"
+        class="btn btn-outline-info me-2"
+        routerLink="/whatsapp/configuration"
+        title="Configurar mensajes de WhatsApp"
+      >
+        <i class="fas fa-cog me-2"></i>
+        Configuración
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-outline-secondary me-2"
+        (click)="refreshInstances()"
+        [disabled]="isLoading"
+      >
+        <i class="fas fa-sync-alt me-2"></i>
+        Actualizar
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="toggleCreateForm()"
+      >
+        <i class="fas fa-plus me-2"></i>
+        Nueva Instancia
+      </button>
+    </div>
+  </div>
+
+  
+  <div *ngIf="showCreateForm" class="card shadow-sm mb-4">
+    <div class="card-header bg-light">
+      <h6 class="card-title mb-0">
+        <i class="fas fa-plus me-2"></i>
+        Crear Nueva Instancia
+      </h6>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="createInstanceForm" (ngSubmit)="onCreateInstance()">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="instanceName" class="form-label">
+              Nombre de Instancia <span class="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              id="instanceName"
+              class="form-control"
+              [class.is-invalid]="isFieldInvalid('instanceName')"
+              formControlName="instanceName"
+              placeholder="mi_instancia_whatsapp"
+            />
+            <div
+              *ngIf="isFieldInvalid('instanceName')"
+              class="invalid-feedback"
+            >
+              {{ getFieldError('instanceName') }}
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="phoneNumber" class="form-label">
+              Número de Teléfono <span class="text-danger">*</span>
+            </label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              class="form-control"
+              [class.is-invalid]="isFieldInvalid('phoneNumber')"
+              formControlName="phoneNumber"
+              placeholder="+573001234567"
+            />
+            <div *ngIf="isFieldInvalid('phoneNumber')" class="invalid-feedback">
+              {{ getFieldError('phoneNumber') }}
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3 d-flex align-items-end">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="isPrimary"
+                formControlName="isPrimary"
+              />
+              <label class="form-check-label" for="isPrimary">
+                Establecer como principal
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="toggleCreateForm()"
+            [disabled]="isCreating"
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="createInstanceForm.invalid || isCreating"
+          >
+            <i *ngIf="isCreating" class="fas fa-spinner fa-spin me-2"></i>
+            <i *ngIf="!isCreating" class="fas fa-plus me-2"></i>
+            Crear Instancia
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  
+  <div *ngIf="isLoading" class="d-flex justify-content-center p-4">
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  
+  <div *ngIf="!isLoading" class="card shadow-sm">
+    
+    <div
+      *ngIf="instances.length > 0 && !hasPrimaryInstance()"
+      class="alert alert-warning alert-dismissible fade show m-3 mb-0"
+      role="alert"
+    >
+      <div class="d-flex align-items-center">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>¡Atención!</strong> No tienes ninguna instancia configurada como
+        principal. No podrás enviar mensajes de WhatsApp hasta que establezcas
+        una instancia como principal.
+      </div>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        title="Cerrar"
+      ></button>
+    </div>
+
+    <div class="card-header bg-light">
+      <h6 class="card-title mb-0">
+        <i class="fas fa-list me-2"></i>
+        Instancias Configuradas ({{ instances.length }})
+      </h6>
+    </div>
+
+    <div class="card-body p-0">
+      
+      <div *ngIf="instances.length === 0" class="text-center p-4">
+        <i class="fab fa-whatsapp fa-3x text-muted mb-3"></i>
+        <h5 class="text-muted">No hay instancias configuradas</h5>
+        <p class="text-muted">
+          Crea tu primera instancia para comenzar a usar WhatsApp
+        </p>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="toggleCreateForm()"
+        >
+          <i class="fas fa-plus me-2"></i>
+          Crear Primera Instancia
+        </button>
+      </div>
+
+      
+      <div *ngIf="instances.length > 0" class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Instancia</th>
+              <th>Teléfono</th>
+              <th>Estado</th>
+              <th>Principal</th>
+              <th>Creada</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let instance of instances; trackBy: trackByInstanceId">
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="instance-avatar me-3">
+                    <img
+                      *ngIf="instance.profilePictureUrl; else defaultAvatar"
+                      [src]="instance.profilePictureUrl"
+                      [alt]="instance.displayName || instance.instanceName"
+                      class="rounded-circle"
+                      width="40"
+                      height="40"
+                    />
+                    <ng-template #defaultAvatar>
+                      <div
+                        class="default-avatar rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="fab fa-whatsapp whatsapp-icon"></i>
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div>
+                    <div class="fw-semibold">{{ instance.instanceName }}</div>
+                    <small class="text-muted" *ngIf="instance.displayName">
+                      {{ instance.displayName }}
+                    </small>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <span class="badge bg-light text-dark border">
+                  {{ instance.phoneNumber }}
+                </span>
+              </td>
+
+              <td>
+                <span [class]="getStatusClass(instance.status)">
+                  {{ getStatusText(instance.status) }}
+                </span>
+              </td>
+
+              <td>
+                <div class="d-flex align-items-center">
+                  <span *ngIf="instance.isPrimary" class="badge bg-primary">
+                    <i class="fas fa-star me-1"></i>
+                    Principal
+                  </span>
+                  <span *ngIf="!instance.isPrimary" class="text-muted">-</span>
+                </div>
+              </td>
+
+              <td>
+                <small class="text-muted">
+                  {{ instance.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+                </small>
+              </td>
+
+              <td class="text-center">
+                <div class="btn-group" role="group">
+                  
+                  <button
+                    *ngIf="canShowQR(instance)"
+                    type="button"
+                    class="btn btn-sm btn-outline-primary"
+                    (click)="showQRCode(instance)"
+                    title="Ver código QR"
+                  >
+                    <i class="fas fa-qrcode"></i>
+                  </button>
+
+                  
+                  <button
+                    *ngIf="
+                      !instance.isPrimary &&
+                      instance.status === InstanceStatus.OPEN
+                    "
+                    type="button"
+                    class="btn btn-sm btn-success"
+                    (click)="setPrimaryInstance(instance)"
+                    title="Agregar como primario"
+                  >
+                    <i class="fas fa-star me-1"></i>
+                    Agregar como Primario
+                  </button>
+
+                  
+                  <button
+                    type="button"
+                    class="btn btn-sm"
+                    [class.btn-outline-danger]="!instance.isPrimary"
+                    [class.btn-danger]="instance.isPrimary"
+                    (click)="deleteInstance(instance)"
+                    [title]="
+                      instance.isPrimary
+                        ? 'Eliminar instancia principal (requiere confirmación)'
+                        : 'Eliminar instancia'
+                    "
+                  >
+                    <i class="fas fa-trash"></i>
+                    <i
+                      *ngIf="instance.isPrimary"
+                      class="fas fa-exclamation-triangle ms-1"
+                    ></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  
+  <div
+    *ngIf="selectedQRCode"
+    class="modal fade show d-block"
+    tabindex="-1"
+    style="background-color: rgba(0, 0, 0, 0.5)"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fas fa-qrcode me-2"></i>
+            Código QR - WhatsApp
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="closeQRModal()"
+          ></button>
+        </div>
+
+        <div class="modal-body text-center">
+          <div *ngIf="qrCodeLoading" class="p-4">
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-3 text-muted">Generando código QR...</p>
+          </div>
+
+          <div *ngIf="!qrCodeLoading && selectedQRCode">
+            <img
+              [src]="selectedQRCode"
+              alt="QR Code"
+              class="img-fluid mb-3"
+              style="max-width: 300px"
+            />
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>
+              <strong>Instrucciones:</strong>
+              <ol class="mb-0 mt-2 text-start">
+                <li>Abre WhatsApp en tu teléfono</li>
+                <li>Ve a Configuración > Dispositivos vinculados</li>
+                <li>Toca "Vincular un dispositivo"</li>
+                <li>Escanea este código QR</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="closeQRModal()"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

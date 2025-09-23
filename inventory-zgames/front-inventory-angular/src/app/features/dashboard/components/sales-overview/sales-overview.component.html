@@ -1,0 +1,95 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h4 class="header-title">{{ 'DASHBOARD.SALES.TITLE' | translate }}</h4>
+    <div ngbDropdown placement="bottom-start">
+      <a
+        ngbDropdownToggle
+        class="drop-arrow-none cursor-pointer card-drop"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="ti ti-dots-vertical"></i>
+      </a>
+      <div ngbDropdownMenu class="dropdown-menu-end">
+        <a href="javascript:void(0);" ngbDropdownItem>{{
+          'DASHBOARD.SALES.REPORT' | translate
+        }}</a>
+        <a href="javascript:void(0);" ngbDropdownItem>{{
+          'DASHBOARD.SALES.EXPORT' | translate
+        }}</a>
+        <a href="javascript:void(0);" ngbDropdownItem>{{
+          'DASHBOARD.SALES.CONFIG' | translate
+        }}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-light bg-opacity-50">
+    <div class="row text-center">
+      <div class="col-md-3 col-6">
+        <p class="text-muted mt-3 mb-1">
+          {{ 'DASHBOARD.SALES.MONTHLY' | translate }}
+        </p>
+        <h4 class="mb-3">
+          <span class="ti ti-trending-up text-success me-1"></span>
+          <span>${{ monthlySales | number: '1.0-0' }}k</span>
+        </h4>
+      </div>
+      <div class="col-md-3 col-6">
+        <p class="text-muted mt-3 mb-1">
+          {{ 'DASHBOARD.SALES.SOLD_PRODUCTS' | translate }}
+        </p>
+        <h4 class="mb-3">
+          <span class="ti ti-package text-primary me-1"></span>
+          <span>{{ productsSold | number: '1.0-0' }}</span>
+        </h4>
+      </div>
+      <div class="col-md-3 col-6">
+        <p class="text-muted mt-3 mb-1">
+          {{ 'DASHBOARD.SALES.DAILY_AVG' | translate }}
+        </p>
+        <h4 class="mb-3">
+          <span class="ti ti-calendar text-info me-1"></span>
+          <span>${{ dailyAverage | number: '1.0-0' }}</span>
+        </h4>
+      </div>
+      <div class="col-md-3 col-6">
+        <p class="text-muted mt-3 mb-1">
+          {{ 'DASHBOARD.SALES.GROWTH' | translate }}
+        </p>
+        <h4 class="mb-3">
+          <span class="ti ti-arrow-up text-success me-1"></span>
+          <span>+{{ growthPercentage | number: '1.1-1' }}%</span>
+        </h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body pt-0">
+    <div dir="ltr" *ngIf="!loading; else loadingChart">
+      <apx-chart
+        [xaxis]="salesChartOpts.xaxis!"
+        [yaxis]="salesChartOpts.yaxis!"
+        [grid]="salesChartOpts.grid!"
+        [legend]="salesChartOpts.legend!"
+        [plotOptions]="salesChartOpts.plotOptions!"
+        [chart]="salesChartOpts.chart!"
+        [series]="salesChartOpts.series!"
+        [stroke]="salesChartOpts.stroke!"
+        [fill]="salesChartOpts.fill!"
+        [markers]="salesChartOpts.markers!"
+        [colors]="salesChartOpts.colors!"
+        [tooltip]="salesChartOpts.tooltip!"
+      />
+    </div>
+    <ng-template #loadingChart>
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">{{
+            'DASHBOARD.SALES.LOADING_CHART' | translate
+          }}</span>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

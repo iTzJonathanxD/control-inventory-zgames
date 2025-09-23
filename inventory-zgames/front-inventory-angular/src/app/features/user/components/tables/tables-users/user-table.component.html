@@ -1,0 +1,430 @@
+<page-title title="{{ 'USER.TITLE' | translate }}" />
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm 12">
+      <toogle-panel [contentComponent]="filterComponent"></toogle-panel>
+    </div>
+
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0"></h5>
+            <div class="btn-group">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                placement="top"
+                [ngbTooltip]="'WORDS.RELOAD_TABLE' | translate"
+                (click)="reloadTable()"
+              >
+                <i class="fa fa-repeat"></i>
+              </button>
+
+              @if (hasPermission(PERMISSIONS.USER_CREATE)) {
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  placement="top"
+                  [ngbTooltip]="'USER.BUTTONS.ADD_USER' | translate"
+                  (click)="openCreateUserModal()"
+                >
+                  <i class="fa fa-plus"></i>
+                </button>
+              }
+
+              @if (hasPermission(PERMISSIONS.USER_EDIT)) {
+                <button
+                  class="btn btn-outline-success"
+                  type="button"
+                  placement="top"
+                  [ngbTooltip]="'Configurar WhatsApp'"
+                  (click)="openWhatsAppConfig()"
+                >
+                  <i class="fab fa-whatsapp" style="color: #32d187"></i>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          
+          <div class="table-responsive signal-table">
+            <table
+              class="table table-hover table-striped"
+              style="min-width: 1400px"
+            >
+              <thead class="table-gray sticky-top">
+                <tr>
+                  @for (column of visibleColumns; track column.key) {
+                    <th
+                      class="text-nowrap px-3 py-2"
+                      [ngClass]="{ 'text-center': column.key === 'debt' }"
+                      [style.width]="column.width"
+                      [style.min-width]="column.width"
+                    >
+                      <div
+                        class="d-flex align-items-center"
+                        [ngClass]="{
+                          'justify-content-center': column.key === 'debt',
+                        }"
+                      >
+                        <span class="fw-semibold">{{
+                          column.label | translate
+                        }}</span>
+                        @if (column.sortable) {
+                          <i
+                            class="fa fa-sort ms-1 text-muted"
+                            style="font-size: 0.8rem"
+                          ></i>
+                        }
+                      </div>
+                    </th>
+                  }
+                </tr>
+              </thead>
+
+              @if (isLoading) {
+                <tbody>
+                  <tr>
+                    <td
+                      [attr.colspan]="visibleColumns.length"
+                      class="text-center"
+                    >
+                      <app-loading-spinner
+                        title="USER.LOADING.TITLE"
+                        subtitle="USER.LOADING.SUBTITLE"
+                        size="normal"
+                      ></app-loading-spinner>
+                    </td>
+                  </tr>
+                </tbody>
+              } @else {
+                <tbody>
+                  @if (users.length > 0) {
+                    @for (user of users; track user.id) {
+                      <tr class="align-middle">
+                        @for (column of visibleColumns; track column.key) {
+                          <td class="px-3 py-2" [style.width]="column.width">
+                            @switch (column.type) {
+                              @case ('number') {
+                                <span class="fw-medium text-primary">{{
+                                  user[column.key]
+                                }}</span>
+                              }
+                              @case ('image') {
+                                @if (column.key === 'profilePhoto') {
+                                  <div class="d-flex justify-content-center">
+                                    <img
+                                      [src]="
+                                        user.profilePhoto ||
+                                        '/assets/images/default-avatar.png'
+                                      "
+                                      [alt]="user.fullName"
+                                      class="rounded-circle border"
+                                      style="
+                                        width: 40px;
+                                        height: 40px;
+                                        object-fit: cover;
+                                      "
+                                      onerror="this.src='/assets/images/default-avatar.png'"
+                                    />
+                                  </div>
+                                }
+                              }
+                              @case ('text') {
+                                <div
+                                  class="text-truncate"
+                                  [title]="user[column.key] || ''"
+                                >
+                                  @if (column.key === 'phone') {
+                                    <span class="text-muted">{{
+                                      user[column.key] ||
+                                        ('COMMON.NOT_SPECIFIED' | translate)
+                                    }}</span>
+                                  } @else {
+                                    <span>{{ user[column.key] || '-' }}</span>
+                                  }
+                                </div>
+                              }
+                              @case ('email') {
+                                <div
+                                  class="text-truncate"
+                                  [title]="user[column.key]"
+                                >
+                                  <a
+                                    [href]="'mailto:' + user[column.key]"
+                                    class="text-decoration-none"
+                                  >
+                                    <i
+                                      class="fa fa-envelope me-2 text-muted"
+                                      style="font-size: 0.8em"
+                                    ></i>
+                                    {{ user[column.key] }}
+                                  </a>
+                                </div>
+                              }
+                              @case ('badge') {
+                                @if (column.key === 'roleName') {
+                                  <span
+                                    class="badge rounded-pill fs-6 text-uppercase fw-semibold px-2 py-1"
+                                    [ngClass]="{
+                                      'bg-danger':
+                                        user.role?.roleName?.toLowerCase() ===
+                                        'admin',
+                                      'bg-success':
+                                        user.role?.roleName?.toLowerCase() ===
+                                        'empleado',
+                                      'bg-warning text-dark':
+                                        user.role?.roleName?.toLowerCase() ===
+                                        'moderador',
+                                      'bg-secondary':
+                                        !user.role?.roleName ||
+                                        user.role?.roleName === 'Sin rol',
+                                    }"
+                                  >
+                                    <i
+                                      class="fa fa-user-tag me-1"
+                                      style="font-size: 0.8em"
+                                    ></i>
+                                    {{
+                                      user.role?.roleName ||
+                                        ('USER.NO_ROLE' | translate)
+                                    }}
+                                  </span>
+                                } @else if (column.key === 'companyName') {
+                                  <span
+                                    class="badge rounded-pill fs-6 text-uppercase fw-semibold px-2 py-1"
+                                    [ngClass]="
+                                      getCompanyClasses(user.companyName)
+                                    "
+                                  >
+                                    <i
+                                      class="fa fa-building me-1"
+                                      style="font-size: 0.8em"
+                                    ></i>
+                                    {{
+                                      user.company?.companyName ||
+                                        ('USER.NO_COMPANY' | translate)
+                                    }}
+                                  </span>
+                                }
+                              }
+                              @case ('debt') {
+                                <div class="text-center">
+                                  @if (user.debt && user.debt > 0) {
+                                    <span class="fw-medium text-dark">
+                                      {{ formatCurrency(user.debt) }}
+                                    </span>
+                                  } @else {
+                                    <span class="text-muted small">
+                                      No tiene deuda
+                                    </span>
+                                  }
+                                </div>
+                              }
+                              @case ('status') {
+                                @if (column.key === 'isActive') {
+                                  <span
+                                    class="badge rounded-pill fs-6 text-uppercase fw-semibold px-2 py-1"
+                                    [ngClass]="
+                                      user.isActive ? 'bg-success' : 'bg-danger'
+                                    "
+                                  >
+                                    <i
+                                      [class]="
+                                        user.isActive
+                                          ? 'fa fa-check me-1'
+                                          : 'fa fa-times me-1'
+                                      "
+                                      style="font-size: 0.8em"
+                                    ></i>
+                                    {{
+                                      user.isActive
+                                        ? ('USER.STATUS.ACTIVE' | translate)
+                                        : ('USER.STATUS.INACTIVE' | translate)
+                                    }}
+                                  </span>
+                                }
+                              }
+
+                              @case ('date') {
+                                <div
+                                  class="text-truncate small text-muted"
+                                  [title]="
+                                    user[column.key]
+                                      | date: 'dd/MM/yyyy HH:mm:ss'
+                                  "
+                                >
+                                  <i
+                                    class="fa fa-calendar me-2 text-muted"
+                                    style="font-size: 0.8em"
+                                  ></i>
+                                  {{ user[column.key] | date: 'dd/MM/yyyy' }}
+                                  <br />
+                                  <small class="text-muted">{{
+                                    user[column.key] | date: 'HH:mm'
+                                  }}</small>
+                                </div>
+                              }
+                              @case ('actions') {
+                                <div
+                                  class="btn-group btn-group-sm"
+                                  role="group"
+                                >
+                                  <button
+                                    class="btn btn-outline-secondary btn-action"
+                                    [ngbTooltip]="
+                                      'USER.BUTTON.VIEWMODE' | translate
+                                    "
+                                    (click)="openViewUserModal(user)"
+                                  >
+                                    <i class="fa fa-eye"></i>
+                                  </button>
+
+                                  @if (hasPermission(PERMISSIONS.USER_EDIT)) {
+                                    <button
+                                      class="btn btn-outline-secondary btn-action"
+                                      [ngbTooltip]="
+                                        'USER.BUTTON.EDIT' | translate
+                                      "
+                                      (click)="openEditUserModal(user)"
+                                    >
+                                      <i class="fa fa-edit"></i>
+                                    </button>
+                                  }
+
+                                  @if (
+                                    hasPermission(
+                                      PERMISSIONS.USER_TOGGLE_STATUS
+                                    )
+                                  ) {
+                                    <button
+                                      class="btn"
+                                      [ngClass]="
+                                        user.isActive
+                                          ? 'btn-outline-warning'
+                                          : 'btn-outline-success'
+                                      "
+                                      [ngbTooltip]="
+                                        user.isActive
+                                          ? ('COMMON.DEACTIVATE' | translate)
+                                          : ('COMMON.ACTIVATE' | translate)
+                                      "
+                                      (click)="toggleUserStatus(user)"
+                                    >
+                                      <i
+                                        [class]="
+                                          user.isActive
+                                            ? 'fa fa-ban'
+                                            : 'fa fa-check'
+                                        "
+                                      ></i>
+                                    </button>
+                                  }
+
+                                  @if (canSendWhatsAppMessage(user)) {
+                                    <button
+                                      class="btn btn-outline-success"
+                                      [ngbTooltip]="
+                                        'Enviar mensaje de deuda por WhatsApp'
+                                      "
+                                      (click)="sendDebtMessage(user)"
+                                    >
+                                      <i
+                                        class="fab fa-whatsapp"
+                                        style="color: #32d187"
+                                      ></i>
+                                    </button>
+                                  }
+                                </div>
+                              }
+                            }
+                          </td>
+                        }
+                      </tr>
+                    }
+                  } @else {
+                    <tr>
+                      <td
+                        [attr.colspan]="visibleColumns.length"
+                        class="text-center py-5"
+                      >
+                        <div
+                          class="d-flex flex-column align-items-center text-muted"
+                        >
+                          <i class="fa fa-users fa-3x mb-3"></i>
+                          <h5>{{ 'USER.NO_USERS_AVAILABLE' | translate }}</h5>
+                          <p class="mb-0">
+                            {{ 'USER.NO_USERS_MESSAGE' | translate }}
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              }
+            </table>
+          </div>
+        </div>
+
+        <div class="card-footer bg-light">
+          <div class="row align-items-center">
+            <div class="col-md-4">
+              <div class="d-flex align-items-center">
+                <label for="pageSize" class="form-label me-2 mb-0 text-nowrap">
+                  {{ 'COMMON.ITEMS_PER_PAGE' | translate }}:
+                </label>
+                <select
+                  id="pageSize"
+                  class="form-select form-select-sm"
+                  style="width: 80px"
+                  [ngModel]="limit"
+                  (ngModelChange)="onLimitChange($event)"
+                >
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="25">25</option>
+                  <option [ngValue]="50">50</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4 d-flex justify-content-center">
+              <ngb-pagination
+                *ngIf="collectionSize > 0"
+                [(page)]="page"
+                [pageSize]="limit"
+                [collectionSize]="collectionSize"
+                [maxSize]="5"
+                [rotate]="true"
+                [boundaryLinks]="true"
+                [disabled]="isLoading"
+                (pageChange)="onPageChange($event)"
+                size="sm"
+              >
+              </ngb-pagination>
+            </div>
+
+            <div class="col-md-4">
+              <div class="text-muted text-end">
+                <small *ngIf="collectionSize > 0">
+                  {{ 'COMMON.SHOWING' | translate }}
+                  <strong>{{ (page - 1) * limit + 1 }}</strong> -
+                  <strong>{{ Math.min(page * limit, collectionSize) }}</strong>
+                  {{ 'COMMON.OF' | translate }}
+                  <strong>{{ collectionSize }}</strong>
+                  {{ 'COMMON.USERS' | translate }}
+                </small>
+                <small *ngIf="collectionSize === 0">
+                  {{ 'USER.NO_USERS_FOUND' | translate }}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

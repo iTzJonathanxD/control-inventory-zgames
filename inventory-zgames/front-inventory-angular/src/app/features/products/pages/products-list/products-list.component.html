@@ -1,0 +1,340 @@
+<page-title title="{{ 'PRODUCTS.TITLE' | translate }}"></page-title>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0"></h5>
+            <div class="btn-group">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                placement="top"
+                [ngbTooltip]="'WORDS.RELOAD_TABLE' | translate"
+                (click)="reloadTable()"
+              >
+                <i class="fa fa-repeat"></i>
+              </button>
+
+              <button
+                class="btn btn-outline-primary"
+                type="button"
+                placement="top"
+                [ngbTooltip]="'PRODUCTS.CREATE.BUTTON' | translate"
+                (click)="navigateToCreate()"
+              >
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          
+          <div class="table-responsive signal-table">
+            <table
+              class="table table-hover table-striped"
+              style="min-width: 1200px"
+            >
+              <thead class="table-gray sticky-top">
+                <tr>
+                  <th class="text-nowrap px-4 py-3" style="width: 80px">
+                    <div class="d-flex align-items-center">
+                      <span class="fw-semibold">Imagen</span>
+                    </div>
+                  </th>
+                  <th class="text-nowrap px-4 py-3" style="width: 60px">
+                    <div class="d-flex align-items-center">
+                      <span class="fw-semibold">ID</span>
+                      <i
+                        class="fa fa-sort ms-1 text-muted"
+                        style="font-size: 0.8rem"
+                      ></i>
+                    </div>
+                  </th>
+                  <th class="text-nowrap px-4 py-3" style="width: 200px">
+                    <div class="d-flex align-items-center">
+                      <span class="fw-semibold">Nombre</span>
+                      <i
+                        class="fa fa-sort ms-1 text-muted"
+                        style="font-size: 0.8rem"
+                      ></i>
+                    </div>
+                  </th>
+                  <th class="text-nowrap px-4 py-3" style="width: 120px">
+                    <div class="d-flex align-items-center">
+                      <span class="fw-semibold">Código</span>
+                    </div>
+                  </th>
+                  <th class="text-nowrap px-4 py-3" style="width: 150px">
+                    <div class="d-flex align-items-center">
+                      <span class="fw-semibold">Categoría</span>
+                    </div>
+                  </th>
+                  <th class="text-nowrap px-4 py-3" style="width: 100px">
+                    <div class="d-flex align-items-center">
+                      <span class="fw-semibold">Precio</span>
+                      <i
+                        class="fa fa-sort ms-1 text-muted"
+                        style="font-size: 0.8rem"
+                      ></i>
+                    </div>
+                  </th>
+                  <th class="text-nowrap px-4 py-3" style="width: 80px">
+                    <div class="d-flex align-items-center">
+                      <span class="fw-semibold">Stock</span>
+                      <i
+                        class="fa fa-sort ms-1 text-muted"
+                        style="font-size: 0.8rem"
+                      ></i>
+                    </div>
+                  </th>
+                  <th class="text-nowrap px-4 py-3" style="width: 100px">
+                    <div class="d-flex align-items-center">
+                      <span class="fw-semibold">Estado</span>
+                    </div>
+                  </th>
+                  <th class="text-nowrap px-4 py-3" style="width: 120px">
+                    <div class="d-flex align-items-center">
+                      <span class="fw-semibold">Fecha</span>
+                    </div>
+                  </th>
+                  <th class="text-nowrap px-4 py-3" style="width: 220px">
+                    <div class="d-flex align-items-center">
+                      <span class="fw-semibold">Acciones</span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody *ngIf="!isLoading">
+                <tr
+                  *ngFor="
+                    let product of filteredProducts;
+                    trackBy: trackByProductId
+                  "
+                  class="align-middle"
+                >
+                  
+                  <td class="px-4 py-3">
+                    <img
+                      [src]="getProductImageUrl(product.image)"
+                      [alt]="product.productName"
+                      class="product-thumb rounded"
+                      style="width: 50px; height: 50px; object-fit: cover"
+                    />
+                  </td>
+
+                  
+                  <td class="px-4 py-3">
+                    <span class="fw-medium text-primary">{{ product.id }}</span>
+                  </td>
+
+                  
+                  <td class="px-4 py-3">
+                    <div class="text-truncate" [title]="product.productName">
+                      <span class="fw-medium">{{ product.productName }}</span>
+                    </div>
+                  </td>
+
+                  
+                  <td class="px-4 py-3">
+                    <span class="font-monospace text-muted">{{
+                      product.codeName
+                    }}</span>
+                  </td>
+
+                  
+                  <td class="px-4 py-3">
+                    <span class="badge bg-light text-dark">
+                      {{ product.category?.categoryName || 'Sin categoría' }}
+                    </span>
+                  </td>
+
+                  
+                  <td class="px-4 py-3">
+                    <span class="fw-bold text-success"
+                      >${{ product.unitPrice | number: '1.2-2' }}</span
+                    >
+                  </td>
+
+                  
+                  <td class="px-4 py-3">
+                    <span
+                      class="badge rounded-pill fs-6 fw-semibold px-2 py-1"
+                      [ngClass]="getStockBadgeClass(product.stockCurrent)"
+                    >
+                      {{ product.stockCurrent }}
+                    </span>
+                  </td>
+
+                  
+                  <td class="px-4 py-3">
+                    <span
+                      class="badge rounded-pill fs-6 text-uppercase fw-semibold px-2 py-1"
+                      [ngClass]="product.isActive ? 'bg-success' : 'bg-danger'"
+                    >
+                      {{ product.isActive ? 'Activo' : 'Inactivo' }}
+                    </span>
+                  </td>
+
+                  
+                  <td class="px-4 py-3">
+                    <div class="text-truncate small text-muted">
+                      <i class="fa fa-calendar me-1"></i>
+                      {{ product.createdAt | date: 'dd/MM/yyyy' }}
+                    </div>
+                  </td>
+
+                  
+                  <td class="px-4 py-3">
+                    <div class="btn-group btn-group-sm" role="group">
+                      
+                      <button
+                        class="btn btn-outline-success btn-action"
+                        [ngbTooltip]="'INVENTORY.BUTTONS.ADD_ENTRY' | translate"
+                        (click)="openEntryModal(product)"
+                        [disabled]="!product.isActive"
+                      >
+                        <i class="fa fa-plus-circle"></i>
+                      </button>
+
+                      
+                      <button
+                        class="btn btn-outline-warning btn-action"
+                        [ngbTooltip]="'INVENTORY.BUTTONS.ADD_EXIT' | translate"
+                        (click)="openExitModal(product)"
+                        [disabled]="
+                          !product.isActive || product.stockCurrent <= 0
+                        "
+                      >
+                        <i class="fa fa-minus-circle"></i>
+                      </button>
+
+                      <button
+                        class="btn btn-outline-secondary btn-action"
+                        [ngbTooltip]="'COMMON.VIEW' | translate"
+                        (click)="viewProduct(product.id!)"
+                      >
+                        <i class="fa fa-eye"></i>
+                      </button>
+
+                      <button
+                        class="btn btn-outline-secondary btn-action"
+                        [ngbTooltip]="'COMMON.EDIT' | translate"
+                        (click)="editProduct(product.id!)"
+                      >
+                        <i class="fa fa-edit"></i>
+                      </button>
+
+                      <button
+                        class="btn btn-outline-danger btn-action"
+                        [ngbTooltip]="'COMMON.DELETE' | translate"
+                        (click)="deleteProduct(product.id!)"
+                      >
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+
+              
+              <tbody *ngIf="isLoading">
+                <tr>
+                  <td colspan="10" class="p-0">
+                    <app-loading-spinner
+                      title="PRODUCTS.LOADING_PRODUCTS"
+                      subtitle="COMMON.PLEASE_WAIT"
+                      size="small"
+                    >
+                    </app-loading-spinner>
+                  </td>
+                </tr>
+              </tbody>
+
+              
+              <tbody *ngIf="!isLoading && filteredProducts.length === 0">
+                <tr>
+                  <td colspan="10" class="text-center py-5">
+                    <div class="text-muted">
+                      <i class="fa fa-boxes fa-3x mb-3"></i>
+                      <h5>No hay productos</h5>
+                      <p>Comienza creando tu primer producto</p>
+                      <button
+                        class="btn btn-primary"
+                        (click)="navigateToCreate()"
+                      >
+                        <i class="fa fa-plus me-2"></i>
+                        Crear Producto
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card-footer bg-light">
+          <div class="row align-items-center">
+            <div class="col-md-4">
+              <div class="d-flex align-items-center">
+                <label for="pageSize" class="form-label me-2 mb-0 text-nowrap">
+                  {{ 'COMMON.ITEMS_PER_PAGE' | translate }}:
+                </label>
+                <select
+                  id="pageSize"
+                  class="form-select form-select-sm"
+                  style="width: 80px"
+                  [ngModel]="itemsPerPage"
+                  (ngModelChange)="onItemsPerPageChange($event)"
+                >
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="25">25</option>
+                  <option [ngValue]="50">50</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4 d-flex justify-content-center">
+              <ngb-pagination
+                *ngIf="totalItems > 0"
+                [(page)]="currentPage"
+                [pageSize]="itemsPerPage"
+                [collectionSize]="totalItems"
+                [maxSize]="5"
+                [rotate]="true"
+                [boundaryLinks]="true"
+                [disabled]="isLoading"
+                (pageChange)="onPageChange($event)"
+                size="sm"
+              >
+              </ngb-pagination>
+            </div>
+
+            <div class="col-md-4">
+              <div class="text-muted text-end">
+                <small *ngIf="totalItems > 0">
+                  {{ 'COMMON.SHOWING' | translate }}
+                  <strong>{{ (currentPage - 1) * itemsPerPage + 1 }}</strong> -
+                  <strong>{{
+                    Math.min(currentPage * itemsPerPage, totalItems)
+                  }}</strong>
+                  {{ 'COMMON.OF' | translate }}
+                  <strong>{{ totalItems }}</strong>
+                  productos
+                </small>
+                <small *ngIf="totalItems === 0"
+                  >No se encontraron productos</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

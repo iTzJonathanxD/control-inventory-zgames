@@ -1,0 +1,175 @@
+<div class="confirmation-container">
+  
+  <div class="confirmation-header">
+    <div class="brand-section">
+      <img src="assets/images/ZGames.png" alt="ZGames" class="brand-logo" />
+      <div class="header-text">
+        <h1 class="confirmation-title">¡Pedido Confirmado!</h1>
+        <p class="confirmation-subtitle">
+          Tu compra ha sido procesada exitosamente
+        </p>
+      </div>
+    </div>
+
+    <div class="confirmation-steps">
+      <div class="step">
+        <div class="step-number completed">1</div>
+        <span class="step-label">Información</span>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step">
+        <div class="step-number completed">2</div>
+        <span class="step-label">Pago</span>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step active">
+        <div class="step-number completed">3</div>
+        <span class="step-label">Confirmación</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="confirmation-content">
+    
+    <div class="success-section">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h2 class="success-title">¡Gracias por tu compra!</h2>
+      <p class="success-message">
+        Tu pedido ha sido recibido y está siendo procesado. Recibirás un email
+        de confirmación en breve.
+      </p>
+    </div>
+
+    
+    <div class="order-details-section" *ngIf="order">
+      <h3 class="section-title">
+        <i class="fas fa-receipt me-2"></i>
+        Detalles del Pedido
+      </h3>
+
+      <div class="order-info-grid">
+        <div class="info-card">
+          <div class="info-label">Número de Pedido</div>
+          <div class="info-value">#{{ order.id }}</div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-label">Fecha</div>
+          <div class="info-value">
+            {{ order.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-label">Total</div>
+          <div class="info-value total-amount">
+            ${{ order.totalAmount | number: '1.2-2' }}
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-label">Estado</div>
+          <div class="info-value">
+            <span class="status-badge status-pending">Pendiente</span>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="order-items">
+        <h4 class="items-title">Productos Ordenados</h4>
+        <div class="items-list">
+          <div *ngFor="let item of order.items" class="order-item">
+            <div class="item-image-container">
+              <img
+                [src]="getProductImageUrl(item.product?.image)"
+                [alt]="item.product?.productName"
+                class="item-image"
+              />
+            </div>
+            <div class="item-details">
+              <div class="item-name">{{ item.product?.productName }}</div>
+              <div class="item-quantity">Cantidad: {{ item.quantity }}</div>
+              <div class="item-price">
+                Precio: ${{ item.unitPrice | number: '1.2-2' }}
+              </div>
+            </div>
+            <div class="item-total">
+              <div class="total-price">
+                ${{ item.totalPrice | number: '1.2-2' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="next-steps-section">
+      <h3 class="section-title">
+        <i class="fas fa-clock me-2"></i>
+        ¿Qué sigue?
+      </h3>
+
+      <div class="steps-timeline">
+        <div class="timeline-step">
+          <div class="step-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="step-content">
+            <div class="step-title">Confirmación por Email</div>
+            <div class="step-description">
+              Recibirás un email con los detalles de tu pedido en los próximos
+              minutos.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-icon">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <div class="step-content">
+            <div class="step-title">Procesamiento de Pago</div>
+            <div class="step-description">
+              Nuestro equipo revisará tu comprobante de pago en las próximas 24
+              horas.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-icon">
+            <i class="fas fa-shipping-fast"></i>
+          </div>
+          <div class="step-content">
+            <div class="step-title">Preparación y Envío</div>
+            <div class="step-description">
+              Una vez confirmado el pago, prepararemos tu pedido para el envío.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="confirmation-actions">
+      <button class="btn btn-primary" routerLink="/orders">
+        <i class="fas fa-list me-2"></i>
+        Ver Mis Pedidos
+      </button>
+
+      <button class="btn btn-outline" routerLink="/user-products">
+        <i class="fas fa-shopping-cart me-2"></i>
+        Seguir Comprando
+      </button>
+
+      <button class="btn btn-outline" (click)="downloadReceipt()" *ngIf="order">
+        <i class="fas fa-download me-2"></i>
+        Descargar Recibo
+      </button>
+    </div>
+  </div>
+</div>

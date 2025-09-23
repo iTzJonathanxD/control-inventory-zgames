@@ -1,0 +1,105 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h4 class="header-title">{{ 'DASHBOARD.LOW_STOCK.TITLE' | translate }}</h4>
+ 
+  </div>
+
+  <div
+    class="card-body p-0"
+    *ngIf="!loading && lowStockProducts.length > 0; else noProducts"
+  >
+    <div class="table-responsive">
+      <table
+        class="table table-custom table-centered table-sm table-nowrap table-hover mb-0"
+      >
+        <thead class="table-light">
+          <tr>
+            <th>{{ 'DASHBOARD.LOW_STOCK.PRODUCT' | translate }}</th>
+            <th>{{ 'DASHBOARD.LOW_STOCK.CODE' | translate }}</th>
+            <th>{{ 'DASHBOARD.LOW_STOCK.CURRENT_STOCK' | translate }}</th>
+            <th>{{ 'DASHBOARD.LOW_STOCK.MIN_STOCK' | translate }}</th>
+            <th>{{ 'DASHBOARD.LOW_STOCK.PRICE' | translate }}</th>
+            <th>{{ 'DASHBOARD.LOW_STOCK.STATUS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of lowStockProducts">
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="avatar-md flex-shrink-0 me-2">
+                  <span class="avatar-title bg-primary-subtle rounded-circle">
+                    <i class="ti ti-package text-primary"></i>
+                  </span>
+                </div>
+                <div>
+                  <h5 class="fs-14 mt-1">{{ product.productName }}</h5>
+                  <span class="text-muted fs-12">{{
+                    product.category?.categoryName ||
+                      ('DASHBOARD.LOW_STOCK.NO_CATEGORY' | translate)
+                  }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge bg-light text-dark">{{
+                product.codeName
+              }}</span>
+            </td>
+            <td>
+              <span
+                class="fw-semibold"
+                [class.text-danger]="product.stockCurrent <= product.stockMin"
+              >
+                {{ product.stockCurrent }}
+              </span>
+            </td>
+            <td>
+              <span class="text-muted">{{ product.stockMin }}</span>
+            </td>
+            <td>
+              <span class="fw-semibold"
+                >${{ product.unitPrice | number: '1.2-2' }}</span
+              >
+            </td>
+            <td>
+              <span
+                class="badge"
+                [class]="
+                  product.stockCurrent === 0 ? 'bg-danger' : 'bg-warning'
+                "
+              >
+                {{
+                  product.stockCurrent === 0
+                    ? ('DASHBOARD.LOW_STOCK.NO_STOCK' | translate)
+                    : ('DASHBOARD.LOW_STOCK.LOW_STOCK' | translate)
+                }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #noProducts>
+    <div class="card-body text-center py-5">
+      <div *ngIf="loading; else noData">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">{{
+            'DASHBOARD.LOW_STOCK.LOADING' | translate
+          }}</span>
+        </div>
+        <p class="mt-2 text-muted">
+          {{ 'DASHBOARD.LOW_STOCK.LOADING_PRODUCTS' | translate }}
+        </p>
+      </div>
+      <ng-template #noData>
+        <i class="ti ti-check-circle text-success" style="font-size: 3rem"></i>
+        <h5 class="mt-3">{{ 'DASHBOARD.LOW_STOCK.EXCELLENT' | translate }}</h5>
+        <p class="text-muted">
+          {{ 'DASHBOARD.LOW_STOCK.NO_LOW_STOCK' | translate }}
+        </p>
+      </ng-template>
+    </div>
+  </ng-template>
+</div>

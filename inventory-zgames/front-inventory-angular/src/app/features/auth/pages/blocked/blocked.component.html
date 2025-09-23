@@ -1,0 +1,15 @@
+<h3 class="fw-semibold mb-4">{{ 'BLOCK_SCREEN.TITLE' | translate }}</h3>
+
+<div class="mb-3 text-start">
+  <div class="alert alert-danger fw-medium mb-0" role="alert">
+    {{ 'BLOCK_SCREEN.ACCOUNT_DEACTIVATED' | translate }}
+  </div>
+</div>
+<p class="text-danger fs-14 my-3">
+  <a routerLink="/auth/login" class="text-dark fw-semibold ms-1">
+    <i
+      class="ti ti-home fs-20"
+      ngbTooltip="{{ 'BLOCK_SCREEN.TOOLTIPS.BACK_LOGIN' | translate }}"
+    ></i>
+  </a>
+</p>

@@ -1,0 +1,45 @@
+<div class="auth-layout">
+  
+  <div class="language-selector-wrapper">
+    <div class="dropdown language-box" ngbDropdown>
+      <button
+        class="btn dropdown-toggle language-selector"
+        type="button"
+        ngbDropdownToggle
+        aria-label="Select language"
+      >
+        <img
+          [src]="
+            './assets/images/flags/' +
+            (languageToFlagMap[translate.currentLang] || 'us') +
+            '.svg'
+          "
+          alt="language-flag"
+          class="me-2"
+          height="18"
+        />
+      </button>
+
+      <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
+        @for (item of languageList; track item) {
+          <button
+            ngbDropdownItem
+            (click)="changeLanguage(item)"
+            class="dropdown-item d-flex align-items-center"
+          >
+            <img [src]="item.flag" alt="flag" class="me-2" height="18" />
+            <span>{{ item.name }}</span>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="logo-wrapper">
+    <app-logo [isAuth]="true" />
+  </div>
+
+  
+  <router-outlet></router-outlet>
+</div>

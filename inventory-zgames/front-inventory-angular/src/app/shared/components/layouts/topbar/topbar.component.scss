@@ -1,0 +1,49 @@
+.debt-indicator {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 1px solid #ced4da;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+  }
+  i {
+    transition: transform 0.2s ease;
+  }
+  &:hover i {
+    transform: scale(1.05);
+  }
+}
+@keyframes pulse-debt {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+  }
+}
+.text-danger {
+  color: #6c757d !important; // Gris en lugar de rojo
+}
+.text-warning {
+  color: #6f7eb8 !important; // Azul grisáceo en lugar de amarillo
+}
+.text-info {
+  color: #5a6c7d !important; // Azul gris suave
+}
+.text-danger-soft {
+  color: #e57373 !important; // Rojo suave y bajito
+}
+@media (max-width: 768px) {
+  .debt-indicator {
+    padding: 4px 8px !important;
+    .small {
+      font-size: 0.7rem !important;
+    }
+  }
+}

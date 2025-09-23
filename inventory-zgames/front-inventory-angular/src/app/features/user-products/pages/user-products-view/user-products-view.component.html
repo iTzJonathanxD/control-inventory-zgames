@@ -1,0 +1,75 @@
+<div class="user-products-container">
+  
+  <div class="products-header">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="brand-section d-flex align-items-center">
+        <img
+          src="assets/images/ZGames.png"
+          alt="ZGames"
+          class="brand-logo me-3"
+        />
+        <div>
+          <h2 class="mb-1">{{ 'USER_PRODUCTS.TITLE' | translate }}</h2>
+          <p class="text-muted mb-0">
+            {{ 'USER_PRODUCTS.SUBTITLE' | translate }}
+          </p>
+        </div>
+      </div>
+
+      
+      <div class="cart-summary">
+        <button
+          type="button"
+          class="btn btn-outline-primary position-relative"
+          (click)="goToCart()"
+        >
+          <i class="fas fa-shopping-cart me-2"></i>
+          {{ 'USER_PRODUCTS.CART' | translate }}
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            *ngIf="getCartItemCount() > 0"
+          >
+            {{ getCartItemCount() }}
+          </span>
+        </button>
+        <div class="cart-total mt-1" *ngIf="getCartTotal() > 0">
+          <small class="text-muted">
+            {{ 'USER_PRODUCTS.TOTAL' | translate }}:
+            <strong>${{ getCartTotal() | number: '1.2-2' }}</strong>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="view-navigation">
+      <div class="btn-group" role="group">
+        <button
+          type="button"
+          class="btn"
+          [class.btn-primary]="currentView === 'catalog'"
+          [class.btn-outline-primary]="currentView !== 'catalog'"
+          (click)="switchView('catalog')"
+        >
+          <i class="fas fa-th-large me-2"></i>
+          {{ 'USER_PRODUCTS.CATALOG_VIEW' | translate }}
+        </button>
+        <button
+          type="button"
+          class="btn"
+          [class.btn-primary]="currentView === 'table'"
+          [class.btn-outline-primary]="currentView !== 'table'"
+          (click)="switchView('table')"
+        >
+          <i class="fas fa-table me-2"></i>
+          {{ 'USER_PRODUCTS.TABLE_VIEW' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="products-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

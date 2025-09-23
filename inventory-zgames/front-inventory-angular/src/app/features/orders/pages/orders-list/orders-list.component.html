@@ -1,0 +1,117 @@
+<div class="orders-container">
+  <div class="container-fluid">
+    
+    <div class="">
+      <h1 class="page-title">{{ 'ORDERS.TITLE' | translate }}</h1>
+      <p class="page-subtitle">{{ 'ORDERS.SUBTITLE' | translate }}</p>
+    </div>
+
+    
+    <app-loading-spinner
+      *ngIf="isLoading"
+      title="ORDERS.LOADING_ORDERS"
+      subtitle="COMMON.PLEASE_WAIT"
+    >
+    </app-loading-spinner>
+
+    
+    <div *ngIf="!isLoading" class="orders-grid">
+      <div
+        *ngFor="let order of orders; trackBy: trackByOrderId"
+        class="order-card"
+      >
+        
+        <div class="order-header">
+          <div class="order-basic-info">
+            <h5 class="order-number">
+              {{ 'ORDERS.ORDER_NUMBER' | translate }} #{{ order.id }}
+            </h5>
+            <span class="order-date">{{
+              order.createdAt | date: 'dd/MM/yyyy'
+            }}</span>
+          </div>
+          <span
+            class="badge order-status"
+            [ngClass]="getOrderStatusClass(order.status)"
+          >
+            {{ getOrderStatusText(order.status) }}
+          </span>
+        </div>
+
+        
+        <div class="order-summary">
+          <div class="order-total">
+            <span class="total-label">{{
+              'ORDERS.TOTAL_LABEL' | translate
+            }}</span>
+            <span class="total-amount"
+              >${{ order.totalAmount | number: '1.2-2' }}</span
+            >
+          </div>
+          <div class="order-items-count">
+            {{ order.items.length }}
+            {{
+              order.items.length === 1
+                ? ('ORDERS.PRODUCT' | translate)
+                : ('ORDERS.PRODUCTS' | translate)
+            }}
+          </div>
+        </div>
+
+        
+        <div class="order-preview">
+          <div class="preview-images">
+            <img
+              *ngFor="let item of order.items.slice(0, 3); let i = index"
+              [src]="getProductImageUrl(item.productSnapshot?.image)"
+              [alt]="item.productSnapshot?.name || item.productName"
+              [title]="item.productSnapshot?.name || item.productName"
+              class="preview-image"
+              [style.z-index]="3 - i"
+            />
+            <div *ngIf="order.items.length > 3" class="more-items">
+              +{{ order.items.length - 3 }}
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="payment-status-summary">
+          <span class="payment-label">{{
+            'ORDERS.PAYMENT_LABEL' | translate
+          }}</span>
+          <span
+            class="badge payment-badge"
+            [ngClass]="getOverallPaymentStatusClass(order.id)"
+          >
+            {{ getOverallPaymentStatusText(order.id) }}
+          </span>
+        </div>
+
+        
+        <div class="order-actions">
+          <button
+            (click)="viewOrderDetails(order.id)"
+            class="btn btn-primary btn-sm"
+          >
+            {{ 'ORDERS.VIEW_DETAILS' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    
+    <div *ngIf="!isLoading && orders.length === 0" class="empty-orders">
+      <div class="empty-content">
+        <i class="fas fa-shopping-bag empty-icon"></i>
+        <h3 class="empty-title">{{ 'ORDERS.NO_ORDERS' | translate }}</h3>
+        <p class="empty-description">
+          {{ 'ORDERS.NO_ORDERS_MESSAGE' | translate }}
+        </p>
+        <a routerLink="/products" class="btn btn-primary">
+          {{ 'ORDERS.EXPLORE_PRODUCTS' | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

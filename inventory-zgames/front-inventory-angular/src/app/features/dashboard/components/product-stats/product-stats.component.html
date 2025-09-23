@@ -1,0 +1,119 @@
+<div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1 text-center">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="text-muted fs-13 text-uppercase">
+          {{ 'DASHBOARD.STATS.TOTAL_PRODUCTS' | translate }}
+        </h5>
+        <div
+          class="d-flex align-items-center justify-content-center gap-2 my-2 py-1"
+        >
+          <div class="user-img fs-42 flex-shrink-0">
+            <span class="avatar-title text-bg-primary rounded-circle fs-22">
+              <i class="ti ti-package"></i>
+            </span>
+          </div>
+          <h3 class="mb-0 fw-bold">{{ stats?.totalProducts || 0 }}</h3>
+        </div>
+        <p class="mb-0 text-muted">
+          <span class="text-success me-2">
+            <i class="ti ti-caret-up-filled"></i>
+            12%
+          </span>
+          <span class="text-nowrap">{{
+            'DASHBOARD.STATS.SINCE_LAST_MONTH' | translate
+          }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="text-muted fs-13 text-uppercase">
+          {{ 'DASHBOARD.STATS.ACTIVE_PRODUCTS' | translate }}
+        </h5>
+        <div
+          class="d-flex align-items-center justify-content-center gap-2 my-2 py-1"
+        >
+          <div class="user-img fs-42 flex-shrink-0">
+            <span class="avatar-title text-bg-success rounded-circle fs-22">
+              <i class="ti ti-check-circle"></i>
+            </span>
+          </div>
+          <h3 class="mb-0 fw-bold">{{ stats?.activeProducts || 0 }}</h3>
+        </div>
+        <p class="mb-0 text-muted">
+          <span class="text-success me-2">
+            <i class="ti ti-caret-up-filled"></i>
+            8%
+          </span>
+          <span class="text-nowrap">{{
+            'DASHBOARD.STATS.SINCE_LAST_MONTH' | translate
+          }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="text-muted fs-13 text-uppercase">
+          {{ 'DASHBOARD.STATS.LOW_STOCK' | translate }}
+        </h5>
+        <div
+          class="d-flex align-items-center justify-content-center gap-2 my-2 py-1"
+        >
+          <div class="user-img fs-42 flex-shrink-0">
+            <span class="avatar-title text-bg-warning rounded-circle fs-22">
+              <i class="ti ti-alert-triangle"></i>
+            </span>
+          </div>
+          <h3 class="mb-0 fw-bold">{{ stats?.lowStockProducts || 0 }}</h3>
+        </div>
+        <p class="mb-0 text-muted">
+          <span class="text-danger me-2">
+            <i class="ti ti-caret-down-filled"></i>
+            3%
+          </span>
+          <span class="text-nowrap">{{
+            'DASHBOARD.STATS.SINCE_LAST_MONTH' | translate
+          }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="text-muted fs-13 text-uppercase">
+          {{ 'DASHBOARD.STATS.INVENTORY_VALUE' | translate }}
+        </h5>
+        <div
+          class="d-flex align-items-center justify-content-center gap-2 my-2 py-1"
+        >
+          <div class="user-img fs-42 flex-shrink-0">
+            <span class="avatar-title text-bg-info rounded-circle fs-22">
+              <i class="ti ti-currency-dollar"></i>
+            </span>
+          </div>
+          <h3 class="mb-0 fw-bold">
+            ${{ stats?.totalInventoryValue || 0 | number: '1.0-0' }}
+          </h3>
+        </div>
+        <p class="mb-0 text-muted">
+          <span class="text-success me-2">
+            <i class="ti ti-caret-up-filled"></i>
+            15%
+          </span>
+          <span class="text-nowrap">{{
+            'DASHBOARD.STATS.SINCE_LAST_MONTH' | translate
+          }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,131 @@
+<div class="roles-permissions-container">
+  <page-title title="{{ 'ROLES_AND_PERMISSIONS.ROLE.TITLE' | translate }}" />
+
+  <div class="card">
+    @if (isSmallScreen) {
+      <div class="tabs-container col-12">
+        <ul class="nav nav-underline justify-content-center">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="activeTab === 'role'"
+              (click)="setActiveTab('role')"
+              role="button"
+              tabindex="0"
+            >
+              <i class="ti ti-shield me-1"></i>
+              {{ 'ROLES_AND_PERMISSIONS.ROLE.TITLE' | translate }}
+            </a>
+          </li>
+          @if (selectedRoleId) {
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [class.active]="activeTab === 'module'"
+                (click)="setActiveTab('module')"
+                role="button"
+                tabindex="0"
+              >
+                <i class="ti ti-apps me-1"></i>
+                {{ 'ROLES_AND_PERMISSIONS.MODULE.TITLE' | translate }}
+              </a>
+            </li>
+          }
+          @if (selectedRoleId && selectedModuleId) {
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [class.active]="activeTab === 'permission'"
+                (click)="setActiveTab('permission')"
+                role="button"
+                tabindex="0"
+              >
+                <i class="ti ti-key me-1"></i>
+                {{ 'ROLES_AND_PERMISSIONS.PERMISSION.TITLE' | translate }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <div class="chat row">
+      @if (!isSmallScreen) {
+        <div class="chat d-flex">
+          
+          <div class="offcanvas-xxl" tabindex="-1" aria-labelledby="chatUserListLabel">
+            <role-left-side-bar />
+          </div>
+
+          
+          @if (selectedRoleId) {
+            <div class="w-100">
+              <module-area />
+            </div>
+
+            
+            @if (selectedModuleId && selectedRoleId) {
+              <div class="offcanvas-xxl" tabindex="-1" aria-labelledby="chatUserListLabel">
+                <permission-rigth-side-bar />
+              </div>
+            } @else {
+              <div class="w-25 d-flex align-items-center justify-content-center p-5">
+                <div class="empty-state">
+                  <i class="ti ti-click empty-icon"></i>
+                  <h5>{{ 'ROLES_AND_PERMISSIONS.PERMISSION.SELECT_MODULE' | translate }}</h5>
+                  <p>{{ 'ROLES_AND_PERMISSIONS.PERMISSION.SELECT_MODULE_DESC' | translate }}</p>
+                </div>
+              </div>
+            }
+          } @else {
+            <div class="w-100 d-flex align-items-center justify-content-center p-5">
+              <div class="empty-state">
+                <i class="ti ti-shield-plus empty-icon"></i>
+                <h5>{{ 'ROLES_AND_PERMISSIONS.MODULE.SELECT_ROLE' | translate }}</h5>
+                <p>{{ 'ROLES_AND_PERMISSIONS.MODULE.SELECT_ROLE_DESC' | translate }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      @if (isSmallScreen) {
+        <div class="tabs-container col-12">
+          <div class="tab-content centered-content">
+            @switch (activeTab) {
+              @case ('role') {
+                <div class="tab-pane active">
+                  <role-left-side-bar class="border-end" />
+                </div>
+              }
+              @case ('module') {
+                <div class="tab-pane active">
+                  <module-area />
+                  @if (selectedRoleId && !selectedModuleId) {
+                    <div class="empty-state mt-4">
+                      <i class="ti ti-click empty-icon"></i>
+                      <h5>{{ 'ROLES_AND_PERMISSIONS.PERMISSION.SELECT_MODULE' | translate }}</h5>
+                      <p>{{ 'ROLES_AND_PERMISSIONS.PERMISSION.SELECT_MODULE_DESC' | translate }}</p>
+                    </div>
+                  }
+                </div>
+              }
+              @case ('permission') {
+                <div class="tab-pane active">
+                  <permission-rigth-side-bar class="border-end" />
+                  @if (selectedRoleId && selectedModuleId) {
+                    <div class="empty-state mt-4">
+                      <i class="ti ti-key empty-icon"></i>
+                      <h5>{{ 'ROLES_AND_PERMISSIONS.PERMISSION.MANAGE_PERMISSIONS' | translate }}</h5>
+                      <p>{{ 'ROLES_AND_PERMISSIONS.PERMISSION.MANAGE_PERMISSIONS_DESC' | translate }}</p>
+                    </div>
+                  }
+                </div>
+              }
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
